@@ -1,0 +1,10 @@
+.DS_Store
+.docker/db/data
+.env
+.vscode
+.idea
+.docker/db/data
+backend/__pycache__
+backend/*/__pycache__
+backend/*/*/__pycache__
+backend/*/*/*/__pycache__
