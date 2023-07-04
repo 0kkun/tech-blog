@@ -1,6 +1,6 @@
 # 概要
 
-- Python - FastAPIの練習リポジトリ
+- Teck Blog開発リポジトリ
 
 # 環境情報
 
