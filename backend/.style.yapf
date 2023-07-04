@@ -1,0 +1,6 @@
+[style]
+based_on_style = pep8
+column_limit = 120
+CONTINUATION_INDENT_WIDTH = 4
+INDENT_WIDTH = 4
+DEDENT_CLOSING_BRACKETS = true
