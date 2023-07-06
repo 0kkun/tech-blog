@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  app:
-    container_name: ${PROJECT_NAME}_app
+  backend:
+    container_name: ${PROJECT_NAME}_backend
     build:
-      context: .docker/app
+      context: .docker/backend
       dockerfile: Dockerfile
     volumes:
       - ./${SOURCE_DIR_NAME}:/app
@@ -28,5 +28,16 @@ services:
       MYSQL_DATABASE: ${MYSQL_DB_NAME}
       MYSQL_USER: ${MYSQL_USER_NAME}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: Asia/Tokyo
+
+  frontend:
+    container_name: ${PROJECT_NAME}_frontend
+    build: 
+      context: .docker/frontend
+    volumes:
+      - ./${SOURCE_DIR_NAME_FRONT}:/usr/src/app
+    command: sh -c "npm run dev"
+    ports:
+      - ${FRONT_HOST_PORT}:3000
+    stdin_open: true

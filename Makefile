@@ -48,9 +48,9 @@ stop:
 down:
 	docker-compose down --remove-orphans
 
-.PHONY: app
-app:
-	$(DCE) app bash
+.PHONY: backend
+backend:
+	$(DCE) $(BACKEND_SERVICE_NAME) bash
 
 .PHONY: db
 db:
@@ -61,16 +61,20 @@ restart:
 	@make down
 	@make up
 
+.PHONY: frontend
+frontend:
+	$(DCE) $(FRONTEND_SERVICE_NAME) bash
+
 # *****************************
 # *     Backend Controll    *
 # *****************************
 .PHONY: log
 log:
-	docker compose logs -f app
+	docker compose logs -f $(BACKEND_SERVICE_NAME)
 
 .PHONY: format
 format:
-	$(DCE) app bash -c "yapf -i -r ."
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "yapf -i -r ."
 
 # *****************************
 # *      Python Command      *
@@ -78,33 +82,40 @@ format:
 
 .PHONY: migrate-init
 migrate-init:
-	$(DCE) app bash -c "cd db && alembic revision -m 'Initial migration'"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision -m 'Initial migration'"
 
 # schema配下を読み取って自動でmigrationファイルを生成する
 .PHONY: auto-generate
 auto-generate:
-	$(DCE) app bash -c "cd db && alembic revision --autogenerate"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision --autogenerate"
 
 # migrations配下を読み取ってmigrationを実行する
 .PHONY: migrate
 migrate:
-	$(DCE) app bash -c "cd db && alembic upgrade head"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic upgrade head"
 
 .PHONY: migrate-rollback
 migrate-rollback:
 	@read -p "Enter the number of steps to rollback: " STEPS; \
-	$(DCE) app bash -c "cd db && alembic downgrade $$STEPS"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic downgrade $$STEPS"
 
 .PHONY: migrate-drop
 migrate-drop:
-	$(DCE) app bash -c "cd db && alembic downgrade base"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic downgrade base"
 
 .PHONy: migrate-log
 migrate-log:
-	$(DCE) app bash -c "cd db && alembic history --verbose"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic history --verbose"
 
 # schemaで定義したクラスを参照にmigrationファイルを生成する. TITLEの例 : create user
 .PHONY: schema
 schema:
 	@read -p "Enter the migrate title: " TITLE; \
-	$(DCE) app bash -c "cd db && alembic revision --autogenerate -m '$$TITLE'"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision --autogenerate -m '$$TITLE'"
+
+
+# *****************************
+# *     Frontend Controll    *
+# *****************************
+
+# TODO: あとで追加
