@@ -8,6 +8,8 @@
 |---|---|
 |python|3.9.16|
 |FastAPI|0.95.1|
+|React|18.2.0|
+|typescript|5.0.2|
 
 ## 環境構築
 
