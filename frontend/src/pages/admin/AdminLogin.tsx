@@ -1,9 +1,10 @@
 import { FC } from 'react'
+import { LoginTemplate } from '../../components/admin/templates/LoginTemplate'
 
 export const AdminLogin: FC = () => {
   return (
     <>
-      <h1>Login</h1>
+      <LoginTemplate />
     </>
   )
 }

@@ -9,12 +9,10 @@ import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import Badge from '@mui/material/Badge'
 import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import NotificationsIcon from '@mui/icons-material/Notifications'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -25,6 +23,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import { Link as RouterLink } from 'react-router-dom'
+import Button from '@mui/material/Button';
 
 // メイン画面の横幅設定
 const drawerWidth: number = 240
@@ -156,11 +155,11 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
               {title}
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <RouterLink to="/admin/login" className={classes.link}>
+              <Button variant="outlined" style={{color:'white'}} sx={{ my: 1, mx: 1.5 }}>
+                Logout
+              </Button>
+            </RouterLink>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -202,7 +201,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
             <RouterLink to="/admin/articles" className={classes.link}>
               <ListItemButton>
                 <ListItemIcon>
-                  <BorderColorIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="記事一覧" />
               </ListItemButton>
@@ -210,7 +209,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
             <RouterLink to="/admin/article/drafts" className={classes.link}>
               <ListItemButton>
                 <ListItemIcon>
-                  <AssignmentIcon />
+                  <BorderColorIcon />
                 </ListItemIcon>
                 <ListItemText primary="下書一覧" />
               </ListItemButton>
