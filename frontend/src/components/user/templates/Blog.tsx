@@ -7,7 +7,7 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Header from './Header'
-import MainFeaturedPost from './MainFeaturedPost'
+import Banner from './Banner'
 import FeaturedPost from './FeaturedPost'
 import Main from './Main'
 import Sidebar from './Sidebar'
@@ -27,19 +27,26 @@ const sections = [
   { title: 'Travel', url: '#' },
 ]
 
-const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: 'https://source.unsplash.com/random?wallpapers',
-  imageText: 'main image description',
-  linkText: 'Continue reading…',
+const contentsDescription = {
+  title: 'テックブログです。',
+  description: '主にLaravelの記事を投稿します。',
+  image: '/blog-top.jpeg',
+  imageText: 'テックブログ',
+  linkText: '',
 }
 
 const featuredPosts = [
   {
     title: 'Featured post',
     date: 'Nov 12',
+    description:
+      'This is a wider card with supporting text below as a natural lead-in to additional content.',
+    image: 'https://source.unsplash.com/random?wallpapers',
+    imageLabel: 'Image Text',
+  },
+  {
+    title: 'Post title',
+    date: 'Nov 11',
     description:
       'This is a wider card with supporting text below as a natural lead-in to additional content.',
     image: 'https://source.unsplash.com/random?wallpapers',
@@ -81,30 +88,52 @@ const sidebar = {
   ],
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme()
+const defaultTheme = createTheme({
+  typography: {
+    fontFamily: [
+      'Noto Sans JP',
+      'Lato',
+      '游ゴシック Medium',
+      '游ゴシック体',
+      'Yu Gothic Medium',
+      'YuGothic',
+      'ヒラギノ角ゴ ProN',
+      'Hiragino Kaku Gothic ProN',
+      'メイリオ',
+      'Meiryo',
+      'ＭＳ Ｐゴシック',
+      'MS PGothic',
+      'sans-serif',
+    ].join(','),
+  },
+})
 
-export default function Blog() {
+export const Blog = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Blog" sections={sections} />
+        <Header title="Tech Blog" sections={sections} />
         <main>
-          <MainFeaturedPost post={mainFeaturedPost} />
+          <Banner post={contentsDescription} />
           <Grid container spacing={4}>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
-            ))}
-          </Grid>
-          <Grid container spacing={5} sx={{ mt: 3 }}>
-            <Main title="From the firehose" posts={posts} />
-            <Sidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              archives={sidebar.archives}
-              social={sidebar.social}
-            />
+            <Grid item xs={12} md={9}>
+              <Grid container spacing={4}>
+                {featuredPosts.map((post) => (
+                  <Grid item xs={12} sm={6} key={post.title}>
+                    <FeaturedPost post={post} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Sidebar
+                title={sidebar.title}
+                description={sidebar.description}
+                archives={sidebar.archives}
+                social={sidebar.social}
+              />
+            </Grid>
           </Grid>
         </main>
       </Container>
@@ -112,3 +141,13 @@ export default function Blog() {
     </ThemeProvider>
   )
 }
+
+//   {/* <Grid container spacing={5} sx={{ mt: 3 }}>
+//     <Main title="From the firehose" posts={posts} />
+//     <Sidebar
+//       title={sidebar.title}
+//       description={sidebar.description}
+//       archives={sidebar.archives}
+//       social={sidebar.social}
+//     />
+//   </Grid> */}

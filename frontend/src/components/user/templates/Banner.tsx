@@ -15,7 +15,7 @@ interface MainFeaturedPostProps {
   }
 }
 
-export default function MainFeaturedPost(props: MainFeaturedPostProps) {
+export default function Banner(props: MainFeaturedPostProps) {
   const { post } = props
 
   return (

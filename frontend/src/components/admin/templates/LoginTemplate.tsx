@@ -23,8 +23,25 @@ function Copyright(props: any) {
   )
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme()
+const defaultTheme = createTheme({
+  typography: {
+    fontFamily: [
+      'Noto Sans JP',
+      'Lato',
+      '游ゴシック Medium',
+      '游ゴシック体',
+      'Yu Gothic Medium',
+      'YuGothic',
+      'ヒラギノ角ゴ ProN',
+      'Hiragino Kaku Gothic ProN',
+      'メイリオ',
+      'Meiryo',
+      'ＭＳ Ｐゴシック',
+      'MS PGothic',
+      'sans-serif',
+    ].join(','),
+  },
+})
 
 export const LoginTemplate = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
