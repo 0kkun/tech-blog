@@ -119,3 +119,7 @@ schema:
 # *****************************
 
 # TODO: あとで追加
+
+.PHONY: front-format
+front-format:
+	$(DCE) $(FRONTEND_SERVICE_NAME) bash -c "npm run format"

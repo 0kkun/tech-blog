@@ -11,31 +11,65 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Badge from '@mui/material/Badge'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
 import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { mainListItems, secondaryListItems } from './listItems'
-import { Chart } from './Chart'
-import { Deposits } from './Deposits'
-import { Orders } from './Orders'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import ListSubheader from '@mui/material/ListSubheader'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import AssignmentIcon from '@mui/icons-material/Assignment'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import BorderColorIcon from '@mui/icons-material/BorderColor'
+import { Link as RouterLink } from 'react-router-dom'
+
+// メイン画面の横幅設定
+const drawerWidth: number = 240
+
+const defaultTheme = createTheme({
+  typography: {
+    fontFamily: [
+      'Noto Sans JP',
+      'Lato',
+      '游ゴシック Medium',
+      '游ゴシック体',
+      'Yu Gothic Medium',
+      'YuGothic',
+      'ヒラギノ角ゴ ProN',
+      'Hiragino Kaku Gothic ProN',
+      'メイリオ',
+      'Meiryo',
+      'ＭＳ Ｐゴシック',
+      'MS PGothic',
+      'sans-serif',
+    ].join(','),
+  },
+})
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    link: {
+      textDecoration: 'none',
+      color: theme.palette.text.primary,
+    },
+  }),
+)
 
 const Copyright = (props: any) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        管理画面
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   )
 }
-
-const drawerWidth: number = 240
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean
@@ -85,10 +119,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 )
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme()
+export interface DashboardProps {
+  children: React.ReactNode
+  title: string
+}
 
-export const Dashboard = () => {
+export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => {
+  const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const toggleDrawer = () => {
     setOpen(!open)
@@ -117,7 +154,7 @@ export const Dashboard = () => {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              Dashboard
+              {title}
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -140,10 +177,44 @@ export const Dashboard = () => {
             </IconButton>
           </Toolbar>
           <Divider />
+          {/* サイドバー */}
           <List component="nav">
-            {mainListItems}
+            <RouterLink to="/admin" className={classes.link}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="ダッシュボード" />
+              </ListItemButton>
+            </RouterLink>
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <ListSubheader component="div" inset>
+              Action
+            </ListSubheader>
+            <RouterLink to="/admin/article/create" className={classes.link}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AddCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="記事作成" />
+              </ListItemButton>
+            </RouterLink>
+            <RouterLink to="/admin/articles" className={classes.link}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <BorderColorIcon />
+                </ListItemIcon>
+                <ListItemText primary="記事一覧" />
+              </ListItemButton>
+            </RouterLink>
+            <RouterLink to="/admin/article/drafts" className={classes.link}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="下書一覧" />
+              </ListItemButton>
+            </RouterLink>
           </List>
         </Drawer>
         <Box
@@ -158,40 +229,7 @@ export const Dashboard = () => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            </Grid>
+            {children}
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
