@@ -23,7 +23,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import { Link as RouterLink } from 'react-router-dom'
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button'
 
 // メイン画面の横幅設定
 const drawerWidth: number = 240
@@ -156,7 +156,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
               {title}
             </Typography>
             <RouterLink to="/admin/login" className={classes.link}>
-              <Button variant="outlined" style={{color:'white'}} sx={{ my: 1, mx: 1.5 }}>
+              <Button variant="outlined" style={{ color: 'white' }} sx={{ my: 1, mx: 1.5 }}>
                 Logout
               </Button>
             </RouterLink>
