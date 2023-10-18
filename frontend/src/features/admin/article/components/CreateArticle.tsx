@@ -2,6 +2,7 @@ import * as React from 'react'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
+import { Stack } from '@mui/material'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 
 import Title from '../../../../components/admin/elements/Title'
@@ -24,7 +25,7 @@ export const CreateArticle: React.FC = () => {
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: 500,
+                minHeight: 650,
               }}
             >
               <Title>新規記事入力</Title>
@@ -42,17 +43,29 @@ export const CreateArticle: React.FC = () => {
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: 500,
+                minHeight: 650,
               }}
             >
               <Title>プレビュー画面</Title>
             </Paper>
           </Grid>
           {/* Recent Articles */}
-          <Grid item xs={12}>
-            <Button variant="contained" color="success" size="medium">
-              投稿
-            </Button>
+          <Grid item xs={12} justifyContent="end" spacing={1} container>
+            <Grid item>
+              <Button variant="contained" color="error" size="medium">
+                クリア
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" size="medium">
+                下書保存
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="success" size="medium">
+                投稿
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       
