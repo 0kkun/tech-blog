@@ -13,9 +13,9 @@ export interface DraftArticlesProps {
   draftArticles: DraftArticle[],
 }
 
-export const DraftArticles: React.FC<DraftArticlesProps> = ({ draftArticles }) => {
+export const DraftArticleTable: React.FC<DraftArticlesProps> = ({ draftArticles }) => {
   return (
-    <React.Fragment>
+    <>
       <Title>下書記事一覧</Title>
       <Table size="small">
         <TableHead>
@@ -45,6 +45,6 @@ export const DraftArticles: React.FC<DraftArticlesProps> = ({ draftArticles }) =
           ))}
         </TableBody>
       </Table>
-    </React.Fragment>
+    </>
   )
 }

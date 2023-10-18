@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
-import { DraftArticles } from '../../features/admin/draft_articles/components/DraftArticles'
+import { DraftArticleTable } from '../../features/admin/draft_articles/components/DraftArticleTable'
 
 
 export const AdminDraftIndexArticle: FC = () => {
@@ -23,7 +23,7 @@ export const AdminDraftIndexArticle: FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <DraftArticles draftArticles={draftArticles} />
+              <DraftArticleTable draftArticles={draftArticles} />
             </Paper>
           </Grid>
         </Grid>

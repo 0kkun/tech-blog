@@ -9,8 +9,6 @@ export interface AccessCountProps {
 }
 
 export const AccessCountBox: React.FC<AccessCountProps> = ({ accessCount }) => {
-  // const totalAccessCount = 3024
-  // const updatedAt = '2023/7/1'
   return (
     <React.Fragment>
       <Title>アクセス数累計</Title>

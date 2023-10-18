@@ -5,32 +5,20 @@ import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recha
 import Title from '../../../../components/admin/elements/Title'
 import { ChartRecord } from '../types/chart' 
 
-const createData = (date: string, count?: number) => {
-  return { date, count }
+export interface ChartProps {
+  chartRecords: ChartRecord[]
 }
 
-const data: ChartRecord[] = [
-  createData('2023/7/1', 0),
-  createData('2023/7/2', 300),
-  createData('2023/7/3', 600),
-  createData('2023/7/4', 800),
-  createData('2023/7/5', 1500),
-  createData('2023/7/6', 2000),
-  createData('2023/7/7', 2400),
-  createData('2023/7/8', 2400),
-  createData('2023/7/9', undefined),
-]
-
-export const Chart = () => {
+export const Chart: React.FC<ChartProps> = ({ chartRecords }) => {
   const theme = useTheme()
   const verticalAxisTitle = 'アクセス数'
 
   return (
-    <React.Fragment>
+    <>
       <Title>今月のアクセス数</Title>
       <ResponsiveContainer>
         <LineChart
-          data={data}
+          data={chartRecords}
           margin={{
             top: 16,
             right: 16,
@@ -65,6 +53,6 @@ export const Chart = () => {
           />
         </LineChart>
       </ResponsiveContainer>
-    </React.Fragment>
+    </>
   )
 }
