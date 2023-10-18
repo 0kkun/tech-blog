@@ -1,17 +1,17 @@
 import * as React from 'react'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
-import { Stack } from '@mui/material'
+import {
+  Button,
+  Paper,
+  Grid
+} from '@mui/material'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 
 import Title from '../../../../components/admin/elements/Title'
 
 
 /**
- * Gridについて
+ * NOTE: Gridについて
  * xs : 横幅の指定。合計12になるように比率を指定する
- * 
  */
 
 export const CreateArticle: React.FC = () => {
