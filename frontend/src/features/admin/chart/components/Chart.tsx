@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts'
-import Title from './Title'
+
+import Title from '../../../../components/admin/elements/Title'
+import { ChartRecord } from '../types/chart' 
 
 const createData = (date: string, count?: number) => {
   return { date, count }
 }
 
-const data = [
+const data: ChartRecord[] = [
   createData('2023/7/1', 0),
   createData('2023/7/2', 300),
   createData('2023/7/3', 600),

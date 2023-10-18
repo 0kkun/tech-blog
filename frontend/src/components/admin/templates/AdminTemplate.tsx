@@ -152,6 +152,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
             >
               <MenuIcon />
             </IconButton>
+            {/* ヘッダー */}
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
               {title}
             </Typography>

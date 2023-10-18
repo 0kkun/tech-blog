@@ -1,8 +1,9 @@
 import { FC } from 'react'
-import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
-import { Articles } from '../../components/admin/articles/Articles'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
+
+import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
+import { Articles } from '../../features/admin/articles/components/Articles'
 
 export const AdminIndexArticle: FC = () => {
   return (

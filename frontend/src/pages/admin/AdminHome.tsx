@@ -1,12 +1,17 @@
 import { FC } from 'react'
-import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
-import { Chart } from '../../components/admin/templates/Chart'
-import { AccessCount } from '../../components/admin/templates/AccessCount'
-import { Articles } from '../../components/admin/articles/Articles'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 
+import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
+import { Chart } from '../../features/admin/chart/components/Chart'
+import { AccessCountBox } from '../../features/admin/access_counts/components/AccessCountBox'
+import { Articles } from '../../features/admin/articles/components/Articles'
+
 export const AdminHome: FC = () => {
+  const accessCount = {
+    totalAccessCount: 3024,
+    updatedAt: '2023/7/1',
+  }
   return (
     <>
       <AdminTemplate title="管理画面">
@@ -34,7 +39,7 @@ export const AdminHome: FC = () => {
                 height: 240,
               }}
             >
-              <AccessCount />
+              <AccessCountBox accessCount={accessCount}/>
             </Paper>
           </Grid>
           {/* Recent Articles */}

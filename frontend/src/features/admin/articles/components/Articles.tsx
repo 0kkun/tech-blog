@@ -5,14 +5,16 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Title from '../templates/Title'
+
+import Title from '../../../../components/admin/elements/Title'
+import { Article } from '../types/article'
 
 // Generate Order Data
 const createData = (id: number, date: string, title: string, count: number) => {
   return { id, date, title, count }
 }
 
-const rows = [
+const rows: Article[] = [
   createData(0, '2023/7/1', 'Laravel学習', 312),
   createData(1, '2023/7/1', 'Laravel学習', 866),
   createData(2, '2023/7/1', 'Laravel学習', 100),
@@ -24,10 +26,10 @@ const preventDefault = (event: React.MouseEvent) => {
   event.preventDefault()
 }
 
-export const DraftArticles = () => {
+export const Articles = () => {
   return (
     <React.Fragment>
-      <Title>下書記事一覧</Title>
+      <Title>投稿記事一覧</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
