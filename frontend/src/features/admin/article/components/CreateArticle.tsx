@@ -1,10 +1,13 @@
-import * as React from 'react'
+import React, { useState, } from 'react'
 import {
   Button,
   Paper,
   Grid
 } from '@mui/material'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
+import { useForm } from 'react-hook-form'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 import Title from '../../../../components/admin/elements/Title'
 
@@ -15,6 +18,35 @@ import Title from '../../../../components/admin/elements/Title'
  */
 
 export const CreateArticle: React.FC = () => {
+  const { watch, register, getValues } = useForm()
+
+  const inputText = watch('inputText')
+
+  const handleSubmit = () => {
+    const values = getValues()
+    console.log(values.inputText)
+  }
+
+  // const handleTextareaKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  //   const key = event.key
+  //   if (key === 'Tab') {
+  //     event.preventDefault()
+  //     const textarea = event.currentTarget;
+  //     const start = textarea.selectionStart;
+  //     const end = textarea.selectionEnd;
+  
+  //     // カーソル位置にインデントを挿入
+  //     const text = textarea.value;
+  //     const newText = text.substring(0, start) + '\t' + text.substring(end);
+      
+  //     // 挿入後にカーソルを正しい位置に移動
+  //     const newCursorPos = start + 1;
+      
+  //     textarea.value = newText;
+  //     textarea.setSelectionRange(newCursorPos, newCursorPos);
+  //   }
+  // }
+
   return (
     <>
         <Grid container spacing={3}>
@@ -33,6 +65,8 @@ export const CreateArticle: React.FC = () => {
                 aria-label="empty textarea"
                 minRows={30}
                 placeholder="Enter your text here"
+                {...register('inputText')}
+                // onKeyDown={(event) => {handleTextareaKeyDown(event)}}
               />
             </Paper>
           </Grid>
@@ -47,6 +81,11 @@ export const CreateArticle: React.FC = () => {
               }}
             >
               <Title>プレビュー画面</Title>
+              <div className='markdown-container'>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {inputText}
+                </ReactMarkdown>
+              </div>
             </Paper>
           </Grid>
           {/* Recent Articles */}
@@ -62,7 +101,7 @@ export const CreateArticle: React.FC = () => {
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="success" size="medium">
+              <Button variant="contained" color="success" size="medium" onClick={() => {handleSubmit()}}>
                 投稿
               </Button>
             </Grid>
