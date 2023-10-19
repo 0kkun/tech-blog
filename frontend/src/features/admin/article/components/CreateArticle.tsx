@@ -8,9 +8,8 @@ import TextareaAutosize from '@mui/material/TextareaAutosize'
 import { useForm } from 'react-hook-form'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism'
-
 import Title from '../../../../components/admin/elements/Title'
 
 
@@ -23,6 +22,13 @@ export const CreateArticle: React.FC = () => {
   const { watch, register, getValues } = useForm()
 
   const inputText = watch('inputText')
+
+  const paperStyle = {
+    p: 2,
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 650,
+  }
 
   const handleSubmit = () => {
     const values = getValues()
@@ -54,14 +60,7 @@ export const CreateArticle: React.FC = () => {
         <Grid container spacing={3}>
           {/* 新規投稿入力画面 */}
           <Grid item xs={6} md={3} lg={6}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: 650,
-              }}
-            >
+            <Paper sx={paperStyle}>
               <Title>新規記事入力</Title>
               <TextareaAutosize
                 aria-label="empty textarea"
@@ -74,14 +73,7 @@ export const CreateArticle: React.FC = () => {
           </Grid>
           {/* プレビュー画面 */}
           <Grid item xs={6} md={3} lg={6}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: 650,
-              }}
-            >
+            <Paper sx={paperStyle}>
               <Title>プレビュー画面</Title>
               <div className='markdown-container'>
                 <ReactMarkdown
