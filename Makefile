@@ -109,10 +109,10 @@ migrate-history:
 	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic history --verbose"
 
 # schemaで定義したクラスを参照にmigrationファイルを生成する. TITLEの例 : create user
-.PHONY: schema
-schema:
+.PHONY: migrate-file
+migrate-file:
 	@read -p "Enter the migrate title: " TITLE; \
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision --autogenerate -m '$$TITLE'"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic revision --autogenerate -m '$$TITLE'"
 
 
 # *****************************

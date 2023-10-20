@@ -1,21 +1,18 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.engine import URL
 from urllib.parse import quote
-
 from config.env import Env
 
 
 db_password = quote(Env.MYSQL_PASSWORD)
 
-DATABASE_URL = URL.create(
-    drivername="mysql+mysqldb",
-    username=Env.MYSQL_USER_NAME,
-    password=db_password,
-    host=Env.MYSQL_DB_HOST,
-    port=Env.MYSQL_HOST_PORT,
-    database=Env.MYSQL_DB_NAME
+DATABASE_URL = "mysql+mysqldb://%s:%s@%s:%s/%s?charset=utf8" % (
+    Env.MYSQL_USER_NAME,
+    db_password,
+    Env.MYSQL_DB_HOST,
+    Env.MYSQL_HOST_PORT,
+    Env.MYSQL_DB_NAME,
 )
 
 engine = create_engine(DATABASE_URL, echo=True)

@@ -3,17 +3,17 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from app.infrastructure.database import database
+from app.infrastructure.database.database import Base, DATABASE_URL
 
 # NOTE: migrationしたいモデルを追加する
-from app.infrastructure.database.schema_model import token, user  # noqa: F401
+from app.infrastructure.database.schema_model import user, token  # noqa: F401
 
 from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", database.DATABASE_URL)
+config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 # Include table names in migration script filenames
 config.set_main_option('include_table_names', 'True')
@@ -27,7 +27,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = database.Base.metadata
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
