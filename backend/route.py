@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from apis.endpoints import ping
+from app.api.v1.endpoints import ping
 
 
 def init_route(app: FastAPI) -> None:

@@ -1,7 +1,7 @@
 import logging
 from typing import Optional
 
-from env import Env
+from config.env import Env
 
 
 def select_log_level(log_level: Optional[str]):

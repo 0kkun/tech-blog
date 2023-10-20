@@ -1,10 +1,8 @@
-from db.database import Base
 from sqlalchemy import Column, String, Integer, BigInteger, DateTime
 from sqlalchemy.orm import relationship
 import datetime
-from pydantic import BaseModel
-from models.token import Token
 
+from app.infrastructure.database.database import Base
 
 class UserOrm(Base):
     __tablename__ = "users"
@@ -22,16 +20,3 @@ class UserOrm(Base):
 
     tokens = relationship("Token", backref="user")
 
-
-class User(BaseModel):
-    id: int
-    name: str
-    email: str
-    password: str
-    role: int
-    token: Token
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
-
-    class Config:
-        orm_mode = True

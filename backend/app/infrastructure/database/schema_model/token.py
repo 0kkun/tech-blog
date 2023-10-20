@@ -1,9 +1,8 @@
-from db.database import Base
 from sqlalchemy import Column, String, BigInteger, ForeignKey, DateTime
 from datetime import datetime
 import datetime
-from pydantic import BaseModel
 
+from app.infrastructure.database.database import Base
 
 class TokenOrm(Base):
     __tablename__ = "tokens"
@@ -18,13 +17,3 @@ class TokenOrm(Base):
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
     )
-
-
-class Token(BaseModel):
-    id: int
-    token: str
-    user_id: int
-    expired_at: datetime.datetime
-    last_login_at: datetime.datetime
-    created_at: datetime.datetime
-    updated_at: datetime.datetime

@@ -20,6 +20,7 @@ env:
 
 .PHONY: init
 init:
+	@make down
 	@make build_c
 	@make up
 	@make migrate
@@ -103,8 +104,8 @@ migrate-rollback:
 migrate-drop:
 	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic downgrade base"
 
-.PHONy: migrate-log
-migrate-log:
+.PHONy: migrate-history
+migrate-history:
 	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic history --verbose"
 
 # schemaで定義したクラスを参照にmigrationファイルを生成する. TITLEの例 : create user
