@@ -25,3 +25,16 @@ class ArticleService:
         id: int,
     ):
         return self.article_repository.get(db, id)
+
+    def fetch(
+        self,
+        db,
+    ):
+        return self.article_repository.fetchPublishedArticle(db)
+
+    def delete(
+        self,
+        db,
+        article_id,
+    ):
+        self.article_repository.delete(db, article_id)
