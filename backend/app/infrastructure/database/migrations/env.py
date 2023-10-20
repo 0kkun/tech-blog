@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from app.infrastructure.database import database
 
 # NOTE: migrationしたいモデルを追加する
-from models import token, user  # noqa: F401
+from app.infrastructure.database.schema_model import token, user  # noqa: F401
 
 from alembic import context
 
