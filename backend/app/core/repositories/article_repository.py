@@ -23,16 +23,15 @@ class ArticleRepository:
                 raise ValueError('Invalid article id requested.')
 
             # アップデート
-            article = ArticleOrm(
-                id=request.id,
-                title=request.title,
-                content=request.content,
-                target_year=now.year,
-                target_month=now.month,
-                is_published=request.is_published,
-            )
-            db.add(article)
+            article_data.title = request.title
+            article_data.content = request.content
+            article_data.target_year = now.year
+            article_data.target_month = now.month
+            article_data.is_published = request.is_published
+
+            db.add(article_data)
             db.flush()
+            return Article.from_orm(article_data)
         else:
             # 新規作成
             article = ArticleOrm(
@@ -44,8 +43,7 @@ class ArticleRepository:
             )
             db.add(article)
             db.flush()
-
-        return Article.from_orm(article)
+            return Article.from_orm(article)
 
 
     def get(
