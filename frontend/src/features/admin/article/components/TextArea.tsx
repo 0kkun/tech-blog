@@ -20,8 +20,8 @@ export const TextArea: React.FC<Props> = ({ placeholder, minRows, name, control 
           <TextareaAutosize
             {...field}
             aria-label="textarea"
-            minRows={30}
-            placeholder="本文をマークダウン形式で入力"
+            minRows={minRows}
+            placeholder={placeholder}
           />
         )}
       />
