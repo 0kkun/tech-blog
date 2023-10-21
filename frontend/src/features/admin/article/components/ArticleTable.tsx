@@ -1,12 +1,5 @@
 import * as React from 'react'
-import {
-  Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@mui/material'
+import { Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { Article } from '../types/article'
 
@@ -15,7 +8,7 @@ const preventDefault = (event: React.MouseEvent) => {
 }
 
 export interface ArticlesProps {
-  articles: Article[],
+  articles: Article[]
 }
 
 export const ArticleTable: React.FC<ArticlesProps> = ({ articles }) => {

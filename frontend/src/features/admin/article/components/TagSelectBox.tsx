@@ -1,19 +1,12 @@
 import React from 'react'
-import {
-  Paper,
-  Box,
-  TextField,
-  Autocomplete,
-  Stack,
-} from '@mui/material'
+import { Paper, Box, TextField, Autocomplete, Stack } from '@mui/material'
 import { Tag } from '../types/article'
 import { Control, Controller, FieldValues } from 'react-hook-form'
-
 
 interface Props {
   label: string
   name: string
-  tags: Tag[],
+  tags: Tag[]
   control: Control<FieldValues, any>
 }
 
@@ -24,14 +17,16 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) =>
         name={name}
         control={control}
         render={({ field }) => (
-          <Paper sx={{
-            p: 2,
-            mb: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: 100,
-            width: '100%'
-          }}>
+          <Paper
+            sx={{
+              p: 2,
+              mb: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 100,
+              width: '100%',
+            }}
+          >
             <Stack spacing={3}>
               <Autocomplete
                 multiple
@@ -49,12 +44,7 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) =>
                   )
                 }}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    label={label}
-                    placeholder="search"
-                  />
+                  <TextField {...params} variant="standard" label={label} placeholder="search" />
                 )}
               />
             </Stack>

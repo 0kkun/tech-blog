@@ -16,7 +16,7 @@ export const AdminHome: FC = () => {
   const createArticleData = (id: number, date: string, title: string, count: number) => {
     return { id, date, title, count }
   }
-  
+
   const articles = [
     createArticleData(0, '2023/7/1', 'Laravel学習', 312),
     createArticleData(1, '2023/7/1', 'Laravel学習', 866),
@@ -28,7 +28,7 @@ export const AdminHome: FC = () => {
   const createChartData = (date: string, count?: number) => {
     return { date, count }
   }
-  
+
   const chartRecords = [
     createChartData('2023/7/1', 0),
     createChartData('2023/7/2', 300),
@@ -55,7 +55,7 @@ export const AdminHome: FC = () => {
                 height: 240,
               }}
             >
-              <Chart chartRecords={chartRecords}/>
+              <Chart chartRecords={chartRecords} />
             </Paper>
           </Grid>
           {/* Recent Access Count */}
@@ -68,13 +68,13 @@ export const AdminHome: FC = () => {
                 height: 240,
               }}
             >
-              <AccessCountBox accessCount={accessCount}/>
+              <AccessCountBox accessCount={accessCount} />
             </Paper>
           </Grid>
           {/* Recent Articles */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <ArticleTable articles={articles}/>
+              <ArticleTable articles={articles} />
             </Paper>
           </Grid>
         </Grid>

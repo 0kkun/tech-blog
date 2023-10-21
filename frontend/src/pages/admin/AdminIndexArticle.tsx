@@ -8,7 +8,6 @@ import { useFetchArticles } from '../../features/admin/article/hooks/useFetchArt
 
 // 記事一覧画面
 export const AdminIndexArticle: FC = () => {
-
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const createData = (id: number, date: string, title: string, count: number) => {
     return { id, date, title, count }
@@ -24,7 +23,6 @@ export const AdminIndexArticle: FC = () => {
 
   const fetchArticlesHooks = useFetchArticles()
 
-
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -37,7 +35,6 @@ export const AdminIndexArticle: FC = () => {
     }
     fetchInitialData()
   }, [])
-
 
   return (
     <>

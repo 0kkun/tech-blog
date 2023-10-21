@@ -8,7 +8,7 @@ import { DraftArticleTable } from '../../features/admin/draft_articles/component
 // 下書一覧画面
 export const AdminDraftIndexArticle: FC = () => {
   const createData = (id: number, date: string, title: string) => {
-    return { id, date, title, }
+    return { id, date, title }
   }
   const draftArticles = [
     createData(0, '2023/7/1', 'Laravel学習'),

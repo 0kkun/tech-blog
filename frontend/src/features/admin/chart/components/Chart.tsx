@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles'
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts'
 
 import Title from '../../../../components/admin/elements/Title'
-import { ChartRecord } from '../types/chart' 
+import { ChartRecord } from '../types/chart'
 
 export interface ChartProps {
   chartRecords: ChartRecord[]

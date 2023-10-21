@@ -5,7 +5,7 @@ import Title from '../../../../components/admin/elements/Title'
 import { AccessCount } from '../types/accessCount'
 
 export interface AccessCountProps {
-  accessCount: AccessCount,
+  accessCount: AccessCount
 }
 
 export const AccessCountBox: React.FC<AccessCountProps> = ({ accessCount }) => {

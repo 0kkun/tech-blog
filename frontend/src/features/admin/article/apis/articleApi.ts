@@ -3,7 +3,6 @@ import ApiClient from '../../../../libs/apiClient'
 import { ARTICLE_ENDPOINT } from '../../../../config/apiEndpoints'
 import { PutArticleRequest } from '../types/article'
 
-
 export const sendFetchArticlesApi = async (): Promise<AxiosResponse> => {
   try {
     const response = await ApiClient.get(ARTICLE_ENDPOINT)

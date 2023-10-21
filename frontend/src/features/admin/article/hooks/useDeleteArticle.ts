@@ -1,6 +1,5 @@
 import { sendDeleteArticleApi } from '../apis/articleApi'
 
-
 export const useDeleteArticle = () => {
   const deleteArticle = async (article_id: number) => {
     let response

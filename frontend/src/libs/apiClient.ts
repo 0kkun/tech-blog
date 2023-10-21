@@ -1,11 +1,11 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 interface ApiClientInterface {
-  get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  post(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  put(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  patch(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>;
+  get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>
+  post(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>
+  put(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>
+  patch(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>
+  delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>
 }
 
 class ApiClient implements ApiClientInterface {

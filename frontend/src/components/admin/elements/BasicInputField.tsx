@@ -2,7 +2,6 @@ import React from 'react'
 import { Input } from '@mui/material'
 import { FieldValues, Controller, Control } from 'react-hook-form'
 
-
 export interface Props {
   placeholder: string
   name: string
@@ -22,7 +21,7 @@ export const BasicInputField: React.FC<Props> = ({ placeholder, name, control })
             name={name}
             required
             placeholder={placeholder}
-            sx={{p: 1, width: '100%'}}
+            sx={{ p: 1, width: '100%' }}
           />
         )}
       />

@@ -5,7 +5,14 @@ import { useForm, FieldValues } from 'react-hook-form'
 
 export const usePutArticle = () => {
   const [article, setArticle] = useState<Article>()
-  const { getValues, watch, control, setValue , handleSubmit, formState: { errors }, } = useForm<FieldValues>()
+  const {
+    getValues,
+    watch,
+    control,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldValues>()
 
   const putArticles = async () => {
     let response

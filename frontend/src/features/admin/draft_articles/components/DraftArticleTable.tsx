@@ -1,18 +1,11 @@
 import * as React from 'react'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Button,
-} from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material'
 
 import Title from '../../../../components/admin/elements/Title'
 import { DraftArticle } from '../types/draftArticle'
 
 export interface DraftArticlesProps {
-  draftArticles: DraftArticle[],
+  draftArticles: DraftArticle[]
 }
 
 export const DraftArticleTable: React.FC<DraftArticlesProps> = ({ draftArticles }) => {

@@ -1,6 +1,5 @@
-
 export type DraftArticle = {
-  id: number,
-  date: string,
-  title: string,
+  id: number
+  date: string
+  title: string
 }

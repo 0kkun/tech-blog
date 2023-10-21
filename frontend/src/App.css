@@ -7,13 +7,13 @@
   margin: 5px 0px;
 }
 
-.markdown-container > ul > li, 
-.markdown-container > ul > li > ul > li, 
+.markdown-container > ul > li,
+.markdown-container > ul > li > ul > li,
 .markdown-container > ul > li > ul > li > ul > li {
   white-space: pre-wrap;
 }
 
-.markdown-container > ul, 
+.markdown-container > ul,
 .markdown-container > ul > li > ul,
 .markdown-container > ul > li > ul > li > ul {
   padding-top: 0;
@@ -27,10 +27,10 @@
   display: block;
   width: 100%;
   padding: 10px 10px;
-  color: #494949;/*文字色*/
-  background: #f4f4f4;/*背景色*/
-  border-left: solid 5px #7db4e6;/*左線*/
-  border-bottom: solid 3px #d7d7d7;/*下線*/
+  color: #494949; /*文字色*/
+  background: #f4f4f4; /*背景色*/
+  border-left: solid 5px #7db4e6; /*左線*/
+  border-bottom: solid 3px #d7d7d7; /*下線*/
 }
 
 .markdown-container > h3 {
