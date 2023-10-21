@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { DraftArticleTable } from '../../features/admin/draft_articles/components/DraftArticleTable'
 
-
+// 下書一覧画面
 export const AdminDraftIndexArticle: FC = () => {
   const createData = (id: number, date: string, title: string) => {
     return { id, date, title, }

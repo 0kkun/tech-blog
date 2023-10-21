@@ -5,3 +5,10 @@ export type Article = {
   title: string
   count: number
 }
+
+export type PutArticleRequest = {
+  id?: number
+  title: string
+  content: string
+  is_published: boolean
+}
