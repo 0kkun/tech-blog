@@ -18,3 +18,4 @@ class Env:
     MYSQL_USER_NAME = _getenv("MYSQL_USER_NAME")
     MYSQL_PASSWORD = _getenv("MYSQL_PASSWORD")
     MYSQL_ROOT_PASSWORD = _getenv("MYSQL_ROOT_PASSWORD")
+    FRRONT_URL = _getenv("FRRONT_URL")
