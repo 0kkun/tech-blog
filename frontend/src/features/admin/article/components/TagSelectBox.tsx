@@ -13,21 +13,22 @@ interface Props {
 export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) => {
   return (
     <>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <Paper
-            sx={{
-              p: 2,
-              mb: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: 100,
-              width: '100%',
-            }}
-          >
-            <Stack spacing={3}>
+      <Paper
+        sx={{
+          p: 2,
+          mb: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 100,
+          width: '100%',
+        }}
+      >
+        <Stack spacing={3}>
+          <Controller
+            name={name}
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
               <Autocomplete
                 multiple
                 fullWidth
@@ -47,10 +48,10 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) =>
                   <TextField {...params} variant="standard" label={label} placeholder="search" />
                 )}
               />
-            </Stack>
-          </Paper>
-        )}
-      />
+            )}
+          />
+        </Stack>
+      </Paper>
     </>
   )
 }

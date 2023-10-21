@@ -4,7 +4,6 @@ import Title from '../../../../components/admin/elements/Title'
 import { usePutArticle } from '../hooks/usePutArticle'
 import { MarkdownPreview } from './MarkdownPreview'
 import { TagSelectBox } from './TagSelectBox'
-import { CheckBoxField } from '../../../../components/admin/elements/CheckBoxField'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
 
@@ -33,15 +32,17 @@ export const CreateArticleView: React.FC = () => {
     { id: 3, name: 'Typescript' },
   ]
 
-  const onSubmit = async () => {
-    // const data = putArticleHooks.getValues()
-    await putArticleHooks.putArticles()
-    // console.log(data)
+  const onSubmit = async (isPublished: boolean) => {
+    await putArticleHooks.putArticles(isPublished)
+  }
+
+  const handleClear = () => {
+    putArticleHooks.reset()
   }
 
   return (
     <>
-      <form onSubmit={putArticleHooks.handleSubmit(onSubmit)}>
+      <form>
         <Grid container>
           <Grid container spacing={3}>
             <Grid item xs={8}>
@@ -59,17 +60,30 @@ export const CreateArticleView: React.FC = () => {
                 variant="contained"
                 color="success"
                 size="medium"
+                onClick={() => { onSubmit(true) }}
               >
                 投稿
               </Button>
               <Grid container spacing={2}>
                 <Grid item xs={6} sx={{ marginTop: 1 }}>
-                  <Button sx={{ width: '100%' }} variant="contained" color="error" size="medium">
+                  <Button
+                    sx={{ width: '100%' }}
+                    variant="contained"
+                    color="error"
+                    size="medium"
+                    onClick={() => { handleClear() }}
+                  >
                     クリア
                   </Button>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: 1 }}>
-                  <Button sx={{ width: '100%' }} variant="contained" color="primary" size="medium">
+                  <Button
+                    sx={{ width: '100%' }}
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    onClick={() => { onSubmit(false) }}
+                  >
                     下書保存
                   </Button>
                 </Grid>
@@ -88,7 +102,6 @@ export const CreateArticleView: React.FC = () => {
                   placeholder="タイトルを入力"
                   control={putArticleHooks.control}
                 />
-                <CheckBoxField label="公開" name="isPublished" control={putArticleHooks.control} />
               </Box>
               <TextArea
                 name="inputText"

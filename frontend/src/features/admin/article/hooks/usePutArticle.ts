@@ -11,18 +11,19 @@ export const usePutArticle = () => {
     control,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>()
 
-  const putArticles = async () => {
+  const putArticles = async (isPublished: boolean, article_id?: number) => {
     let response
     try {
       const values = getValues()
       const request: PutArticleRequest = {
-        id: values?.id ?? null,
+        id: article_id ?? undefined,
         title: values.title,
         content: values.inputText,
-        is_published: values.isPublished,
+        is_published: isPublished,
       }
       console.log(request)
       response = await sendPutArticleApi(request)
@@ -44,5 +45,6 @@ export const usePutArticle = () => {
     control,
     handleSubmit,
     errors,
+    reset,
   }
 }
