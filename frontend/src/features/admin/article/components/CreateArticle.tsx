@@ -1,8 +1,9 @@
-import React, { useState, } from 'react'
+import React from 'react'
 import {
   Button,
   Paper,
   Grid,
+  Input,
 } from '@mui/material'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 import { useForm } from 'react-hook-form'
@@ -21,7 +22,6 @@ import { MultiSelectTagField } from '../../../../components/admin/elements/Multi
  * NOTE: SyntaxHighlighterのstyleについて
  * https://react-syntax-highlighter.github.io/react-syntax-highlighter/demo/prism.html
  */
-
 export const CreateArticle: React.FC = () => {
   const { watch, register, getValues, setValue } = useForm()
   const inputText = watch('inputText')
@@ -41,26 +41,6 @@ export const CreateArticle: React.FC = () => {
     const values = getValues()
     console.log(values)
   }
-
-  // const handleTextareaKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-  //   const key = event.key
-  //   if (key === 'Tab') {
-  //     event.preventDefault()
-  //     const textarea = event.currentTarget;
-  //     const start = textarea.selectionStart;
-  //     const end = textarea.selectionEnd;
-  
-  //     // カーソル位置にインデントを挿入
-  //     const text = textarea.value;
-  //     const newText = text.substring(0, start) + '\t' + text.substring(end);
-      
-  //     // 挿入後にカーソルを正しい位置に移動
-  //     const newCursorPos = start + 1;
-      
-  //     textarea.value = newText;
-  //     textarea.setSelectionRange(newCursorPos, newCursorPos);
-  //   }
-  // }
 
   return (
     <>
@@ -88,12 +68,21 @@ export const CreateArticle: React.FC = () => {
         <Grid item xs={6} md={3} lg={6}>
           <Paper sx={paperStyle}>
             <Title>新規記事入力</Title>
+            <Input
+              required
+              placeholder='タイトルを入力'
+              sx={{
+                p: 1,
+                mb: 1,
+                borderBottom: 'none',
+              }}
+              {...register('title')}
+            />
             <TextareaAutosize
               aria-label="empty textarea"
               minRows={30}
-              placeholder="Enter your text here"
+              placeholder="本文をマークダウン形式で入力"
               {...register('inputText')}
-              // onKeyDown={(event) => {handleTextareaKeyDown(event)}}
             />
           </Paper>
         </Grid>
@@ -161,7 +150,6 @@ export const CreateArticle: React.FC = () => {
           </Grid>
         </Grid>
       </Grid>
-      
     </>
   )
 }
