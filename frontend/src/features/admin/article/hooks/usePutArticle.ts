@@ -5,17 +5,17 @@ import { useForm, FieldValues } from 'react-hook-form'
 
 export const usePutArticle = () => {
   const [article, setArticle] = useState<Article>()
+  const { getValues, watch, control, setValue , handleSubmit, formState: { errors }, } = useForm<FieldValues>()
 
   const putArticles = async () => {
     let response
-    const { getValues } = useForm<FieldValues>()
     try {
       const values = getValues()
       const request: PutArticleRequest = {
-        id: values?.id,
+        id: values?.id ?? null,
         title: values.title,
-        content: values.content,
-        is_published: values.is_published,
+        content: values.inputText,
+        is_published: values.isPublished,
       }
       console.log(request)
       response = await sendPutArticleApi(request)
@@ -32,5 +32,10 @@ export const usePutArticle = () => {
     putArticles,
     article,
     setArticle,
+    watch,
+    setValue,
+    control,
+    handleSubmit,
+    errors,
   }
 }

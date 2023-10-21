@@ -12,3 +12,8 @@ export type PutArticleRequest = {
   content: string
   is_published: boolean
 }
+
+export type Tag = {
+  id: number
+  name: string
+}
