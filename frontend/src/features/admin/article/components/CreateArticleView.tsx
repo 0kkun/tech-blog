@@ -56,7 +56,6 @@ export const CreateArticleView: React.FC = () => {
             <Grid item xs={4} sx={{ marginTop: 1 }}>
               <Button
                 sx={{ display: 'block', margin: '0 auto', width: '100%' }}
-                type="submit"
                 variant="contained"
                 color="success"
                 size="medium"

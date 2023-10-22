@@ -30,6 +30,7 @@ export const usePutArticle = () => {
       if (response.status === 200 || response.status === 201) {
         // レスポンスデータを状態として更新
         setArticle(response.data as Article)
+        reset()
       }
       return response.data
     } catch (e) {
