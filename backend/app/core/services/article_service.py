@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from app.core.models.article import ArticlePutRequest, ArticleGetResponse, ArticleFetchResponse, Article
+from app.core.models.article import ArticlePutRequest, ArticleGetResponse
 from app.core.models.tag import Tag
 from app.core.models.article_tag import ArticleTag
 from app.core.repositories.article_repository import ArticleRepository
@@ -25,8 +25,10 @@ class ArticleService:
         db: Session,
         request: ArticlePutRequest,
     ):
-        self.article_repository.put(db, request)
+        article = self.article_repository.put(db, request)
         if request.tags:
+            # 新規作成の場合は生成したてのレコードのidを挿入する必要がある
+            request.id = article.id
             tag_ids = [tag.id for tag in request.tags]
             self.article_tag_repository.put(db, request.id, tag_ids)
 

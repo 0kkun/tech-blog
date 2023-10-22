@@ -20,7 +20,7 @@ class Article(BaseModel):
 
 
 class ArticlePutRequest(BaseModel):
-    id: Optional[int]
+    id: Optional[int] = None
     title: str
     content: str
     is_published: bool
