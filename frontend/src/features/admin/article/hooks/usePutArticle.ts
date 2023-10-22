@@ -15,22 +15,22 @@ export const usePutArticle = () => {
     formState: { errors },
   } = useForm<FieldValues>()
 
-  const putArticles = async (isPublished: boolean, article_id?: number) => {
+  const putArticles = async (isPublished: boolean, articleId?: number) => {
     let response
     try {
       const values = getValues()
       const request: PutArticleRequest = {
-        id: article_id ?? undefined,
+        id: articleId ?? undefined,
         title: values.title,
         content: values.inputText,
         is_published: isPublished,
+        tags: values.selectedTags,
       }
       console.log(request)
       response = await sendPutArticleApi(request)
       if (response.status === 200 || response.status === 201) {
         // レスポンスデータを状態として更新
         setArticle(response.data as Article)
-        reset()
       }
       return response.data
     } catch (e) {

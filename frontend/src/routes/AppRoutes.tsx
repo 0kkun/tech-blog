@@ -5,6 +5,7 @@ import { AdminHome } from '../pages/admin/AdminHome'
 import { AdminCreateArticle } from '../pages/admin/AdminCreateArticle'
 import { AdminIndexArticle } from '../pages/admin/AdminIndexArticle'
 import { AdminDraftIndexArticle } from '../pages/admin/AdminDraftIndexArticle'
+import { AdminEditArticle } from '../pages/admin/AdminEditArticle'
 
 export const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ export const AppRoutes = () => {
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/admin/articles" element={<AdminIndexArticle />} />
       <Route path="/admin/article/create" element={<AdminCreateArticle />} />
+      <Route path="/admin/article/edit/:articleId" element={<AdminEditArticle />} />
       <Route path="/admin/article/drafts" element={<AdminDraftIndexArticle />} />
       <Route path="/" element={<Home />} />
     </Routes>

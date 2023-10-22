@@ -1,8 +1,11 @@
 export type Article = {
   id: number
-  date: string
   title: string
-  count: number
+  content: string
+  // count: number
+  created_at: string
+  updated_at: string
+  tags: Tag[]
 }
 
 export type PutArticleRequest = {
@@ -10,6 +13,7 @@ export type PutArticleRequest = {
   title: string
   content: string
   is_published: boolean
+  tags: Tag[]
 }
 
 export type Tag = {

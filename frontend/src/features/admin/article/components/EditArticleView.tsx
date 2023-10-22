@@ -8,18 +8,15 @@ import { BasicInputField } from '../../../../components/admin/elements/BasicInpu
 import { TextArea } from './TextArea'
 import { useParams } from 'react-router-dom'
 
-/**
- * NOTE: Gridについて
- * xs : 横幅の指定。合計12になるように比率を指定する
- *
- * NOTE: SyntaxHighlighterのstyleについて
- * https://react-syntax-highlighter.github.io/react-syntax-highlighter/demo/prism.html
- */
-export const CreateArticleView: React.FC = () => {
+
+export const EditArticleView: React.FC = () => {
   const putArticleHooks = usePutArticle()
 
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
+
+  // パスパラメータからarticleIdを取得
+  const {articleId} = useParams<{articleId: string}>()
 
   const paperStyle = {
     p: 2,
@@ -34,7 +31,9 @@ export const CreateArticleView: React.FC = () => {
   ]
 
   const onSubmit = async (isPublished: boolean) => {
-    await putArticleHooks.putArticles(isPublished)
+    if (articleId) {
+      await putArticleHooks.putArticles(isPublished, Number(articleId))
+    }
   }
 
   const handleClear = () => {
@@ -95,7 +94,7 @@ export const CreateArticleView: React.FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={6} md={3} lg={6}>
             <Paper sx={paperStyle}>
-              <Title>新規記事入力</Title>
+              <Title>記事編集入力</Title>
               <Box sx={{ marginBottom: 2, display: 'flex' }}>
                 <BasicInputField
                   name="title"
