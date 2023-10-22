@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from typing import Optional, List
-from app.core.models.tag import TagPutRequest, Tag
+from app.core.models.tag import TagPutRequest, Tag, TagResponse
 from app.infrastructure.database.schema_model.tag import TagOrm
-# from util.datetime_generator import DateTimeGenerator
+from util.datetime_generator import DateTimeGenerator
 
 
 class TagRepository:
@@ -15,6 +15,8 @@ class TagRepository:
         """
             タグを新規作成 or 更新する
         """
+        now = DateTimeGenerator.datetime()
+
         if request.id:
             tag_data = db.query(TagOrm).filter(TagOrm.id == request.id).one_or_none()
             if tag_data is None:
@@ -22,6 +24,7 @@ class TagRepository:
 
             # アップデート
             tag_data.name = request.name
+            tag_data.updated_at = now
 
             db.add(tag_data)
             db.flush()
@@ -29,7 +32,9 @@ class TagRepository:
         else:
             # 新規作成
             tag = TagOrm(
-                name=request.name,
+                name = request.name,
+                created_at = now,
+                updated_at = now,
             )
             db.add(tag)
             db.flush()
@@ -40,12 +45,12 @@ class TagRepository:
         self,
         db: Session,
         tag_id: int,
-    ) -> Optional[Tag]:
+    ) -> Optional[TagResponse]:
         """
             idを指定してタグを1件取得する
         """
         tag = db.scalars(
-            select(TagOrm)
+            select([TagOrm.id, TagOrm.name])
             .where(TagOrm.id == tag_id)
         ).one_or_none()
 
@@ -57,12 +62,12 @@ class TagRepository:
     def fetch(
         self,
         db: Session,
-    ) -> Optional[List[Tag]]:
+    ) -> Optional[List[TagResponse]]:
         """
             タグ一覧取得
         """
-        tags = db.query(TagOrm).all()
-        return [Tag.from_orm(tag) for tag in tags]
+        tags = db.query(TagOrm.id, TagOrm.name).all()
+        return [TagResponse.from_orm(tag) for tag in tags]
 
 
     def delete(

@@ -1,7 +1,7 @@
 from datetime import datetime
 import datetime
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 
 class ArticleTag(BaseModel):
@@ -16,6 +16,5 @@ class ArticleTag(BaseModel):
 
 
 class ArticleTagPutRequest(BaseModel):
-    id: Optional[int]
-    tag_id: int
     article_id: int
+    tag_ids: List[int]

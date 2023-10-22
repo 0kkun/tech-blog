@@ -1,7 +1,8 @@
 import logging
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated, Optional, List
-from app.core.models.article import Article, ArticlePutRequest
+from app.core.models.article import Article, ArticlePutRequest, ArticleGetResponse
+from app.core.models.success_response import SuccessResponse
 from app.core.services.article_service import ArticleService
 from app.infrastructure.database.database import SessionLocal
 from util.error_log import get_error_log_info
@@ -13,8 +14,8 @@ _logger = logging.getLogger(__name__)
 @router.get("/v1/articles", summary="記事一覧取得", tags=["article"])
 async def fetch_article(
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> Optional[List[Article]]:
-    _logger.info("article fetch api start")
+):
+    _logger.info("##### article fetch api start ####")
     try:
         with SessionLocal.begin() as db:
             articles = article_service.fetch(db)
@@ -31,13 +32,13 @@ async def fetch_article(
 async def put_article(
     request: ArticlePutRequest,
     article_service: Annotated[ArticleService, Depends(ArticleService)]
-) -> Article:
+) -> SuccessResponse:
     _logger.info("article put api start")
     try:
         with SessionLocal.begin() as db:
-            article = article_service.put(db, request)
+            article_service.put(db, request)
 
-        return article
+        return SuccessResponse(message='created or updated')
 
     except HTTPException as e:
         _logger.exception(str(e))
@@ -50,7 +51,7 @@ async def put_article(
 async def get_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> Article:
+) -> ArticleGetResponse:
     _logger.info("article get api start")
     try:
         with SessionLocal.begin() as db:
