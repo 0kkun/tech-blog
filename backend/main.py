@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from modules.logging import init_logging
-from router import init_route
-from middleware import init_middleware
+from config.logging import init_logging
+from config.middleware import init_middleware
+from route import init_route
 
 init_logging()
 

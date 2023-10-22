@@ -8,6 +8,8 @@
 |---|---|
 |python|3.9.16|
 |FastAPI|0.95.1|
+|React|17.0.2|
+|typescript|5.0.2|
 
 ## 環境構築
 
@@ -61,4 +63,47 @@ $ make auto-generate
 
 ```
 $ make migrate
+```
+
+## アーキテクチャ
+
+DDDを採用。
+
+```
+root/
+    ├── main.py  # FastAPIアプリケーションのエントリーポイント
+    ├── app/
+    │    ├── __init__.py
+    │    ├── api/  # APIエンドポイントのためのディレクトリ
+    │    │    ├── __init__.py
+    │    │    ├── v1/  # APIのバージョン1のディレクトリ
+    │    │    │    ├── __init__.py
+    │    │    │    ├── endpoints/  # APIエンドポイントの実装
+    │    │    │    │    ├── __init__.py
+    │    │    │    │    ├── user.py  # ユーザーに関するエンドポイント
+    │    │    │    │    ├── item.py  # 商品に関するエンドポイント
+    │    ├── core/  # ドメインモデル、リポジトリ、サービス
+    │    │    ├── __init__.py
+    │    │    ├── models/  # ドメインモデルのクラス
+    │    │    │    ├── __init__.py
+    │    │    │    ├── user.py  # ユーザーに関するモデル
+    │    │    │    ├── item.py  # 商品に関するモデル
+    │    │    ├── repositories/  # ドメインリポジトリの実装
+    │    │    │    ├── __init__.py
+    │    │    │    ├── user_repository.py  # ユーザーリポジトリ
+    │    │    │    ├── item_repository.py  # 商品リポジトリ
+    │    │    ├── services/  # ドメインサービスの実装
+    │    │    │    ├── __init__.py
+    │    │    │    ├── user_service.py  # ユーザーサービス
+    │    │    │    ├── item_service.py  # 商品サービス
+    │    ├── infrastructure/  # データベース、外部APIなどの実装
+    │    │    ├── __init__.py
+    │    │    ├── database/  # データベース接続とモデル
+    │    │    │    ├── __init__.py
+    │    │    │    ├── database.py  # データベース接続
+    │    │    │    ├── schema_model # データベースのスキーマモデル
+    │    │    │         ├── models.py
+    │    │    ├── external/  # 外部API接続など
+    │    │    │    ├── __init__.py
+    │    │    │    ├── external_api.py  # 外部API接続クラス
 ```

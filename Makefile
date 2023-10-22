@@ -20,6 +20,7 @@ env:
 
 .PHONY: init
 init:
+	@make down
 	@make build_c
 	@make up
 	@make migrate
@@ -82,36 +83,36 @@ format:
 
 .PHONY: migrate-init
 migrate-init:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision -m 'Initial migration'"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic revision -m 'Initial migration'"
 
 # schema配下を読み取って自動でmigrationファイルを生成する
 .PHONY: auto-generate
 auto-generate:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision --autogenerate"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic revision --autogenerate"
 
 # migrations配下を読み取ってmigrationを実行する
 .PHONY: migrate
 migrate:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic upgrade head"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic upgrade head"
 
 .PHONY: migrate-rollback
 migrate-rollback:
 	@read -p "Enter the number of steps to rollback: " STEPS; \
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic downgrade $$STEPS"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic downgrade $$STEPS"
 
 .PHONY: migrate-drop
 migrate-drop:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic downgrade base"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic downgrade base"
 
-.PHONy: migrate-log
-migrate-log:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic history --verbose"
+.PHONy: migrate-history
+migrate-history:
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic history --verbose"
 
 # schemaで定義したクラスを参照にmigrationファイルを生成する. TITLEの例 : create user
-.PHONY: schema
-schema:
+.PHONY: migrate-file
+migrate-file:
 	@read -p "Enter the migrate title: " TITLE; \
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd db && alembic revision --autogenerate -m '$$TITLE'"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic revision --autogenerate -m '$$TITLE'"
 
 
 # *****************************
@@ -119,3 +120,7 @@ schema:
 # *****************************
 
 # TODO: あとで追加
+
+.PHONY: front-format
+front-format:
+	$(DCE) $(FRONTEND_SERVICE_NAME) bash -c "npm run format"
