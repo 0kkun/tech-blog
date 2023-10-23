@@ -3,4 +3,7 @@ export type Tag = {
   name: string
 }
 
-export type PutTagRequest = {}
+export type PutTagRequest = {
+  id?: number
+  name: string
+}

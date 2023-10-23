@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 async def fetch_tag(
     tag_service: Annotated[TagService, Depends(TagService)],
 ):
-    _logger.info("##### tag fetch api start ####")
+    _logger.info('tag fetch api start')
     try:
         with SessionLocal.begin() as db:
             tags = tag_service.fetch(db)

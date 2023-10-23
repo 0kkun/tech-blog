@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow, Button, Box } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
 import { EditTagModal } from './EditTagModal'
 import { useEditTagModal } from '../hooks/useEditTagModal'
+import { usePutTag } from '../hooks/usePutTag'
+import { Tag } from '../types/tag'
 
 
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
   const editTagModalHooks = useEditTagModal()
+  const putTagHooks = usePutTag()
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -26,10 +29,29 @@ export const TagTable: React.FC = () => {
     editTagModalHooks.handleClose()
   }
 
+  const handleTagOpen = (tag: Tag) => {
+    putTagHooks.setValue('name', tag.name)
+    editTagModalHooks.handleOpen() 
+  }
+
+  const handleTagSubmit = async (tag: Tag) => {
+    putTagHooks.putTag(tag.id)
+    putTagHooks.reset()
+    handleClose()
+    await fetchTagsHooks.fetchTags()
+  }
+
   return (
     <>
-
-      <Title>投稿記事一覧</Title>
+      <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', paddingBottom: 3 }}>
+        <Title>投稿記事一覧</Title>
+        <Button
+          variant='contained'
+          color='info'
+          size="medium"
+          sx={{ width: 100 }}
+        >新規追加</Button>
+      </Box>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -48,15 +70,17 @@ export const TagTable: React.FC = () => {
                   color="success"
                   size="small"
                   onClick={ () => {
-                    editTagModalHooks.handleOpen() 
+                    handleTagOpen(tag)
                   }}
                 >
                   編集
                 </Button>
                 <EditTagModal
                   isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
-                  handleClose={ () => {handleClose() }}
-                  tag={tag}
+                  handleClose={ () => { handleClose() }}
+                  handleSubmit={ () => { handleTagSubmit(tag) }}
+                  name='name'
+                  control={putTagHooks.control}
                 />
               </TableCell>
               <TableCell>
