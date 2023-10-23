@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Paper, Grid, Box } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { usePutArticle } from '../hooks/usePutArticle'
@@ -6,6 +6,7 @@ import { MarkdownPreview } from './MarkdownPreview'
 import { TagSelectBox } from './TagSelectBox'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
+import { useFetchTags } from '../../tag/hooks/useFetchTags'
 
 /**
  * NOTE: Gridについて
@@ -16,6 +17,7 @@ import { TextArea } from './TextArea'
  */
 export const CreateArticleView: React.FC = () => {
   const putArticleHooks = usePutArticle()
+  const fetchTagsHooks = useFetchTags()
 
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
@@ -26,11 +28,17 @@ export const CreateArticleView: React.FC = () => {
     flexDirection: 'column',
     minHeight: 650,
   }
-  const tags = [
-    { id: 1, name: 'Laravel' },
-    { id: 2, name: 'PHP' },
-    { id: 3, name: 'Typescript' },
-  ]
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        await fetchTagsHooks.fetchTags()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchInitialData()
+  }, [])
 
   const onSubmit = async (isPublished: boolean) => {
     await putArticleHooks.putArticles(isPublished)
@@ -49,7 +57,7 @@ export const CreateArticleView: React.FC = () => {
               <TagSelectBox
                 label="タグ選択"
                 name="selectedTags"
-                tags={tags}
+                tags={fetchTagsHooks.tags}
                 control={putArticleHooks.control}
               />
             </Grid>
