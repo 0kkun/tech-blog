@@ -11,7 +11,7 @@ interface Props {
   control: Control<FieldValues, any>
 }
 
-export const EditTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubmit, name, control }) => {
+export const CreateTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubmit, name, control }) => {
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -33,7 +33,7 @@ export const EditTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubm
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Title>タグ編集</Title>
+          <Title>タグ新規追加</Title>
           <Box id="modal-modal-description" sx={{ mt: 2 }}>
             <Controller
               name={name}
@@ -59,7 +59,7 @@ export const EditTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubm
               sx={{ marginLeft: 3 }}
               onClick={ () => { handleSubmit() }}
             >
-              完了
+              追加
             </Button>
           </Box>
         </Box>

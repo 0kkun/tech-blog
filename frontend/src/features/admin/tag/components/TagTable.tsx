@@ -3,7 +3,9 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Button, Box } from '@
 import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
 import { EditTagModal } from './EditTagModal'
+import { CreateTagModal } from './CreateTagModal'
 import { useEditTagModal } from '../hooks/useEditTagModal'
+import { useCreateTagModal } from '../hooks/useCreateTagModal'
 import { usePutTag } from '../hooks/usePutTag'
 import { Tag } from '../types/tag'
 
@@ -11,6 +13,7 @@ import { Tag } from '../types/tag'
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
   const editTagModalHooks = useEditTagModal()
+  const createTagModalHooks = useCreateTagModal()
   const putTagHooks = usePutTag()
 
   // 初回遷移時に表示するデータを取得する
@@ -25,31 +28,56 @@ export const TagTable: React.FC = () => {
     fetchInitialData()
   }, [])
 
-  const handleClose = () => {
+  const handleEditTagModalClose = () => {
     editTagModalHooks.handleClose()
   }
 
-  const handleTagOpen = (tag: Tag) => {
+  const handleEditTagOpen = (tag: Tag) => {
     putTagHooks.setValue('name', tag.name)
     editTagModalHooks.handleOpen() 
   }
 
-  const handleTagSubmit = async (tag: Tag) => {
+  const handleEditTagSubmit = async (tag: Tag) => {
     putTagHooks.putTag(tag.id)
     putTagHooks.reset()
-    handleClose()
+    handleEditTagModalClose()
     await fetchTagsHooks.fetchTags()
+  }
+
+  const handleCreateTagModalClose = () => {
+    putTagHooks.reset()
+    createTagModalHooks.handleClose()
+  }
+
+  const handleCreateTagOpen = () => {
+    putTagHooks.reset()
+    createTagModalHooks.handleOpen() 
+  }
+
+  const handleCreateTagSubmit = async () => {
+    putTagHooks.putTag()
+    putTagHooks.reset()
+    handleCreateTagModalClose()
+    fetchTagsHooks.fetchTags()
   }
 
   return (
     <>
+      <CreateTagModal
+        isOpen={createTagModalHooks?.open ? createTagModalHooks.open : false}
+        handleClose={ () => { handleCreateTagModalClose() }}
+        handleSubmit={ () => { handleCreateTagSubmit() }}
+        name='name'
+        control={putTagHooks.control}
+      />
       <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', paddingBottom: 3 }}>
-        <Title>投稿記事一覧</Title>
+        <Title>タグ一覧</Title>
         <Button
           variant='contained'
           color='info'
           size="medium"
           sx={{ width: 100 }}
+          onClick={ () => { handleCreateTagOpen() }}
         >新規追加</Button>
       </Box>
       <Table size="small">
@@ -70,15 +98,15 @@ export const TagTable: React.FC = () => {
                   color="success"
                   size="small"
                   onClick={ () => {
-                    handleTagOpen(tag)
+                    handleEditTagOpen(tag)
                   }}
                 >
                   編集
                 </Button>
                 <EditTagModal
                   isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
-                  handleClose={ () => { handleClose() }}
-                  handleSubmit={ () => { handleTagSubmit(tag) }}
+                  handleClose={ () => { handleEditTagModalClose() }}
+                  handleSubmit={ () => { handleEditTagSubmit(tag) }}
                   name='name'
                   control={putTagHooks.control}
                 />
