@@ -12,7 +12,6 @@ interface Props {
 }
 
 export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control, getValues }) => {
-
   const initData = () => {
     if (getValues) {
       const values = getValues()
@@ -46,7 +45,7 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control, getV
                 options={tags}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 getOptionLabel={(option) => option.name}
-                value={ initData() }
+                value={initData()}
                 onChange={(_e, newValue) => {
                   field.onChange(newValue)
                 }}
@@ -58,7 +57,15 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control, getV
                   )
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} onChange={() => {console.log('値が変更されました')}} variant="standard" label={label} placeholder="search" />
+                  <TextField
+                    {...params}
+                    onChange={() => {
+                      console.log('値が変更されました')
+                    }}
+                    variant="standard"
+                    label={label}
+                    placeholder="search"
+                  />
                 )}
               />
             )}
