@@ -4,7 +4,6 @@ import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
 import { Link as RouterLink } from 'react-router-dom'
 
-
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
 
