@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Paper, Grid, Box } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { usePutArticle } from '../hooks/usePutArticle'
@@ -7,16 +7,32 @@ import { TagSelectBox } from './TagSelectBox'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
 import { useParams } from 'react-router-dom'
-
+import { useGetArticle } from '../hooks/useGetArticle'
 
 export const EditArticleView: React.FC = () => {
   const putArticleHooks = usePutArticle()
+  const getArticleHooks = useGetArticle()
 
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
 
   // パスパラメータからarticleIdを取得
-  const {articleId} = useParams<{articleId: string}>()
+  const { articleId } = useParams<{ articleId: string }>()
+
+  // 初回遷移時に表示するデータを取得する
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      if (articleId) {
+        const article = await getArticleHooks.getArticle(Number(articleId))
+        if (article) {
+          putArticleHooks.setValue('inputText', article.content)
+          putArticleHooks.setValue('selectedTags', article.tags)
+          putArticleHooks.setValue('title', article.title)
+        }
+      }
+    }
+    fetchInitialData()
+  }, [])
 
   const paperStyle = {
     p: 2,
@@ -51,6 +67,7 @@ export const EditArticleView: React.FC = () => {
                 name="selectedTags"
                 tags={tags}
                 control={putArticleHooks.control}
+                getValues={putArticleHooks.getValues}
               />
             </Grid>
             <Grid item xs={4} sx={{ marginTop: 1 }}>
@@ -59,7 +76,9 @@ export const EditArticleView: React.FC = () => {
                 variant="contained"
                 color="success"
                 size="medium"
-                onClick={() => { onSubmit(true) }}
+                onClick={() => {
+                  onSubmit(true)
+                }}
               >
                 投稿
               </Button>
@@ -70,9 +89,11 @@ export const EditArticleView: React.FC = () => {
                     variant="contained"
                     color="error"
                     size="medium"
-                    onClick={() => { handleClear() }}
+                    onClick={() => {
+                      handleClear()
+                    }}
                   >
-                    クリア
+                    削除
                   </Button>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: 1 }}>
@@ -81,7 +102,9 @@ export const EditArticleView: React.FC = () => {
                     variant="contained"
                     color="primary"
                     size="medium"
-                    onClick={() => { onSubmit(false) }}
+                    onClick={() => {
+                      onSubmit(false)
+                    }}
                   >
                     下書保存
                   </Button>

@@ -5,6 +5,8 @@ export type Article = {
   // count: number
   created_at: string
   updated_at: string
+  target_month: number
+  target_year: number
   tags: Tag[]
 }
 

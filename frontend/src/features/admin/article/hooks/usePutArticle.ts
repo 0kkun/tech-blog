@@ -47,5 +47,6 @@ export const usePutArticle = () => {
     handleSubmit,
     errors,
     reset,
+    getValues,
   }
 }

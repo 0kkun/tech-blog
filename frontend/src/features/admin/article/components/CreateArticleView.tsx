@@ -60,7 +60,9 @@ export const CreateArticleView: React.FC = () => {
                 variant="contained"
                 color="success"
                 size="medium"
-                onClick={() => { onSubmit(true) }}
+                onClick={() => {
+                  onSubmit(true)
+                }}
               >
                 投稿
               </Button>
@@ -71,7 +73,9 @@ export const CreateArticleView: React.FC = () => {
                     variant="contained"
                     color="error"
                     size="medium"
-                    onClick={() => { handleClear() }}
+                    onClick={() => {
+                      handleClear()
+                    }}
                   >
                     クリア
                   </Button>
@@ -82,7 +86,9 @@ export const CreateArticleView: React.FC = () => {
                     variant="contained"
                     color="primary"
                     size="medium"
-                    onClick={() => { onSubmit(false) }}
+                    onClick={() => {
+                      onSubmit(false)
+                    }}
                   >
                     下書保存
                   </Button>

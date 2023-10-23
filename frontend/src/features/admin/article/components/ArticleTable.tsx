@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
-import { Article } from '../types/article'
 import { useFetchArticles } from '../hooks/useFetchArticles'
 import { formatDateTime } from '../../../../libs/date'
 import { Link as RouterLink } from 'react-router-dom'
@@ -9,7 +8,6 @@ import { Link as RouterLink } from 'react-router-dom'
 const preventDefault = (event: React.MouseEvent) => {
   event.preventDefault()
 }
-
 
 export const ArticleTable: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()
