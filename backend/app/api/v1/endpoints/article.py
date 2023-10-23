@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 @router.get("/v1/articles", summary="記事一覧取得", tags=["article"])
 async def fetch_article(
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-):
+) ->  List[ArticleGetResponse]:
     _logger.info("##### article fetch api start ####")
     try:
         with SessionLocal.begin() as db:
@@ -46,7 +46,6 @@ async def put_article(
         raise HTTPException(status_code=500, detail=f"{message}")
 
 
-
 @router.get("/v1/articles/{article_id}", summary="記事取得", tags=["article"])
 async def get_article(
     article_id: int,
@@ -65,19 +64,17 @@ async def get_article(
         raise HTTPException(status_code=500, detail=f"{message}")
 
 
-
-
 @router.delete("/v1/articles/{article_id}", summary="記事を1件削除", tags=["article"])
-async def fetch_article(
+async def delete_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> Article:
+) -> SuccessResponse:
     _logger.info("article delete api start")
     try:
         with SessionLocal.begin() as db:
             article_service.delete(db, article_id)
 
-        return {"message": "deleted"}
+        return SuccessResponse(message='deleted')
 
     except HTTPException as e:
         _logger.exception(str(e))
