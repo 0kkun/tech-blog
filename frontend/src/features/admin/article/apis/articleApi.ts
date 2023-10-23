@@ -3,9 +3,9 @@ import ApiClient from '../../../../libs/apiClient'
 import { ARTICLE_ENDPOINT } from '../../../../config/apiEndpoints'
 import { PutArticleRequest } from '../types/article'
 
-export const sendFetchArticlesApi = async (): Promise<AxiosResponse> => {
+export const sendFetchArticlesApi = async (isPublished: boolean): Promise<AxiosResponse> => {
   try {
-    const response = await ApiClient.get(ARTICLE_ENDPOINT)
+    const response = await ApiClient.get(ARTICLE_ENDPOINT + '?is_published=' + isPublished)
     console.log('fetch articles api success!')
     return response
   } catch (error) {

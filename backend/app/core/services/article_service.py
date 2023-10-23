@@ -60,8 +60,9 @@ class ArticleService:
     def fetch(
         self,
         db,
+        is_published: bool,
     ) -> List[ArticleGetResponse]:
-        articles = self.article_repository.fetch_published_article(db)
+        articles = self.article_repository.fetch_article(db, is_published)
         article_ids = [article.id for article in articles]
         article_tags = self.article_tag_repository.fetch_by_article_ids(db, article_ids)
         tags = self.tag_repository.fetch(db)

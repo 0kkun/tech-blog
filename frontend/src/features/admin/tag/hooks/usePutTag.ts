@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import { sendPutTagApi } from '../apis/tagApi'
-import { Tag } from '../types/tag'
 import { useForm, FieldValues } from 'react-hook-form'
 import { PutTagRequest } from '../types/tag'
 

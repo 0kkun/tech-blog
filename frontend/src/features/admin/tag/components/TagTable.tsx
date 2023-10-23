@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableRow, Button, Box } from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow, Button, Box, TableContainer } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
 import { EditTagModal } from './EditTagModal'
@@ -8,7 +8,7 @@ import { useEditTagModal } from '../hooks/useEditTagModal'
 import { useCreateTagModal } from '../hooks/useCreateTagModal'
 import { usePutTag } from '../hooks/usePutTag'
 import { Tag } from '../types/tag'
-
+import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
 
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
@@ -80,46 +80,48 @@ export const TagTable: React.FC = () => {
           onClick={ () => { handleCreateTagOpen() }}
         >新規追加</Button>
       </Box>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>名前</TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {fetchTagsHooks.tags.map((tag) => (
-            <TableRow key={tag.id}>
-              <TableCell>{tag.name}</TableCell>
-              <TableCell>
-                <Button
-                  variant="contained"
-                  color="success"
-                  size="small"
-                  onClick={ () => {
-                    handleEditTagOpen(tag)
-                  }}
-                >
-                  編集
-                </Button>
-                <EditTagModal
-                  isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
-                  handleClose={ () => { handleEditTagModalClose() }}
-                  handleSubmit={ () => { handleEditTagSubmit(tag) }}
-                  name='name'
-                  control={putTagHooks.control}
-                />
-              </TableCell>
-              <TableCell>
-                <Button variant="contained" color="error" size="small">
-                  削除
-                </Button>
-              </TableCell>
+      <TableContainer style={{ maxHeight: TABLE_MAX_HEIGHT }}>
+        <Table size="small" stickyHeader>
+          <TableHead>
+            <TableRow style={{ backgroundColor: '#0000', height: '35px' }}>
+              <TableCell>名前</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {fetchTagsHooks.tags.map((tag) => (
+              <TableRow key={tag.id}>
+                <TableCell>{tag.name}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    onClick={ () => {
+                      handleEditTagOpen(tag)
+                    }}
+                  >
+                    編集
+                  </Button>
+                  <EditTagModal
+                    isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
+                    handleClose={ () => { handleEditTagModalClose() }}
+                    handleSubmit={ () => { handleEditTagSubmit(tag) }}
+                    name='name'
+                    control={putTagHooks.control}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Button variant="contained" color="error" size="small">
+                    削除
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

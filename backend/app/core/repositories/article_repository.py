@@ -67,15 +67,16 @@ class ArticleRepository:
         return Article.from_orm(article)
 
 
-    def fetch_published_article(
+    def fetch_article(
         self,
         db: Session,
+        is_published: bool,
     ) -> Optional[List[Article]]:
         """
             記事一覧取得
         """
         articles = db.query(ArticleOrm).filter(
-            ArticleOrm.is_published == True,
+            ArticleOrm.is_published == is_published,
         ).all()
         article_list = [Article.from_orm(article) for article in articles]
         return article_list

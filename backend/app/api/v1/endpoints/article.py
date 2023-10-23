@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import Annotated, Optional, List
 from app.core.models.article import Article, ArticlePutRequest, ArticleGetResponse
 from app.core.models.success_response import SuccessResponse
@@ -14,11 +14,12 @@ _logger = logging.getLogger(__name__)
 @router.get("/v1/articles", summary="記事一覧取得", tags=["article"])
 async def fetch_article(
     article_service: Annotated[ArticleService, Depends(ArticleService)],
+    is_published: bool = Query(..., description="is_published parameter to filter articles"),
 ) ->  List[ArticleGetResponse]:
-    _logger.info("##### article fetch api start ####")
+    _logger.info("article fetch api start")
     try:
         with SessionLocal.begin() as db:
-            articles = article_service.fetch(db)
+            articles = article_service.fetch(db, is_published)
 
         return articles
 
