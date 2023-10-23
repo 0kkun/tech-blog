@@ -2,10 +2,13 @@ import React, { useEffect } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
-import { Link as RouterLink } from 'react-router-dom'
+import { EditTagModal } from './EditTagModal'
+import { useEditTagModal } from '../hooks/useEditTagModal'
+
 
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
+  const editTagModalHooks = useEditTagModal()
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -19,14 +22,18 @@ export const TagTable: React.FC = () => {
     fetchInitialData()
   }, [])
 
+  const handleClose = () => {
+    editTagModalHooks.handleClose()
+  }
+
   return (
     <>
+
       <Title>投稿記事一覧</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>名前</TableCell>
-            {/* <TableCell align="right">アクセス数</TableCell> */}
             <TableCell></TableCell>
             <TableCell></TableCell>
           </TableRow>
@@ -35,13 +42,22 @@ export const TagTable: React.FC = () => {
           {fetchTagsHooks.tags.map((tag) => (
             <TableRow key={tag.id}>
               <TableCell>{tag.name}</TableCell>
-              {/* <TableCell align="right">{`${article.count}`}</TableCell> */}
               <TableCell>
-                <RouterLink to={`/admin/tag/edit/${tag.id}`}>
-                  <Button variant="contained" color="success" size="small">
-                    編集
-                  </Button>
-                </RouterLink>
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="small"
+                  onClick={ () => {
+                    editTagModalHooks.handleOpen() 
+                  }}
+                >
+                  編集
+                </Button>
+                <EditTagModal
+                  isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
+                  handleClose={ () => {handleClose() }}
+                  tag={tag}
+                />
               </TableCell>
               <TableCell>
                 <Button variant="contained" color="error" size="small">
