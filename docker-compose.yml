@@ -53,3 +53,17 @@ services:
       MINIO_SECRET_KEY: secret_key
       MINIO_DEFAULT_BUCKETS: uploads:public
     command: server /export --address :9999 --console-address :9001
+
+  create-bucket:
+    image: minio/mc
+    entrypoint: [ "" ]
+    command:
+      - /bin/sh
+      - -c
+      - |
+        server /data --console-address :9001
+        until (mc config host add minio http://minio:9999 access_key secret_key) do echo 'wait until add host' && sleep 1; done;
+        mc mb minio/uploads
+        mc anonymous set public minio/uploads
+    depends_on:
+      - minio
