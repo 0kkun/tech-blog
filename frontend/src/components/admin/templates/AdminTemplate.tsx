@@ -215,6 +215,14 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
                 <ListItemText primary="下書一覧" />
               </ListItemButton>
             </RouterLink>
+            <RouterLink to="/admin/tag" className={classes.link}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <BorderColorIcon />
+                </ListItemIcon>
+                <ListItemText primary="タグ一覧" />
+              </ListItemButton>
+            </RouterLink>
           </List>
         </Drawer>
         <Box

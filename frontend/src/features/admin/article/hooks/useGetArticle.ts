@@ -5,10 +5,10 @@ import { Article } from '../types/article'
 export const useGetArticle = () => {
   const [article, setArticle] = useState<Article>()
 
-  const getArticle = async (article_id: number) => {
+  const getArticle = async (articleId: number): Promise<Article | undefined> => {
     let response
     try {
-      response = await sendGetArticleApi(article_id)
+      response = await sendGetArticleApi(articleId)
       if (response.status === 200) {
         // レスポンスデータを状態として更新
         setArticle(response.data as Article)

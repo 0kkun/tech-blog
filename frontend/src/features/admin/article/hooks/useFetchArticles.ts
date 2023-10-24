@@ -5,10 +5,10 @@ import { Article } from '../types/article'
 export const useFetchArticles = () => {
   const [articles, setArticles] = useState<Article[]>([])
 
-  const fetchArticles = async () => {
+  const fetchArticles = async (isPublished: boolean) => {
     let response
     try {
-      response = await sendFetchArticlesApi()
+      response = await sendFetchArticlesApi(isPublished)
       if (response.status === 200) {
         // レスポンスデータを状態として更新
         setArticles(response.data as Article[])

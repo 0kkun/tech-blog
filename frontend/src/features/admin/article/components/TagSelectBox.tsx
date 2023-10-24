@@ -1,16 +1,25 @@
 import React from 'react'
 import { Paper, Box, TextField, Autocomplete, Stack } from '@mui/material'
 import { Tag } from '../types/article'
-import { Control, Controller, FieldValues } from 'react-hook-form'
+import { Control, Controller, FieldValues, UseFormGetValues } from 'react-hook-form'
 
 interface Props {
   label: string
   name: string
   tags: Tag[]
   control: Control<FieldValues, any>
+  getValues?: UseFormGetValues<FieldValues>
 }
 
-export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) => {
+export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control, getValues }) => {
+  const initData = () => {
+    if (getValues) {
+      const values = getValues()
+      const initSelectedTags = values.selectedTags
+      return initSelectedTags ? initSelectedTags : []
+    }
+  }
+
   return (
     <>
       <Paper
@@ -36,7 +45,10 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) =>
                 options={tags}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 getOptionLabel={(option) => option.name}
-                onChange={(_e, newValue) => field.onChange(newValue)}
+                value={initData()}
+                onChange={(_e, newValue) => {
+                  field.onChange(newValue)
+                }}
                 renderOption={(props, option) => {
                   return (
                     <Box component="li" {...props} key={option.id}>
@@ -45,7 +57,15 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) =>
                   )
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} variant="standard" label={label} placeholder="search" />
+                  <TextField
+                    {...params}
+                    onChange={() => {
+                      console.log('値が変更されました')
+                    }}
+                    variant="standard"
+                    label={label}
+                    placeholder="search"
+                  />
                 )}
               />
             )}

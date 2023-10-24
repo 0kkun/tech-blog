@@ -9,7 +9,7 @@ def setup_cors(app: FastAPI):
         allow_origins=[
             # 許可するオリジンをここに追加する
             Env.APP_URL,
-            Env.FRRONT_URL
+            Env.FRRONT_URL,
         ],
         allow_methods=["*"],
         allow_headers=["*"],

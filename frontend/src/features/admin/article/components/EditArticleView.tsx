@@ -6,21 +6,33 @@ import { MarkdownPreview } from './MarkdownPreview'
 import { TagSelectBox } from './TagSelectBox'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
-import { useFetchTags } from '../../tag/hooks/useFetchTags'
+import { useParams } from 'react-router-dom'
+import { useGetArticle } from '../hooks/useGetArticle'
 
-/**
- * NOTE: Gridについて
- * xs : 横幅の指定。合計12になるように比率を指定する
- *
- * NOTE: SyntaxHighlighterのstyleについて
- * https://react-syntax-highlighter.github.io/react-syntax-highlighter/demo/prism.html
- */
-export const CreateArticleView: React.FC = () => {
+export const EditArticleView: React.FC = () => {
   const putArticleHooks = usePutArticle()
-  const fetchTagsHooks = useFetchTags()
+  const getArticleHooks = useGetArticle()
 
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
+
+  // パスパラメータからarticleIdを取得
+  const { articleId } = useParams<{ articleId: string }>()
+
+  // 初回遷移時に表示するデータを取得する
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      if (articleId) {
+        const article = await getArticleHooks.getArticle(Number(articleId))
+        if (article) {
+          putArticleHooks.setValue('inputText', article.content)
+          putArticleHooks.setValue('selectedTags', article.tags)
+          putArticleHooks.setValue('title', article.title)
+        }
+      }
+    }
+    fetchInitialData()
+  }, [])
 
   const paperStyle = {
     p: 2,
@@ -28,20 +40,16 @@ export const CreateArticleView: React.FC = () => {
     flexDirection: 'column',
     minHeight: 650,
   }
-
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        await fetchTagsHooks.fetchTags()
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchInitialData()
-  }, [])
+  const tags = [
+    { id: 1, name: 'Laravel' },
+    { id: 2, name: 'PHP' },
+    { id: 3, name: 'Typescript' },
+  ]
 
   const onSubmit = async (isPublished: boolean) => {
-    await putArticleHooks.putArticles(isPublished)
+    if (articleId) {
+      await putArticleHooks.putArticles(isPublished, Number(articleId))
+    }
   }
 
   const handleClear = () => {
@@ -57,8 +65,9 @@ export const CreateArticleView: React.FC = () => {
               <TagSelectBox
                 label="タグ選択"
                 name="selectedTags"
-                tags={fetchTagsHooks.tags}
+                tags={tags}
                 control={putArticleHooks.control}
+                getValues={putArticleHooks.getValues}
               />
             </Grid>
             <Grid item xs={4} sx={{ marginTop: 1 }}>
@@ -84,7 +93,7 @@ export const CreateArticleView: React.FC = () => {
                       handleClear()
                     }}
                   >
-                    クリア
+                    削除
                   </Button>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: 1 }}>
@@ -108,7 +117,7 @@ export const CreateArticleView: React.FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={6} md={3} lg={6}>
             <Paper sx={paperStyle}>
-              <Title>新規記事入力</Title>
+              <Title>記事編集入力</Title>
               <Box sx={{ marginBottom: 2, display: 'flex' }}>
                 <BasicInputField
                   name="title"

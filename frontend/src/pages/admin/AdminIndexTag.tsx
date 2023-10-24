@@ -2,10 +2,10 @@ import { FC } from 'react'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
-import { ArticleTable } from '../../features/admin/article/components/ArticleTable'
+import { TagTable } from '../../features/admin/tag/components/TagTable'
 
-// 記事一覧画面
-export const AdminIndexArticle: FC = () => {
+// タグ一覧画面
+export const AdminIndexTag: FC = () => {
   return (
     <>
       <AdminTemplate title="管理画面">
@@ -13,7 +13,7 @@ export const AdminIndexArticle: FC = () => {
           {/* Recent Articles */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <ArticleTable />
+              <TagTable />
             </Paper>
           </Grid>
         </Grid>

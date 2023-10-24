@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import select
 from typing import Optional, List
 from app.core.models.article import ArticlePutRequest, Article
@@ -28,6 +28,7 @@ class ArticleRepository:
             article_data.target_year = now.year
             article_data.target_month = now.month
             article_data.is_published = request.is_published
+            article_data.updated_at = now
 
             db.add(article_data)
             db.flush()
@@ -35,11 +36,13 @@ class ArticleRepository:
         else:
             # 新規作成
             article = ArticleOrm(
-                title=request.title,
-                content=request.content,
-                target_year=now.year,
-                target_month=now.month,
-                is_published=request.is_published,
+                title = request.title,
+                content = request.content,
+                target_year = now.year,
+                target_month = now.month,
+                is_published = request.is_published,
+                created_at = now,
+                updated_at = now,
             )
             db.add(article)
             db.flush()
@@ -64,15 +67,16 @@ class ArticleRepository:
         return Article.from_orm(article)
 
 
-    def fetchPublishedArticle(
+    def fetch_article(
         self,
         db: Session,
+        is_published: bool,
     ) -> Optional[List[Article]]:
         """
             記事一覧取得
         """
         articles = db.query(ArticleOrm).filter(
-            ArticleOrm.is_published == True,
+            ArticleOrm.is_published == is_published,
         ).all()
         article_list = [Article.from_orm(article) for article in articles]
         return article_list
@@ -92,5 +96,4 @@ class ArticleRepository:
 
         if article is None:
             raise ValueError('Article does not exist')
-        
         db.delete(article)

@@ -1,7 +1,8 @@
 import logging
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import Annotated, Optional, List
-from app.core.models.article import Article, ArticlePutRequest
+from app.core.models.article import Article, ArticlePutRequest, ArticleGetResponse
+from app.core.models.success_response import SuccessResponse
 from app.core.services.article_service import ArticleService
 from app.infrastructure.database.database import SessionLocal
 from util.error_log import get_error_log_info
@@ -13,11 +14,12 @@ _logger = logging.getLogger(__name__)
 @router.get("/v1/articles", summary="記事一覧取得", tags=["article"])
 async def fetch_article(
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> Optional[List[Article]]:
+    is_published: bool = Query(..., description="is_published parameter to filter articles"),
+) ->  List[ArticleGetResponse]:
     _logger.info("article fetch api start")
     try:
         with SessionLocal.begin() as db:
-            articles = article_service.fetch(db)
+            articles = article_service.fetch(db, is_published)
 
         return articles
 
@@ -31,13 +33,13 @@ async def fetch_article(
 async def put_article(
     request: ArticlePutRequest,
     article_service: Annotated[ArticleService, Depends(ArticleService)]
-) -> Article:
+) -> SuccessResponse:
     _logger.info("article put api start")
     try:
         with SessionLocal.begin() as db:
-            article = article_service.put(db, request)
+            article_service.put(db, request)
 
-        return article
+        return SuccessResponse(message='created or updated')
 
     except HTTPException as e:
         _logger.exception(str(e))
@@ -45,12 +47,11 @@ async def put_article(
         raise HTTPException(status_code=500, detail=f"{message}")
 
 
-
 @router.get("/v1/articles/{article_id}", summary="記事取得", tags=["article"])
 async def get_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> Article:
+) -> ArticleGetResponse:
     _logger.info("article get api start")
     try:
         with SessionLocal.begin() as db:
@@ -64,19 +65,17 @@ async def get_article(
         raise HTTPException(status_code=500, detail=f"{message}")
 
 
-
-
 @router.delete("/v1/articles/{article_id}", summary="記事を1件削除", tags=["article"])
-async def fetch_article(
+async def delete_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> Article:
+) -> SuccessResponse:
     _logger.info("article delete api start")
     try:
         with SessionLocal.begin() as db:
             article_service.delete(db, article_id)
 
-        return {"message": "deleted"}
+        return SuccessResponse(message='deleted')
 
     except HTTPException as e:
         _logger.exception(str(e))
