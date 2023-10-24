@@ -41,3 +41,15 @@ services:
     ports:
       - ${FRONT_HOST_PORT}:3000
     stdin_open: true
+
+  minio:
+    container_name: ${PROJECT_NAME}_minio
+    image: minio/minio
+    ports:
+      - ${MINIO_HOST_PORT1}:9999
+      - ${MINIO_HOST_PORT2}:9001
+    environment:
+      MINIO_ACCESS_KEY: access_key
+      MINIO_SECRET_KEY: secret_key
+      MINIO_DEFAULT_BUCKETS: uploads:public
+    command: server /export --address :9999 --console-address :9001
