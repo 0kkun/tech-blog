@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableRow, Button, TableContainer } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Button,
+  TableContainer,
+} from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { useFetchArticles } from '../../article/hooks/useFetchArticles'
 import { formatDateTime } from '../../../../libs/date'
@@ -52,7 +60,6 @@ export const DraftArticleTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-
     </>
   )
 }

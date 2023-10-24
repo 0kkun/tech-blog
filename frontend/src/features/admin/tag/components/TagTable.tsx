@@ -1,5 +1,14 @@
 import React, { useEffect } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableRow, Button, Box, TableContainer } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Button,
+  Box,
+  TableContainer,
+} from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
 import { EditTagModal } from './EditTagModal'
@@ -34,7 +43,7 @@ export const TagTable: React.FC = () => {
 
   const handleEditTagOpen = (tag: Tag) => {
     putTagHooks.setValue('name', tag.name)
-    editTagModalHooks.handleOpen() 
+    editTagModalHooks.handleOpen()
   }
 
   const handleEditTagSubmit = async (tag: Tag) => {
@@ -51,7 +60,7 @@ export const TagTable: React.FC = () => {
 
   const handleCreateTagOpen = () => {
     putTagHooks.reset()
-    createTagModalHooks.handleOpen() 
+    createTagModalHooks.handleOpen()
   }
 
   const handleCreateTagSubmit = async () => {
@@ -65,20 +74,30 @@ export const TagTable: React.FC = () => {
     <>
       <CreateTagModal
         isOpen={createTagModalHooks?.open ? createTagModalHooks.open : false}
-        handleClose={ () => { handleCreateTagModalClose() }}
-        handleSubmit={ () => { handleCreateTagSubmit() }}
-        name='name'
+        handleClose={() => {
+          handleCreateTagModalClose()
+        }}
+        handleSubmit={() => {
+          handleCreateTagSubmit()
+        }}
+        name="name"
         control={putTagHooks.control}
       />
-      <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', paddingBottom: 3 }}>
+      <Box
+        sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', paddingBottom: 3 }}
+      >
         <Title>タグ一覧</Title>
         <Button
-          variant='contained'
-          color='info'
+          variant="contained"
+          color="info"
           size="medium"
           sx={{ width: 100 }}
-          onClick={ () => { handleCreateTagOpen() }}
-        >新規追加</Button>
+          onClick={() => {
+            handleCreateTagOpen()
+          }}
+        >
+          新規追加
+        </Button>
       </Box>
       <TableContainer style={{ maxHeight: TABLE_MAX_HEIGHT }}>
         <Table size="small" stickyHeader>
@@ -98,7 +117,7 @@ export const TagTable: React.FC = () => {
                     variant="contained"
                     color="success"
                     size="small"
-                    onClick={ () => {
+                    onClick={() => {
                       handleEditTagOpen(tag)
                     }}
                   >
@@ -106,9 +125,13 @@ export const TagTable: React.FC = () => {
                   </Button>
                   <EditTagModal
                     isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
-                    handleClose={ () => { handleEditTagModalClose() }}
-                    handleSubmit={ () => { handleEditTagSubmit(tag) }}
-                    name='name'
+                    handleClose={() => {
+                      handleEditTagModalClose()
+                    }}
+                    handleSubmit={() => {
+                      handleEditTagSubmit(tag)
+                    }}
+                    name="name"
                     control={putTagHooks.control}
                   />
                 </TableCell>

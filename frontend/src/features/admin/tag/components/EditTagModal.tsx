@@ -11,7 +11,13 @@ interface Props {
   control: Control<FieldValues, any>
 }
 
-export const EditTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubmit, name, control }) => {
+export const EditTagModal: React.FC<Props> = ({
+  isOpen,
+  handleClose,
+  handleSubmit,
+  name,
+  control,
+}) => {
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -39,16 +45,16 @@ export const EditTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubm
               name={name}
               control={control}
               defaultValue={''}
-              render={({ field }) => (
-                <Input {...field} autoComplete='on'/>
-              )}
+              render={({ field }) => <Input {...field} autoComplete="on" />}
             />
             <Button
               variant="contained"
               color="error"
               size="small"
               sx={{ marginLeft: 3 }}
-              onClick={ () => { handleClose() }}
+              onClick={() => {
+                handleClose()
+              }}
             >
               キャンセル
             </Button>
@@ -57,7 +63,9 @@ export const EditTagModal: React.FC<Props> = ( { isOpen, handleClose, handleSubm
               color="success"
               size="small"
               sx={{ marginLeft: 3 }}
-              onClick={ () => { handleSubmit() }}
+              onClick={() => {
+                handleSubmit()
+              }}
             >
               完了
             </Button>
