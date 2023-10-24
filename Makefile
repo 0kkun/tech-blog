@@ -132,3 +132,7 @@ front-format:
 .PHONY: open_minio
 open_minio:
 	open http://localhost:9001
+
+.PHONY: minio
+minio:
+	$(DEI) $(PROJECT_NAME)_minio bash

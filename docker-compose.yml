@@ -48,9 +48,11 @@ services:
     ports:
       - ${MINIO_HOST_PORT1}:9999
       - ${MINIO_HOST_PORT2}:9001
+    volumes:
+      - ./.docker/minio/data:/export
     environment:
-      MINIO_ACCESS_KEY: access_key
-      MINIO_SECRET_KEY: secret_key
+      MINIO_ROOT_USER: access_key
+      MINIO_ROOT_PASSWORD: secret_key
       MINIO_DEFAULT_BUCKETS: uploads:public
     command: server /export --address :9999 --console-address :9001
 

@@ -50,6 +50,7 @@ export const CreateArticleView: React.FC = () => {
 
   return (
     <>
+      <img src="http://localhost:9999/uploads/test/test.jpg"/>
       <form>
         <Grid container>
           <Grid container spacing={3}>
