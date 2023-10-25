@@ -5,18 +5,18 @@ import datetime
 from app.infrastructure.database.database import Base
 
 
-class ArticleTagOrm(Base):
-    __tablename__ = "articles_tags"
+class ArticleImageOrm(Base):
+    __tablename__ = "articles_images"
 
     id = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
-    article_id = Column(BigInteger, ForeignKey('articles.id', ondelete="CASCADE"), nullable=False) 
-    tag_id = Column(BigInteger, ForeignKey('tags.id', ondelete="CASCADE"), nullable=False) 
+    article_id = Column(BigInteger, ForeignKey('articles.id', ondelete="CASCADE"), nullable=False, comment="記事ID") 
+    image_id = Column(BigInteger, ForeignKey('images.id', ondelete="CASCADE"), nullable=False, comment="画像ID") 
     created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.datetime.now)
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
     )
 
     __table_args__ = (
-        UniqueConstraint('article_id', 'tag_id', name='uq_article_tag'),
-        {"comment": "記事が持つタグを管理するテーブル"}
+        UniqueConstraint('article_id', 'image_id', name='uq_article_image'),
+        {"comment": "記事が持つ画像を管理するテーブル"}
     )
