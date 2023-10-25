@@ -36,7 +36,6 @@ class ArticleTagRepository:
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
 
-
     def get(
         self,
         db: Session,

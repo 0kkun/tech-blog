@@ -67,7 +67,6 @@ export const EditArticleView: React.FC = () => {
                 name="selectedTags"
                 tags={tags}
                 control={putArticleHooks.control}
-                getValues={putArticleHooks.getValues}
               />
             </Grid>
             <Grid item xs={4} sx={{ marginTop: 1 }}>

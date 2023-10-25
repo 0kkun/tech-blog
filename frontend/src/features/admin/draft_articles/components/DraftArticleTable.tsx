@@ -12,6 +12,8 @@ import Title from '../../../../components/admin/elements/Title'
 import { useFetchArticles } from '../../article/hooks/useFetchArticles'
 import { formatDateTime } from '../../../../libs/date'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
+import { Link as RouterLink } from 'react-router-dom'
+
 
 export const DraftArticleTable: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()
@@ -46,9 +48,11 @@ export const DraftArticleTable: React.FC = () => {
                 <TableCell>{formatDateTime(article.created_at)}</TableCell>
                 <TableCell>{article.title}</TableCell>
                 <TableCell>
-                  <Button variant="contained" color="success" size="small">
-                    編集
-                  </Button>
+                  <RouterLink to={`/admin/article/edit/${article.id}`}>
+                    <Button variant="contained" color="success" size="small">
+                      編集
+                    </Button>
+                  </RouterLink>
                 </TableCell>
                 <TableCell>
                   <Button variant="contained" color="error" size="small">

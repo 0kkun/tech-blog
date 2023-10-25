@@ -15,6 +15,3 @@ class ArticleImage(BaseModel):
         orm_mode = True
 
 
-class ArticleImagePutRequest(BaseModel):
-    article_id: int
-    image_ids: List[int]
