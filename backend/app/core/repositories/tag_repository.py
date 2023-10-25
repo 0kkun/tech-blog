@@ -15,7 +15,8 @@ class TagRepository:
         """
             タグを新規作成 or 更新する
         """
-        now = DateTimeGenerator.datetime()
+        datetime = DateTimeGenerator()
+        now = datetime.datetime()
 
         if request.id:
             tag_data = db.query(TagOrm).filter(TagOrm.id == request.id).one_or_none()

@@ -4,9 +4,10 @@ import {
   Box,
 } from '@mui/material'
 import { usePostUpload } from '../hooks/usePostUpload'
+import { PostUploadResponse } from '../types/upload'
 
 interface Props {
-  handleUpSuccess: (imageUrl: string) => void
+  handleUpSuccess: (image: PostUploadResponse) => void
 }
 
 export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
@@ -26,9 +27,9 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
       const selectedFile = files[0]
       const formData = new FormData()
       formData.append('file', selectedFile)
-      const fileUrl = await postUploadHooks.postUpload(formData)
-      if (fileUrl) {
-        handleUpSuccess(fileUrl)
+      const image = await postUploadHooks.postUpload(formData)
+      if (image) {
+        handleUpSuccess(image)
       } else {
         console.error('Upload Failed. null returned.')
       }

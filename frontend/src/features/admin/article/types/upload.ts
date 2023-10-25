@@ -1,3 +1,4 @@
 export type PostUploadResponse = {
-  file_url: string
+  id: number
+  url: string
 }

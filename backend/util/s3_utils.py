@@ -7,7 +7,6 @@ from util.datetime_generator import DateTimeGenerator
 
 
 class S3Client:
-
     def __init__(self):
         self.s3_client = boto3.client(
             's3',

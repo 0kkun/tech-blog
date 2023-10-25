@@ -1,7 +1,7 @@
 import { AxiosError, isAxiosError, AxiosResponse } from 'axios'
 import ApiClient from '../../../../libs/apiClient'
 import { UPLOAD_ENDPOINT } from '../../../../config/apiEndpoints'
-
+import { PostUploadResponse } from '../types/upload'
 
 export const sendPostUploadApi = async (file: FormData): Promise<AxiosResponse> => {
   try {
