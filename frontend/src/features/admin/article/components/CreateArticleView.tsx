@@ -8,7 +8,7 @@ import { BasicInputField } from '../../../../components/admin/elements/BasicInpu
 import { TextArea } from './TextArea'
 import { useFetchTags } from '../../tag/hooks/useFetchTags'
 import { FileUploadUI } from './FileUploadUI'
-import { PostUploadResponse } from '../types/upload'
+import { ImageData } from '../types/image'
 
 /**
  * NOTE: Gridについて
@@ -50,12 +50,21 @@ export const CreateArticleView: React.FC = () => {
     putArticleHooks.reset()
   }
 
-  const handleUpSuccess = (image: PostUploadResponse) => {
+  const handleUpSuccess = (image: ImageData) => {
     // マークダウン形式で画像を追加
     const updatedInputText = inputText + `\n![Image](${image.url})`
     // テキストエリアに更新されたテキストをセット
     putArticleHooks.setValue('inputText', updatedInputText)
-    
+
+    const updatedImages = putArticleHooks.getValues('images')
+    if (updatedImages === undefined) {
+      // 1個目のファイルの処理
+      putArticleHooks.setValue('images', [image])
+    } else {
+      // 2個目以降のファイルの処理
+      updatedImages.push(image)
+      putArticleHooks.setValue('images', updatedImages)
+    }
   }
 
   return (

@@ -18,3 +18,7 @@ class ImagePostRequest(BaseModel):
 class ImagePostResponse(BaseModel):
     id: int
     url: str
+
+class ImageData(BaseModel):
+    id: int
+    url: str

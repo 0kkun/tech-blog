@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 from app.core.models.tag import Tag, TagRequest, TagResponse
 from app.core.models.article_tag import ArticleTagPutRequest
+from app.core.models.image import ImageData
 
 class Article(BaseModel):
     id: int
@@ -25,6 +26,7 @@ class ArticlePutRequest(BaseModel):
     content: str
     is_published: bool
     tags: List[TagRequest]
+    images: Optional[List[ImageData]]
 
 
 class ArticleGetResponse(BaseModel):

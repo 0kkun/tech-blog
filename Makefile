@@ -125,6 +125,9 @@ migrate-file:
 front-format:
 	$(DCE) $(FRONTEND_SERVICE_NAME) bash -c "npm run format"
 
+.PHONY: open-web
+open-web:
+	open http://localhost:3000
 
 # *****************************
 # *          Others           *

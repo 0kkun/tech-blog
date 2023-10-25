@@ -4,14 +4,14 @@ import {
   Box,
 } from '@mui/material'
 import { usePostUpload } from '../hooks/usePostUpload'
-import { PostUploadResponse } from '../types/upload'
+import { ImageData } from '../types/image'
 
 interface Props {
-  handleUpSuccess: (image: PostUploadResponse) => void
+  handleUpSuccess: (image: ImageData) => void
 }
 
 export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const postUploadHooks = usePostUpload()
 
   const handleUploadClick = () => {
@@ -20,8 +20,16 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
     }
   }
 
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      // fileのinput要素が存在していたらリセットする
+      fileInputRef.current.value = ''
+    }
+  }
+
   const onFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+
     if (files && files.length > 0) {
       // ファイルが選択されたらここでファイルを処理する
       const selectedFile = files[0]
@@ -29,6 +37,7 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
       formData.append('file', selectedFile)
       const image = await postUploadHooks.postUpload(formData)
       if (image) {
+        resetFileInput()
         handleUpSuccess(image)
       } else {
         console.error('Upload Failed. null returned.')
