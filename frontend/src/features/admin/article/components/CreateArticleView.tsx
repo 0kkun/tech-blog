@@ -7,6 +7,7 @@ import { TagSelectBox } from './TagSelectBox'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
 import { useFetchTags } from '../../tag/hooks/useFetchTags'
+import { FileUploadUI } from './FileUploadUI'
 
 /**
  * NOTE: Gridについて
@@ -48,9 +49,15 @@ export const CreateArticleView: React.FC = () => {
     putArticleHooks.reset()
   }
 
+  const handleUpSuccess = (imageUrl: string) => {
+    // マークダウン形式で画像を追加
+    const updatedInputText = inputText + `\n![Image](${imageUrl})`
+    // テキストエリアに更新されたテキストをセット
+    putArticleHooks.setValue('inputText', updatedInputText)
+  }
+
   return (
     <>
-      <img src="http://localhost:9999/uploads/test/test.jpg"/>
       <form>
         <Grid container>
           <Grid container spacing={3}>
@@ -116,6 +123,9 @@ export const CreateArticleView: React.FC = () => {
                   placeholder="タイトルを入力"
                   control={putArticleHooks.control}
                 />
+                <Box sx={{ textAlign: 'right' }}>
+                  <FileUploadUI handleUpSuccess={handleUpSuccess}/>
+                </Box>
               </Box>
               <TextArea
                 name="inputText"
