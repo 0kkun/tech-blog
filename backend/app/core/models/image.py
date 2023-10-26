@@ -12,9 +12,6 @@ class Image(BaseModel):
     class Config:
         orm_mode = True
 
-class ImagePostRequest(BaseModel):
-    url: str
-
 class ImagePostResponse(BaseModel):
     id: int
     url: str

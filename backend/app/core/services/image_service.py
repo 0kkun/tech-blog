@@ -1,9 +1,8 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-
-from app.core.models.image import Image, ImagePostRequest
 from app.core.repositories.image_repository import ImageRepository
 from typing import List
+
 
 class ImageService:
     def __init__(
@@ -15,9 +14,9 @@ class ImageService:
     def create(
         self,
         db: Session,
-        request: ImagePostRequest,
+        image_url: str,
     ):
-        return self.image_repository.create(db, request)
+        return self.image_repository.create(db, image_url)
 
     def delete(
         self,

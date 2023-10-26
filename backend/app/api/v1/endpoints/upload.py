@@ -5,7 +5,7 @@ from typing import Annotated, Optional, List
 from util.s3_utils import S3Client
 from app.core.services.image_service import ImageService
 from app.infrastructure.database.database import SessionLocal
-from app.core.models.image import ImagePostRequest, ImagePostResponse
+from app.core.models.image import ImagePostResponse
 
 router = APIRouter()
 _logger = logging.getLogger(__name__)
@@ -32,7 +32,7 @@ async def file_upload(
         file_url = s3_client.upload_file(file=file, dir=dir)
 
         with SessionLocal.begin() as db:
-            image = image_service.create(db, ImagePostRequest(url=file_url))
+            image = image_service.create(db, file_url)
 
         return ImagePostResponse(id=image.id, url=image.url)
 

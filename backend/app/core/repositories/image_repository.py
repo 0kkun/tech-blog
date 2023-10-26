@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import select
 from typing import Optional, List
-from app.core.models.image import Image, ImagePostRequest
+from app.core.models.image import Image
 from app.infrastructure.database.schema_model.image import ImageOrm
 from util.datetime_generator import DateTimeGenerator
 
@@ -10,7 +10,7 @@ class ImageRepository:
     def create(
         self,
         db: Session,
-        request: ImagePostRequest,
+        image_url: str,
     ) -> Image:
         """
             画像urlを保存する
@@ -19,7 +19,7 @@ class ImageRepository:
         now = datetime.datetime()
 
         image = ImageOrm(
-            url = request.url,
+            url = image_url,
             created_at = now,
             updated_at = now,
         )
