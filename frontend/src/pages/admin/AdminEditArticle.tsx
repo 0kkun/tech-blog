@@ -7,7 +7,7 @@ export const AdminEditArticle: FC = () => {
   return (
     <>
       <AdminTemplate title="管理画面">
-      <PutArticleView isEdit={true}/>
+        <PutArticleView isEdit={true} />
       </AdminTemplate>
     </>
   )

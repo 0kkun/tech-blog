@@ -26,7 +26,7 @@ interface Props {
   isEdit: boolean
 }
 
-export const PutArticleView: React.FC< Props> = ({ isEdit }) => {
+export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
   const putArticleHooks = usePutArticle()
   const fetchTagsHooks = useFetchTags()
   const getArticleHooks = useGetArticle()
@@ -34,8 +34,8 @@ export const PutArticleView: React.FC< Props> = ({ isEdit }) => {
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
-  const pageTitle = isEdit ? "記事編集入力" : "新規記事入力"
-  const deleteOrClearBottunText = isEdit ? "削除" : "クリア"
+  const pageTitle = isEdit ? '記事編集入力' : '新規記事入力'
+  const deleteOrClearBottunText = isEdit ? '削除' : 'クリア'
   // パスパラメータからarticleIdを取得
   const { articleId } = useParams<{ articleId: string }>()
   const paperStyle = {
@@ -63,8 +63,10 @@ export const PutArticleView: React.FC< Props> = ({ isEdit }) => {
 
   const onSubmit = async (isPublished: boolean) => {
     if (articleId && isEdit) {
+      // 更新
       await putArticleHooks.putArticles(isPublished, Number(articleId))
     } else {
+      // 新規作成
       await putArticleHooks.putArticles(isPublished)
     }
     handleSnackbarOpen()
@@ -92,13 +94,12 @@ export const PutArticleView: React.FC< Props> = ({ isEdit }) => {
     if (updatedImages === undefined) {
       // 1個目のファイルの処理
       putArticleHooks.setValue('images', [image])
-      handleSnackbarOpen()
     } else {
       // 2個目以降のファイルの処理
       updatedImages.push(image)
       putArticleHooks.setValue('images', updatedImages)
-      handleSnackbarOpen()
     }
+    handleSnackbarOpen()
   }
 
   const handleSnackbarOpen = () => {
@@ -156,7 +157,7 @@ export const PutArticleView: React.FC< Props> = ({ isEdit }) => {
                       }
                     }}
                   >
-                    { deleteOrClearBottunText }
+                    {deleteOrClearBottunText}
                   </Button>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: 1 }}>
