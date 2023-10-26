@@ -6,21 +6,36 @@ import { MarkdownPreview } from './MarkdownPreview'
 import { TagSelectBox } from './TagSelectBox'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
-import { useParams } from 'react-router-dom'
-import { useGetArticle } from '../hooks/useGetArticle'
-import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
+import { useFetchTags } from '../../tag/hooks/useFetchTags'
 import { FileUploadUI } from './FileUploadUI'
 import { ImageData } from '../types/image'
-import { useFetchTags } from '../../tag/hooks/useFetchTags'
+import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
+import { useParams } from 'react-router-dom'
+import { useGetArticle } from '../hooks/useGetArticle'
+import { useDeleteArticle } from '../hooks/useDeleteArticle'
 
+/**
+ * NOTE: Gridについて
+ * xs : 横幅の指定。合計12になるように比率を指定する
+ *
+ * NOTE: SyntaxHighlighterのstyleについて
+ * https://react-syntax-highlighter.github.io/react-syntax-highlighter/demo/prism.html
+ */
 
-export const EditArticleView: React.FC = () => {
+interface Props {
+  isEdit: boolean
+}
+
+export const PutArticleView: React.FC< Props> = ({ isEdit }) => {
   const putArticleHooks = usePutArticle()
-  const getArticleHooks = useGetArticle()
   const fetchTagsHooks = useFetchTags()
+  const getArticleHooks = useGetArticle()
+  const deleteArticleHooks = useDeleteArticle()
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
+  const pageTitle = isEdit ? "記事編集入力" : "新規記事入力"
+  const deleteOrClearBottunText = isEdit ? "削除" : "クリア"
   // パスパラメータからarticleIdを取得
   const { articleId } = useParams<{ articleId: string }>()
   const paperStyle = {
@@ -33,7 +48,8 @@ export const EditArticleView: React.FC = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       await fetchTagsHooks.fetchTags()
-      if (articleId) {
+
+      if (articleId && isEdit) {
         const article = await getArticleHooks.getArticle(Number(articleId))
         if (article) {
           putArticleHooks.setValue('inputText', article.content)
@@ -45,16 +61,25 @@ export const EditArticleView: React.FC = () => {
     fetchInitialData()
   }, [])
 
-
   const onSubmit = async (isPublished: boolean) => {
-    if (articleId) {
+    if (articleId && isEdit) {
       await putArticleHooks.putArticles(isPublished, Number(articleId))
-      handleSnackbarOpen()
+    } else {
+      await putArticleHooks.putArticles(isPublished)
     }
+    handleSnackbarOpen()
   }
 
   const handleClear = () => {
     putArticleHooks.reset()
+  }
+
+  const handleDelete = async () => {
+    // TODO: confirmモーダル出して、ダッシュボードに戻る
+    if (isEdit && articleId) {
+      await deleteArticleHooks.deleteArticle(Number(articleId))
+      handleSnackbarOpen()
+    }
   }
 
   const handleUpSuccess = (image: ImageData) => {
@@ -124,10 +149,14 @@ export const EditArticleView: React.FC = () => {
                     color="error"
                     size="medium"
                     onClick={() => {
-                      handleClear()
+                      if (isEdit) {
+                        handleDelete()
+                      } else {
+                        handleClear()
+                      }
                     }}
                   >
-                    削除
+                    { deleteOrClearBottunText }
                   </Button>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: 1 }}>
@@ -151,7 +180,7 @@ export const EditArticleView: React.FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={6} md={3} lg={6}>
             <Paper sx={paperStyle}>
-              <Title>記事編集入力</Title>
+              <Title>{pageTitle}</Title>
               <Box sx={{ marginBottom: 2, display: 'flex' }}>
                 <BasicInputField
                   name="title"
