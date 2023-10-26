@@ -12,7 +12,7 @@ export const AdminDraftIndexArticle: FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <ArticleTable title='下書一覧' isDraft={true}/>
+              <ArticleTable title="下書一覧" isDraft={true} />
             </Paper>
           </Grid>
         </Grid>

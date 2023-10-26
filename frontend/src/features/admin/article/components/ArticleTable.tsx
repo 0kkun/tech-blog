@@ -16,6 +16,7 @@ import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
 import { useDeleteArticle } from '../hooks/useDeleteArticle'
 import { ConfirmModal } from '../../../../components/admin/elements/ConfirmModal'
 import { Article } from '../types/article'
+import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
 
 interface Props {
   title: string
@@ -27,6 +28,7 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
   const deleteArticleHooks = useDeleteArticle()
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Article>()
+  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -37,14 +39,12 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
         } else {
           await fetchArticlesHooks.fetchArticles(true)
         }
-
       } catch (error) {
         console.log(error)
       }
     }
     fetchInitialData()
   }, [])
-
 
   const handleConfirmModalOpen = (article: Article) => {
     setSelectedArticle(article)
@@ -59,20 +59,40 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
     if (selectedArticle) {
       await deleteArticleHooks.deleteArticle(selectedArticle.id)
       await fetchArticlesHooks.fetchArticles(true)
+      handleSnackbarOpen()
     } else {
       console.error('selectedArticle is undefined.')
     }
     handleConfirmModalClose()
   }
 
+  const handleSnackbarOpen = () => {
+    setIsOpenSnackbar(true)
+  }
+
+  const handleSnackbarClose = () => {
+    setIsOpenSnackbar(false)
+  }
+
   return (
     <>
+      <CustomizedSnackbar
+        isOpen={isOpenSnackbar}
+        handleClose={() => {
+          handleSnackbarClose()
+        }}
+        message="Success!"
+      />
       <ConfirmModal
         isOpen={isOpenConfirmModal}
-        title='削除確認'
-        description='記事を1件削除します。よろしいですか？'
-        handleClose={ () => { handleConfirmModalClose() } }
-        handleSubmit={ () => { handleConfirmSubmit() } }
+        title="削除確認"
+        description="記事を1件削除します。よろしいですか？"
+        handleClose={() => {
+          handleConfirmModalClose()
+        }}
+        handleSubmit={() => {
+          handleConfirmSubmit()
+        }}
       />
       <Title>{title}</Title>
       <TableContainer style={{ maxHeight: TABLE_MAX_HEIGHT }}>
@@ -104,7 +124,9 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
                     variant="contained"
                     color="error"
                     size="small"
-                    onClick={ () => { handleConfirmModalOpen(article) }}
+                    onClick={() => {
+                      handleConfirmModalOpen(article)
+                    }}
                   >
                     削除
                   </Button>

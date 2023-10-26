@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Paper, Grid, Box } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { usePutArticle } from '../hooks/usePutArticle'
@@ -9,6 +9,7 @@ import { TextArea } from './TextArea'
 import { useFetchTags } from '../../tag/hooks/useFetchTags'
 import { FileUploadUI } from './FileUploadUI'
 import { ImageData } from '../types/image'
+import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
 
 /**
  * NOTE: Gridについて
@@ -20,10 +21,9 @@ import { ImageData } from '../types/image'
 export const CreateArticleView: React.FC = () => {
   const putArticleHooks = usePutArticle()
   const fetchTagsHooks = useFetchTags()
-
+  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
-
   const paperStyle = {
     p: 2,
     display: 'flex',
@@ -44,6 +44,7 @@ export const CreateArticleView: React.FC = () => {
 
   const onSubmit = async (isPublished: boolean) => {
     await putArticleHooks.putArticles(isPublished)
+    handleSnackbarOpen()
   }
 
   const handleClear = () => {
@@ -60,15 +61,32 @@ export const CreateArticleView: React.FC = () => {
     if (updatedImages === undefined) {
       // 1個目のファイルの処理
       putArticleHooks.setValue('images', [image])
+      handleSnackbarOpen()
     } else {
       // 2個目以降のファイルの処理
       updatedImages.push(image)
       putArticleHooks.setValue('images', updatedImages)
+      handleSnackbarOpen()
     }
+  }
+
+  const handleSnackbarOpen = () => {
+    setIsOpenSnackbar(true)
+  }
+
+  const handleSnackbarClose = () => {
+    setIsOpenSnackbar(false)
   }
 
   return (
     <>
+      <CustomizedSnackbar
+        isOpen={isOpenSnackbar}
+        handleClose={() => {
+          handleSnackbarClose()
+        }}
+        message="Success!"
+      />
       <form>
         <Grid container>
           <Grid container spacing={3}>

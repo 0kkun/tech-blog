@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Paper, Grid, Box } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
 import { usePutArticle } from '../hooks/usePutArticle'
@@ -8,20 +8,31 @@ import { BasicInputField } from '../../../../components/admin/elements/BasicInpu
 import { TextArea } from './TextArea'
 import { useParams } from 'react-router-dom'
 import { useGetArticle } from '../hooks/useGetArticle'
+import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
+import { FileUploadUI } from './FileUploadUI'
+import { ImageData } from '../types/image'
+import { useFetchTags } from '../../tag/hooks/useFetchTags'
+
 
 export const EditArticleView: React.FC = () => {
   const putArticleHooks = usePutArticle()
   const getArticleHooks = useGetArticle()
-
+  const fetchTagsHooks = useFetchTags()
+  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
-
   // パスパラメータからarticleIdを取得
   const { articleId } = useParams<{ articleId: string }>()
+  const paperStyle = {
+    p: 2,
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 650,
+  }
 
-  // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
+      await fetchTagsHooks.fetchTags()
       if (articleId) {
         const article = await getArticleHooks.getArticle(Number(articleId))
         if (article) {
@@ -34,21 +45,11 @@ export const EditArticleView: React.FC = () => {
     fetchInitialData()
   }, [])
 
-  const paperStyle = {
-    p: 2,
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 650,
-  }
-  const tags = [
-    { id: 1, name: 'Laravel' },
-    { id: 2, name: 'PHP' },
-    { id: 3, name: 'Typescript' },
-  ]
 
   const onSubmit = async (isPublished: boolean) => {
     if (articleId) {
       await putArticleHooks.putArticles(isPublished, Number(articleId))
+      handleSnackbarOpen()
     }
   }
 
@@ -56,8 +57,42 @@ export const EditArticleView: React.FC = () => {
     putArticleHooks.reset()
   }
 
+  const handleUpSuccess = (image: ImageData) => {
+    // マークダウン形式で画像を追加
+    const updatedInputText = inputText + `\n![Image](${image.url})`
+    // テキストエリアに更新されたテキストをセット
+    putArticleHooks.setValue('inputText', updatedInputText)
+
+    const updatedImages = putArticleHooks.getValues('images')
+    if (updatedImages === undefined) {
+      // 1個目のファイルの処理
+      putArticleHooks.setValue('images', [image])
+      handleSnackbarOpen()
+    } else {
+      // 2個目以降のファイルの処理
+      updatedImages.push(image)
+      putArticleHooks.setValue('images', updatedImages)
+      handleSnackbarOpen()
+    }
+  }
+
+  const handleSnackbarOpen = () => {
+    setIsOpenSnackbar(true)
+  }
+
+  const handleSnackbarClose = () => {
+    setIsOpenSnackbar(false)
+  }
+
   return (
     <>
+      <CustomizedSnackbar
+        isOpen={isOpenSnackbar}
+        handleClose={() => {
+          handleSnackbarClose()
+        }}
+        message="Success!"
+      />
       <form>
         <Grid container>
           <Grid container spacing={3}>
@@ -65,7 +100,7 @@ export const EditArticleView: React.FC = () => {
               <TagSelectBox
                 label="タグ選択"
                 name="selectedTags"
-                tags={tags}
+                tags={fetchTagsHooks.tags}
                 control={putArticleHooks.control}
               />
             </Grid>
@@ -123,6 +158,9 @@ export const EditArticleView: React.FC = () => {
                   placeholder="タイトルを入力"
                   control={putArticleHooks.control}
                 />
+                <Box sx={{ textAlign: 'right' }}>
+                  <FileUploadUI handleUpSuccess={handleUpSuccess} />
+                </Box>
               </Box>
               <TextArea
                 name="inputText"

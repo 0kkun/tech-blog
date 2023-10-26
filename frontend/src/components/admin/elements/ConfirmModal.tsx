@@ -10,7 +10,13 @@ export interface Props {
   handleSubmit: () => void
 }
 
-export const ConfirmModal: React.FC<Props> = ({ isOpen, title, description, handleClose, handleSubmit }) => {
+export const ConfirmModal: React.FC<Props> = ({
+  isOpen,
+  title,
+  description,
+  handleClose,
+  handleSubmit,
+}) => {
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -26,7 +32,9 @@ export const ConfirmModal: React.FC<Props> = ({ isOpen, title, description, hand
     <>
       <Modal
         open={isOpen}
-        onClose={ () => { handleClose() }}
+        onClose={() => {
+          handleClose()
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
