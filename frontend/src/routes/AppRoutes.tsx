@@ -8,16 +8,25 @@ import { AdminDraftIndexArticle } from '../pages/admin/AdminDraftIndexArticle'
 import { AdminEditArticle } from '../pages/admin/AdminEditArticle'
 import { AdminIndexTag } from '../pages/admin/AdminIndexTag'
 
+export const PATH = {
+  adminHome: '/admin',
+  adminLogin: '/admin/login',
+  adminArticles: '/admin/articles',
+  adminArticleCreate: '/admin/article/create',
+  adminArticleDrafts: '/admin/article/drafts',
+  adminTag: '/admin/tag',
+}
+
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin" element={<AdminHome />} />
-      <Route path="/admin/articles" element={<AdminIndexArticle />} />
-      <Route path="/admin/article/create" element={<AdminCreateArticle />} />
+      <Route path={PATH.adminLogin} element={<AdminLogin />} />
+      <Route path={PATH.adminHome} element={<AdminHome />} />
+      <Route path={PATH.adminArticles} element={<AdminIndexArticle />} />
+      <Route path={PATH.adminArticleCreate} element={<AdminCreateArticle />} />
       <Route path="/admin/article/edit/:articleId" element={<AdminEditArticle />} />
-      <Route path="/admin/article/drafts" element={<AdminDraftIndexArticle />} />
-      <Route path="/admin/tag" element={<AdminIndexTag />} />
+      <Route path={PATH.adminArticleDrafts} element={<AdminDraftIndexArticle />} />
+      <Route path={PATH.adminTag} element={<AdminIndexTag />} />
       <Route path="/" element={<Home />} />
     </Routes>
   )

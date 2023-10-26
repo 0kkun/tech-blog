@@ -16,6 +16,9 @@ import { CreateTagModal } from './CreateTagModal'
 import { usePutTag } from '../hooks/usePutTag'
 import { Tag } from '../types/tag'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
+import { ConfirmModal } from '../../../../components/admin/elements/ConfirmModal'
+import { useDeleteTag } from '../hooks/useDeleteTag'
+import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
 
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
@@ -24,6 +27,9 @@ export const TagTable: React.FC = () => {
   const [editTagModalOpen, setEditTagModalOpen] = useState(false)
   const [createTagModalOpen, setCreateTagModalOpen] = useState(false)
   const [selectedTag, setSelectedTag] = useState<Tag>()
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const deleteTagHooks = useDeleteTag()
+  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -69,10 +75,57 @@ export const TagTable: React.FC = () => {
     putTagHooks.reset()
     setCreateTagModalOpen(false)
     fetchTagsHooks.fetchTags()
+    handleSnackbarOpen()
+  }
+
+  const handleConfirmModalOpen = (tag: Tag) => {
+    setSelectedTag(tag)
+    setIsOpenConfirmModal(true)
+  }
+
+  const handleConfirmModalClose = () => {
+    setIsOpenConfirmModal(false)
+  }
+
+  const handleConfirmSubmit = async () => {
+    if (selectedTag) {
+      await deleteTagHooks.deleteTag(selectedTag.id)
+      await fetchTagsHooks.fetchTags()
+      handleSnackbarOpen()
+    } else {
+      console.error('selectedTag is undefined.')
+    }
+    handleConfirmModalClose()
+  }
+
+  const handleSnackbarOpen = () => {
+    setIsOpenSnackbar(true)
+  }
+
+  const handleSnackbarClose = () => {
+    setIsOpenSnackbar(false)
   }
 
   return (
     <>
+      <CustomizedSnackbar
+        isOpen={isOpenSnackbar}
+        handleClose={() => {
+          handleSnackbarClose()
+        }}
+        message="Success!"
+      />
+      <ConfirmModal
+        isOpen={isOpenConfirmModal}
+        title="削除確認"
+        description="タグを1件削除します。よろしいですか？"
+        handleClose={() => {
+          handleConfirmModalClose()
+        }}
+        handleSubmit={() => {
+          handleConfirmSubmit()
+        }}
+      />
       <CreateTagModal
         isOpen={createTagModalOpen}
         handleClose={() => {
@@ -139,7 +192,14 @@ export const TagTable: React.FC = () => {
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <Button variant="contained" color="error" size="small">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    onClick={() => {
+                      handleConfirmModalOpen(tag)
+                    }}
+                  >
                     削除
                   </Button>
                 </TableCell>

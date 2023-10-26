@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -14,19 +13,32 @@ import { useFetchArticles } from '../hooks/useFetchArticles'
 import { formatDateTime } from '../../../../libs/date'
 import { Link as RouterLink } from 'react-router-dom'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
+import { useDeleteArticle } from '../hooks/useDeleteArticle'
+import { ConfirmModal } from '../../../../components/admin/elements/ConfirmModal'
+import { Article } from '../types/article'
+import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
 
-const preventDefault = (event: React.MouseEvent) => {
-  event.preventDefault()
+interface Props {
+  title: string
+  isDraft: boolean
 }
 
-export const ArticleTable: React.FC = () => {
+export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
   const fetchArticlesHooks = useFetchArticles()
+  const deleteArticleHooks = useDeleteArticle()
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [selectedArticle, setSelectedArticle] = useState<Article>()
+  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        await fetchArticlesHooks.fetchArticles(true)
+        if (isDraft) {
+          await fetchArticlesHooks.fetchArticles(false)
+        } else {
+          await fetchArticlesHooks.fetchArticles(true)
+        }
       } catch (error) {
         console.log(error)
       }
@@ -34,9 +46,55 @@ export const ArticleTable: React.FC = () => {
     fetchInitialData()
   }, [])
 
+  const handleConfirmModalOpen = (article: Article) => {
+    setSelectedArticle(article)
+    setIsOpenConfirmModal(true)
+  }
+
+  const handleConfirmModalClose = () => {
+    setIsOpenConfirmModal(false)
+  }
+
+  const handleConfirmSubmit = async () => {
+    if (selectedArticle) {
+      await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      await fetchArticlesHooks.fetchArticles(true)
+      handleSnackbarOpen()
+    } else {
+      console.error('selectedArticle is undefined.')
+    }
+    handleConfirmModalClose()
+  }
+
+  const handleSnackbarOpen = () => {
+    setIsOpenSnackbar(true)
+  }
+
+  const handleSnackbarClose = () => {
+    setIsOpenSnackbar(false)
+  }
+
   return (
     <>
-      <Title>投稿記事一覧</Title>
+      <CustomizedSnackbar
+        isOpen={isOpenSnackbar}
+        handleClose={() => {
+          handleSnackbarClose()
+        }}
+        message="Success!"
+      />
+      <ConfirmModal
+        isOpen={isOpenConfirmModal}
+        title="削除確認"
+        description="記事を1件削除します。よろしいですか？"
+        handleClose={() => {
+          handleConfirmModalClose()
+        }}
+        handleSubmit={() => {
+          handleConfirmSubmit()
+        }}
+      />
+      <Title>{title}</Title>
       <TableContainer style={{ maxHeight: TABLE_MAX_HEIGHT }}>
         <Table size="small" stickyHeader>
           <TableHead>
@@ -62,7 +120,14 @@ export const ArticleTable: React.FC = () => {
                   </RouterLink>
                 </TableCell>
                 <TableCell>
-                  <Button variant="contained" color="error" size="small">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    onClick={() => {
+                      handleConfirmModalOpen(article)
+                    }}
+                  >
                     削除
                   </Button>
                 </TableCell>
@@ -71,10 +136,6 @@ export const ArticleTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more articles
-      </Link>
     </>
   )
 }

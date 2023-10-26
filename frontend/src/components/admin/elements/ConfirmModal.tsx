@@ -1,22 +1,21 @@
 import React from 'react'
-import { Modal, Box, Input, Button } from '@mui/material'
-import Title from '../../../../components/admin/elements/Title'
-import { Control, Controller, FieldValues } from 'react-hook-form'
+import { Modal, Box, Button } from '@mui/material'
+import Title from './Title'
 
-interface Props {
+export interface Props {
   isOpen: boolean
+  title: string
+  description: string
   handleClose: () => void
   handleSubmit: () => void
-  name: string
-  control: Control<FieldValues, any>
 }
 
-export const CreateTagModal: React.FC<Props> = ({
+export const ConfirmModal: React.FC<Props> = ({
   isOpen,
+  title,
+  description,
   handleClose,
   handleSubmit,
-  name,
-  control,
 }) => {
   const style = {
     position: 'absolute' as 'absolute',
@@ -33,24 +32,20 @@ export const CreateTagModal: React.FC<Props> = ({
     <>
       <Modal
         open={isOpen}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose()
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Title>タグ新規追加</Title>
-          <Box id="modal-modal-description" sx={{ mt: 2 }}>
-            <Controller
-              name={name}
-              control={control}
-              defaultValue={''}
-              render={({ field }) => <Input {...field} autoComplete="on" />}
-            />
+          <Title>{title}</Title>
+          <Box>{description}</Box>
+          <Box id="modal-modal-description" sx={{ mt: 2, textAlign: 'center' }}>
             <Button
               variant="contained"
               color="error"
               size="small"
-              sx={{ marginLeft: 3 }}
               onClick={() => {
                 handleClose()
               }}
@@ -66,7 +61,7 @@ export const CreateTagModal: React.FC<Props> = ({
                 handleSubmit()
               }}
             >
-              追加
+              実行
             </Button>
           </Box>
         </Box>
