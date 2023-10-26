@@ -13,7 +13,7 @@ export const AdminIndexArticle: FC = () => {
           {/* Recent Articles */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <ArticleTable />
+              <ArticleTable title='投稿記事一覧' isDraft={false}/>
             </Paper>
           </Grid>
         </Grid>
