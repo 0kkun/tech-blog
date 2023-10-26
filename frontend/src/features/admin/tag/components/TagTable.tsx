@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -13,17 +13,17 @@ import Title from '../../../../components/admin/elements/Title'
 import { useFetchTags } from '../hooks/useFetchTags'
 import { EditTagModal } from './EditTagModal'
 import { CreateTagModal } from './CreateTagModal'
-import { useEditTagModal } from '../hooks/useEditTagModal'
-import { useCreateTagModal } from '../hooks/useCreateTagModal'
 import { usePutTag } from '../hooks/usePutTag'
 import { Tag } from '../types/tag'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
 
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
-  const editTagModalHooks = useEditTagModal()
-  const createTagModalHooks = useCreateTagModal()
   const putTagHooks = usePutTag()
+
+  const [editTagModalOpen, setEditTagModalOpen] = useState(false)
+  const [createTagModalOpen, setCreateTagModalOpen] = useState(false)
+  const [selectedTag, setSelectedTag] = useState<Tag>()
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -38,12 +38,13 @@ export const TagTable: React.FC = () => {
   }, [])
 
   const handleEditTagModalClose = () => {
-    editTagModalHooks.handleClose()
+    setEditTagModalOpen(false)
   }
 
   const handleEditTagOpen = (tag: Tag) => {
     putTagHooks.setValue('name', tag.name)
-    editTagModalHooks.handleOpen()
+    setSelectedTag(tag)
+    setEditTagModalOpen(true)
   }
 
   const handleEditTagSubmit = async (tag: Tag) => {
@@ -55,30 +56,43 @@ export const TagTable: React.FC = () => {
 
   const handleCreateTagModalClose = () => {
     putTagHooks.reset()
-    createTagModalHooks.handleClose()
+    setCreateTagModalOpen(false)
   }
 
   const handleCreateTagOpen = () => {
     putTagHooks.reset()
-    createTagModalHooks.handleOpen()
+    setCreateTagModalOpen(true)
   }
 
   const handleCreateTagSubmit = async () => {
     putTagHooks.putTag()
     putTagHooks.reset()
-    handleCreateTagModalClose()
+    setCreateTagModalOpen(false)
     fetchTagsHooks.fetchTags()
   }
 
   return (
     <>
       <CreateTagModal
-        isOpen={createTagModalHooks?.open ? createTagModalHooks.open : false}
+        isOpen={createTagModalOpen}
         handleClose={() => {
           handleCreateTagModalClose()
         }}
         handleSubmit={() => {
           handleCreateTagSubmit()
+        }}
+        name="name"
+        control={putTagHooks.control}
+      />
+      <EditTagModal
+        isOpen={editTagModalOpen}
+        handleClose={() => {
+          handleEditTagModalClose()
+        }}
+        handleSubmit={() => {
+          if (selectedTag) {
+            handleEditTagSubmit(selectedTag)
+          }
         }}
         name="name"
         control={putTagHooks.control}
@@ -123,17 +137,6 @@ export const TagTable: React.FC = () => {
                   >
                     編集
                   </Button>
-                  <EditTagModal
-                    isOpen={editTagModalHooks?.open ? editTagModalHooks.open : false}
-                    handleClose={() => {
-                      handleEditTagModalClose()
-                    }}
-                    handleSubmit={() => {
-                      handleEditTagSubmit(tag)
-                    }}
-                    name="name"
-                    control={putTagHooks.control}
-                  />
                 </TableCell>
                 <TableCell>
                   <Button variant="contained" color="error" size="small">

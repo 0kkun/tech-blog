@@ -24,3 +24,6 @@ SQLAlchemy>=1.4.48
 mysqlclient==2.1.1
 SQLAlchemy-Utils==0.41.1
 databases==0.4.2
+
+# aws service
+boto3>=1.28.69

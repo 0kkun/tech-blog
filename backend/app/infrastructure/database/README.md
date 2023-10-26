@@ -16,3 +16,8 @@
     ```
 
 4. `make migrate` を実行するとmigrationに沿ったテーブルが生成される
+
+
+## rollbackの方法
+
+`make migrate-rollback`を実行し、負の値 (-1など)を入力する

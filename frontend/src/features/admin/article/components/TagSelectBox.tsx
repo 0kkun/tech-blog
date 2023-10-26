@@ -1,25 +1,16 @@
 import React from 'react'
 import { Paper, Box, TextField, Autocomplete, Stack } from '@mui/material'
 import { Tag } from '../types/article'
-import { Control, Controller, FieldValues, UseFormGetValues } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 
 interface Props {
   label: string
   name: string
   tags: Tag[]
   control: Control<FieldValues, any>
-  getValues?: UseFormGetValues<FieldValues>
 }
 
-export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control, getValues }) => {
-  const initData = () => {
-    if (getValues) {
-      const values = getValues()
-      const initSelectedTags = values.selectedTags
-      return initSelectedTags ? initSelectedTags : []
-    }
-  }
-
+export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) => {
   return (
     <>
       <Paper
@@ -45,7 +36,7 @@ export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control, getV
                 options={tags}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 getOptionLabel={(option) => option.name}
-                value={initData()}
+                value={field.value}
                 onChange={(_e, newValue) => {
                   field.onChange(newValue)
                 }}

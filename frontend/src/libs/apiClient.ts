@@ -6,6 +6,7 @@ interface ApiClientInterface {
   put(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>
   patch(url: string, data?: object, config?: AxiosRequestConfig): Promise<AxiosResponse>
   delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>
+  postFormData(url: string, file: FormData, config?: AxiosRequestConfig): Promise<AxiosResponse>
 }
 
 class ApiClient implements ApiClientInterface {
@@ -41,6 +42,21 @@ class ApiClient implements ApiClientInterface {
 
   public delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
     return this.instance.delete(url, config)
+  }
+
+  public postFormData(
+    url: string,
+    file: FormData,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse> {
+    const updatedConfig: AxiosRequestConfig = {
+      ...config,
+      headers: {
+        ...config?.headers,
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    return this.instance.post(url, file, updatedConfig)
   }
 }
 

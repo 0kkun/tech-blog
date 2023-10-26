@@ -6,6 +6,8 @@ import { Chart } from '../../features/admin/chart/components/Chart'
 import { AccessCountBox } from '../../features/admin/access_counts/components/AccessCountBox'
 import { ArticleTable } from '../../features/admin/article/components/ArticleTable'
 
+// NOTE: アクセス数の他に、記事の投稿数、タグごとの記事の本数のグラフがあってもいいかも
+
 export const AdminHome: FC = () => {
   const accessCount = {
     totalAccessCount: 3024,

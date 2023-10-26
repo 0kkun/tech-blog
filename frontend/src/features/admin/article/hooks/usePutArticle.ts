@@ -25,6 +25,7 @@ export const usePutArticle = () => {
         content: values.inputText,
         is_published: isPublished,
         tags: values.selectedTags,
+        images: values?.images,
       }
       console.log(request)
       response = await sendPutArticleApi(request)

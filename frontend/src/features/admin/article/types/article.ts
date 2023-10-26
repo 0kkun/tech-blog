@@ -1,3 +1,5 @@
+import { ImageData } from './image'
+
 export type Article = {
   id: number
   title: string
@@ -8,6 +10,7 @@ export type Article = {
   target_month: number
   target_year: number
   tags: Tag[]
+  images?: ImageData[]
 }
 
 export type PutArticleRequest = {
@@ -16,6 +19,7 @@ export type PutArticleRequest = {
   content: string
   is_published: boolean
   tags: Tag[]
+  images?: ImageData[]
 }
 
 export type Tag = {

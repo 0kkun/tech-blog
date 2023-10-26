@@ -15,7 +15,8 @@ class ArticleRepository:
         """
             記事を新規作成 or 更新する
         """
-        now = DateTimeGenerator.datetime()
+        datetime = DateTimeGenerator()
+        now = datetime.datetime()
 
         if request.id:
             article_data = db.query(ArticleOrm).filter(ArticleOrm.id == request.id).one_or_none()

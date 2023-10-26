@@ -7,6 +7,7 @@ from app.core.models.article_tag import ArticleTag
 from app.core.repositories.article_repository import ArticleRepository
 from app.core.repositories.article_tag_repository import ArticleTagRepository
 from app.core.repositories.tag_repository import TagRepository
+from app.core.repositories.article_image_repository import ArticleImageRepository
 from typing import List
 
 class ArticleService:
@@ -15,10 +16,12 @@ class ArticleService:
         article_repository: ArticleRepository = Depends(ArticleRepository),
         article_tag_repository: ArticleTagRepository = Depends(ArticleTagRepository),
         tag_repository: TagRepository = Depends(TagRepository),
+        article_image_repository: ArticleImageRepository = Depends(ArticleImageRepository),
     ):
         self.article_repository = article_repository
         self.article_tag_repository = article_tag_repository
         self.tag_repository = tag_repository
+        self.article_image_repository = article_image_repository
 
     def put(
         self,
@@ -28,9 +31,12 @@ class ArticleService:
         article = self.article_repository.put(db, request)
         if request.tags:
             # 新規作成の場合は生成したてのレコードのidを挿入する必要がある
-            request.id = article.id
             tag_ids = [tag.id for tag in request.tags]
-            self.article_tag_repository.put(db, request.id, tag_ids)
+            self.article_tag_repository.put(db, article.id, tag_ids)
+
+        if request.images:
+            image_ids = [image.id for image in request.images]
+            self.article_image_repository.put(db, article.id, image_ids)
 
     def get(
         self,

@@ -124,3 +124,18 @@ migrate-file:
 .PHONY: front-format
 front-format:
 	$(DCE) $(FRONTEND_SERVICE_NAME) bash -c "npm run format"
+
+.PHONY: open-web
+open-web:
+	open http://localhost:3000
+
+# *****************************
+# *          Others           *
+# *****************************
+.PHONY: open_minio
+open_minio:
+	open http://localhost:9001
+
+.PHONY: minio
+minio:
+	$(DEI) $(PROJECT_NAME)_minio bash
