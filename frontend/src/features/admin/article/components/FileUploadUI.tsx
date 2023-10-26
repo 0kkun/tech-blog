@@ -1,8 +1,5 @@
 import React, { useRef } from 'react'
-import {
-  Button,
-  Box,
-} from '@mui/material'
+import { Button, Box } from '@mui/material'
 import { usePostUpload } from '../hooks/usePostUpload'
 import { ImageData } from '../types/image'
 
@@ -50,9 +47,11 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
       <Box>
         <Button
           variant="contained"
-          color='info'
+          color="info"
           sx={{ marginLeft: 2, width: '100px' }}
-          onClick={() => { handleUploadClick() }}
+          onClick={() => {
+            handleUploadClick()
+          }}
         >
           画像添付
         </Button>
@@ -60,7 +59,9 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
           hidden
           ref={fileInputRef}
           type="file"
-          onChange={ (e) => { onFileInputChange(e) }}
+          onChange={(e) => {
+            onFileInputChange(e)
+          }}
         />
       </Box>
     </>

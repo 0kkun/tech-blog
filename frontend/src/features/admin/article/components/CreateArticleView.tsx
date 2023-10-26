@@ -135,7 +135,7 @@ export const CreateArticleView: React.FC = () => {
                   control={putArticleHooks.control}
                 />
                 <Box sx={{ textAlign: 'right' }}>
-                  <FileUploadUI handleUpSuccess={handleUpSuccess}/>
+                  <FileUploadUI handleUpSuccess={handleUpSuccess} />
                 </Box>
               </Box>
               <TextArea

@@ -11,7 +11,6 @@ interface Props {
 }
 
 export const TagSelectBox: React.FC<Props> = ({ label, name, tags, control }) => {
-
   return (
     <>
       <Paper

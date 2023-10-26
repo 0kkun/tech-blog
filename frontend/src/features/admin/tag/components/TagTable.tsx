@@ -17,7 +17,6 @@ import { usePutTag } from '../hooks/usePutTag'
 import { Tag } from '../types/tag'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
 
-
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
   const putTagHooks = usePutTag()
@@ -25,7 +24,6 @@ export const TagTable: React.FC = () => {
   const [editTagModalOpen, setEditTagModalOpen] = useState(false)
   const [createTagModalOpen, setCreateTagModalOpen] = useState(false)
   const [selectedTag, setSelectedTag] = useState<Tag>()
-
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -47,7 +45,6 @@ export const TagTable: React.FC = () => {
     putTagHooks.setValue('name', tag.name)
     setSelectedTag(tag)
     setEditTagModalOpen(true)
-    
   }
 
   const handleEditTagSubmit = async (tag: Tag) => {

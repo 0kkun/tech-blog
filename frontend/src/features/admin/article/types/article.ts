@@ -1,4 +1,4 @@
-import { ImageData } from "./image"
+import { ImageData } from './image'
 
 export type Article = {
   id: number

@@ -14,7 +14,6 @@ import { formatDateTime } from '../../../../libs/date'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
 import { Link as RouterLink } from 'react-router-dom'
 
-
 export const DraftArticleTable: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()
 

@@ -44,7 +44,11 @@ class ApiClient implements ApiClientInterface {
     return this.instance.delete(url, config)
   }
 
-  public postFormData(url: string, file: FormData, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+  public postFormData(
+    url: string,
+    file: FormData,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse> {
     const updatedConfig: AxiosRequestConfig = {
       ...config,
       headers: {
