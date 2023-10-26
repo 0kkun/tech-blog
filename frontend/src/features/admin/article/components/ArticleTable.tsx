@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -17,10 +16,6 @@ import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
 import { useDeleteArticle } from '../hooks/useDeleteArticle'
 import { ConfirmModal } from '../../../../components/admin/elements/ConfirmModal'
 import { Article } from '../types/article'
-
-const preventDefault = (event: React.MouseEvent) => {
-  event.preventDefault()
-}
 
 interface Props {
   title: string
@@ -61,8 +56,6 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
   }
 
   const handleConfirmSubmit = async () => {
-    console.log('yes pushed')
-    console.log(selectedArticle)
     if (selectedArticle) {
       await deleteArticleHooks.deleteArticle(selectedArticle.id)
       await fetchArticlesHooks.fetchArticles(true)
@@ -121,10 +114,6 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more articles
-      </Link>
     </>
   )
 }

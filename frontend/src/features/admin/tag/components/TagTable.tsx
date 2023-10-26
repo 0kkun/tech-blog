@@ -16,6 +16,9 @@ import { CreateTagModal } from './CreateTagModal'
 import { usePutTag } from '../hooks/usePutTag'
 import { Tag } from '../types/tag'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
+import { ConfirmModal } from '../../../../components/admin/elements/ConfirmModal'
+import { useDeleteTag } from '../hooks/useDeleteTag'
+
 
 export const TagTable: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
@@ -24,6 +27,8 @@ export const TagTable: React.FC = () => {
   const [editTagModalOpen, setEditTagModalOpen] = useState(false)
   const [createTagModalOpen, setCreateTagModalOpen] = useState(false)
   const [selectedTag, setSelectedTag] = useState<Tag>()
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const deleteTagHooks = useDeleteTag()
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -71,8 +76,34 @@ export const TagTable: React.FC = () => {
     fetchTagsHooks.fetchTags()
   }
 
+  const handleConfirmModalOpen = (tag: Tag) => {
+    setSelectedTag(tag)
+    setIsOpenConfirmModal(true)
+  }
+
+  const handleConfirmModalClose = () => {
+    setIsOpenConfirmModal(false)
+  }
+
+  const handleConfirmSubmit = async () => {
+    if (selectedTag) {
+      await deleteTagHooks.deleteTag(selectedTag.id)
+      await fetchTagsHooks.fetchTags()
+    } else {
+      console.error('selectedTag is undefined.')
+    }
+    handleConfirmModalClose()
+  }
+
   return (
     <>
+      <ConfirmModal
+        isOpen={isOpenConfirmModal}
+        title='削除確認'
+        description='タグを1件削除します。よろしいですか？'
+        handleClose={ () => { handleConfirmModalClose() } }
+        handleSubmit={ () => { handleConfirmSubmit() } }
+      />
       <CreateTagModal
         isOpen={createTagModalOpen}
         handleClose={() => {
@@ -139,9 +170,14 @@ export const TagTable: React.FC = () => {
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <Button variant="contained" color="error" size="small">
-                    削除
-                  </Button>
+                  <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      onClick={ () => { handleConfirmModalOpen(tag) }}
+                    >
+                      削除
+                    </Button>
                 </TableCell>
               </TableRow>
             ))}
