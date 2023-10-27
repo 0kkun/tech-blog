@@ -9,7 +9,7 @@ interface Props {
   title: string
 }
 
-export const Footer: React.FC<Props> = ({description, title}) => {
+export const Footer: React.FC<Props> = ({ description, title }) => {
   const Copyright = () => {
     return (
       <Typography variant="body2" color="text.secondary" align="center">

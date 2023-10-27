@@ -14,7 +14,7 @@ interface Props {
   title: string
 }
 
-export const Header: React.FC<Props> = ({sections, title}) => {
+export const Header: React.FC<Props> = ({ sections, title }) => {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>

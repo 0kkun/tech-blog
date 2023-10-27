@@ -40,7 +40,13 @@ export const Sidebar: React.FC<Props> = ({ archives, description, social, title 
         Social
       </Typography>
       {social.map((network) => (
-        <Link display="block" variant="body1" href={network.url} key={network.name} sx={{ mb: 0.5 }}>
+        <Link
+          display="block"
+          variant="body1"
+          href={network.url}
+          key={network.name}
+          sx={{ mb: 0.5 }}
+        >
           <Stack direction="row" spacing={1} alignItems="center">
             <network.icon />
             <span>{network.name}</span>
