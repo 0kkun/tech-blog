@@ -4,31 +4,19 @@ import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import TwitterIcon from '@mui/icons-material/Twitter'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import { Header } from '../elements/Header'
 import { Banner } from '../elements/Banner'
 import { Sidebar } from '../elements/Sidebar'
 import { Footer } from '../elements/Footer'
-
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: [
-      'Noto Sans JP',
-      'Lato',
-      '游ゴシック Medium',
-      '游ゴシック体',
-      'Yu Gothic Medium',
-      'YuGothic',
-      'ヒラギノ角ゴ ProN',
-      'Hiragino Kaku Gothic ProN',
-      'メイリオ',
-      'Meiryo',
-      'ＭＳ Ｐゴシック',
-      'MS PGothic',
-      'sans-serif',
-    ].join(','),
-  },
-})
+import {
+  AppName,
+  AboutDescription,
+  BannerTitle,
+  BannnerDescription,
+} from '../../../config/constantText'
+import { BasicTheme } from '../../../config/theme'
+import { BannerBackgroundImage } from '../../../config/constantImage'
 
 interface Props {
   children: React.ReactNode
@@ -44,17 +32,16 @@ export const HomeTemplate: React.FC<Props> = ({ children }) => {
   ]
 
   const contentsDescription = {
-    title: 'テックブログです。',
-    description: '主にLaravelの記事を投稿します。',
-    image: '/blog-top.jpeg',
+    title: BannerTitle,
+    description: BannnerDescription,
+    image: BannerBackgroundImage,
     imageText: 'テックブログ',
     linkText: '',
   }
 
   const sidebar = {
     title: 'About',
-    description:
-      '2020年に製造業界からIT業界へ未経験転職。当時は30歳でした。受託企業で主にLaravel/PHPにて開発業務を行なってます。Laravel/PHP、React/TS、GithubActions、AWSの構成が好きです。',
+    description: AboutDescription,
     archives: [
       { title: 'March 2020', url: '#' },
       { title: 'February 2020', url: '#' },
@@ -74,10 +61,10 @@ export const HomeTemplate: React.FC<Props> = ({ children }) => {
     ],
   }
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={BasicTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Tech Blog" sections={sections} />
+        <Header title={AppName} sections={sections} />
         <main>
           <Banner post={contentsDescription} />
           <Grid container spacing={4}>
