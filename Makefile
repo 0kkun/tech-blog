@@ -130,6 +130,39 @@ open-web:
 	open http://localhost:3000
 
 # *****************************
+# *          MySQL            *
+# *****************************
+.PHONY: mysql
+mysql:
+	$(DCE) db bash -c '$(MYSQL_USER_LOGIN_CMD)'
+
+.PHONY: mysql-root
+mysql-root:
+	$(DCE) db bash -c '$(MYSQL_ROOT_LOGIN_CMD)'
+
+# Sequero Ace接続用
+.PHONY: create-localuser
+create-localuser:
+	$(DEI) $(PROJECT_NAME)_db $(MYSQL_ROOT_LOGIN_CMD) --execute="CREATE USER 'chat-gpt-app_user'@'127.0.0.1' IDENTIFIED BY 'password'"
+
+.PHONY: grant-dbuser
+grant-dbuser:
+	$(DEI) $(PROJECT_NAME)_db $(MYSQL_ROOT_LOGIN_CMD) --execute="GRANT ALL PRIVILEGES ON $(MYSQL_DB_NAME).* TO 'chat-gpt-app_user'@'127.0.0.1'"
+
+.PHONY: show-dbuser
+show-dbuser:
+	$(DEI) $(PROJECT_NAME)_db $(MYSQL_ROOT_LOGIN_CMD) --execute="SELECT user, host FROM mysql.user ORDER BY user, host"
+
+.PHONY: show-dbgrants
+show-dbgrants:
+	$(DEI) $(PROJECT_NAME)_db $(MYSQL_USER_LOGIN_CMD) --execute="SHOW GRANTS"
+
+.PHONY: show-databases
+show-databases:
+	$(DEI) $(PROJECT_NAME)_db $(MYSQL_USER_LOGIN_CMD) --execute="SHOW DATABASES"
+
+
+# *****************************
 # *          Others           *
 # *****************************
 .PHONY: open_minio
