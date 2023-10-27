@@ -13,7 +13,7 @@ export const useGetArticle = () => {
         // レスポンスデータを状態として更新
         setArticle(response.data as Article)
       }
-      return response.data
+      return response.data as Article
     } catch (e) {
       console.log(e)
     }

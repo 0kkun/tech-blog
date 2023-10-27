@@ -29,7 +29,7 @@ export const AppRoutes = () => {
       <Route path={PATH.adminArticleDrafts} element={<AdminDraftIndexArticle />} />
       <Route path={PATH.adminTag} element={<AdminIndexTag />} />
       <Route path="/" element={<Home />} />
-      <Route path="/article" element={<Article />} />
+      <Route path="/article/:articleId" element={<Article />} />
     </Routes>
   )
 }

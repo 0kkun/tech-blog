@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
+import { Link as RouterLink } from 'react-router-dom'
 
 interface Props {
   sections: ReadonlyArray<{
@@ -15,6 +16,11 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ sections, title }) => {
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'inherit',
+  }
+
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -26,7 +32,10 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          <RouterLink to='/' style={linkStyle}>
+            {title}
+          </RouterLink>
+          
         </Typography>
         <IconButton>
           <SearchIcon />
@@ -35,7 +44,11 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
       <Toolbar
         component="nav"
         variant="dense"
-        sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+        sx={{
+          justifyContent: 'space-between',
+          overflowX: 'auto',
+          backgroundColor: 'rgb(240, 240, 240)',
+        }}
       >
         {sections.map((section) => (
           <Link

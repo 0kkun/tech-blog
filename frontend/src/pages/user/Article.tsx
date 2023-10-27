@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { HomeView } from '../../features/user/article/components/HomeView'
+import { ArticleView } from '../../features/user/article/components/ArticleView'
 
 export const Article: FC = () => {
   return (
     <>
-      <HomeView />
+      <ArticleView />
     </>
   )
 }
