@@ -32,10 +32,9 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
           noWrap
           sx={{ flex: 1 }}
         >
-          <RouterLink to='/' style={linkStyle}>
+          <RouterLink to="/" style={linkStyle}>
             {title}
           </RouterLink>
-          
         </Typography>
         <IconButton>
           <SearchIcon />

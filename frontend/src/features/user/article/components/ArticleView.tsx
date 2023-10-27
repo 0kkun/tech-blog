@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 export const ArticleView: FC = () => {
-
   const getArticleHooks = useGetArticle()
   const [content, setContent] = useState<string>('')
   const [title, setTitle] = useState<string>('')
@@ -36,9 +35,7 @@ export const ArticleView: FC = () => {
         <p>Loading...</p>
       ) : (
         <Box>
-          <Box sx={{ fontSize: 40, fontWeight: 'bold'}} >
-            {title}
-          </Box>
+          <Box sx={{ fontSize: 40, fontWeight: 'bold' }}>{title}</Box>
           <MarkdownPreview inputText={content} />
         </Box>
       )}
