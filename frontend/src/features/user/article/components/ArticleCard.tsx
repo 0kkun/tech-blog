@@ -49,7 +49,16 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" sx={{ marginTop: 1 }}>
               {article.tags.map((tag) => (
-                <Box key={tag.id} sx={{ display: 'inline', marginLeft: 1, backgroundColor: 'rgb(200, 200, 200)', borderRadius: '10px', padding: '2px 10px'}}>
+                <Box
+                  key={tag.id}
+                  sx={{
+                    display: 'inline',
+                    marginLeft: 1,
+                    backgroundColor: 'rgb(200, 200, 200)',
+                    borderRadius: '10px',
+                    padding: '2px 10px',
+                  }}
+                >
                   #{tag.name}
                 </Box>
               ))}
