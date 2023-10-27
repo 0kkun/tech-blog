@@ -36,16 +36,11 @@ interface Props {
 
 export const HomeTemplate: React.FC<Props> = ({ children }) => {
   const sections = [
-    { title: 'Technology', url: '#' },
-    { title: 'Design', url: '#' },
-    { title: 'Culture', url: '#' },
-    { title: 'Business', url: '#' },
-    { title: 'Politics', url: '#' },
-    { title: 'Opinion', url: '#' },
-    { title: 'Science', url: '#' },
-    { title: 'Health', url: '#' },
-    { title: 'Style', url: '#' },
-    { title: 'Travel', url: '#' },
+    { title: 'Backend', url: '#' },
+    { title: 'Frontend', url: '#' },
+    { title: 'Infrastructure', url: '#' },
+    { title: 'Architecture', url: '#' },
+    { title: 'Other', url: '#' },
   ]
 
   const contentsDescription = {
@@ -59,7 +54,7 @@ export const HomeTemplate: React.FC<Props> = ({ children }) => {
   const sidebar = {
     title: 'About',
     description:
-      '2020年に製造業界からIT業界へ転職。受託企業にて主にLaravel/PHPにて開発業務を行なってます。Laravel/PHP、React/TS、AWSが好きです。',
+      '2020年に製造業界からIT業界へ未経験転職。当時は30歳でした。受託企業で主にLaravel/PHPにて開発業務を行なってます。Laravel/PHP、React/TS、GithubActions、AWSの構成が好きです。',
     archives: [
       { title: 'March 2020', url: '#' },
       { title: 'February 2020', url: '#' },
