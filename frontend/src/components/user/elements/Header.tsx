@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 
-interface HeaderProps {
+interface Props {
   sections: ReadonlyArray<{
     title: string
     url: string
@@ -14,9 +14,7 @@ interface HeaderProps {
   title: string
 }
 
-export default function Header(props: HeaderProps) {
-  const { sections, title } = props
-
+export const Header: React.FC<Props> = ({sections, title}) => {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>

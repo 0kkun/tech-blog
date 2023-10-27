@@ -4,26 +4,24 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Teck Blog
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
-
-interface FooterProps {
+interface Props {
   description: string
   title: string
 }
 
-export default function Footer(props: FooterProps) {
-  const { description, title } = props
+export const Footer: React.FC<Props> = ({description, title}) => {
+  const Copyright = () => {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://mui.com/">
+          Teck Blog
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    )
+  }
 
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>

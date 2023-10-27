@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { Home } from '../pages/Home'
+import { Home } from '../pages/user/Home'
 import { AdminLogin } from '../pages/admin/AdminLogin'
 import { AdminHome } from '../pages/admin/AdminHome'
 import { AdminCreateArticle } from '../pages/admin/AdminCreateArticle'
