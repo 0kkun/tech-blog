@@ -1,6 +1,21 @@
 version: "3.9"
 
 services:
+  nginx:
+    container_name: ${PROJECT_NAME}_nginx
+    image: nginx:1.23-alpine
+    depends_on:
+      - backend
+      - db
+    environment:
+      TZ: "Asia/Tokyo"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./.docker/nginx/ssl:/etc/nginx/ssl
+
   backend:
     container_name: ${PROJECT_NAME}_backend
     build:
