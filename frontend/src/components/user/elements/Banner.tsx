@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 
-interface MainFeaturedPostProps {
+interface Props {
   post: {
     description: string
     image: string
@@ -15,9 +15,7 @@ interface MainFeaturedPostProps {
   }
 }
 
-export default function Banner(props: MainFeaturedPostProps) {
-  const { post } = props
-
+export const Banner: React.FC<Props> = ({ post }) => {
   return (
     <Paper
       sx={{

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Toolbar from '@mui/material/Toolbar'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
+import { Link as RouterLink } from 'react-router-dom'
 
-interface HeaderProps {
+interface Props {
   sections: ReadonlyArray<{
     title: string
     url: string
@@ -14,8 +14,11 @@ interface HeaderProps {
   title: string
 }
 
-export default function Header(props: HeaderProps) {
-  const { sections, title } = props
+export const Header: React.FC<Props> = ({ sections, title }) => {
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'inherit',
+  }
 
   return (
     <React.Fragment>
@@ -28,7 +31,9 @@ export default function Header(props: HeaderProps) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          <RouterLink to="/" style={linkStyle}>
+            {title}
+          </RouterLink>
         </Typography>
         <IconButton>
           <SearchIcon />
@@ -37,7 +42,11 @@ export default function Header(props: HeaderProps) {
       <Toolbar
         component="nav"
         variant="dense"
-        sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+        sx={{
+          justifyContent: 'space-between',
+          overflowX: 'auto',
+          backgroundColor: 'rgb(240, 240, 240)',
+        }}
       >
         {sections.map((section) => (
           <Link
