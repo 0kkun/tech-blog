@@ -18,5 +18,6 @@ class UserOrm(Base):
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
     )
 
+    # Token.userで関連付けを使用してデータが取得できるようになる
     tokens = relationship("Token", backref="user")
 

@@ -6,7 +6,7 @@ from app.infrastructure.database.database import Base
 
 
 class ArticleTagOrm(Base):
-    __tablename__ = "articles_tags"
+    __tablename__ = "article_tags"
 
     id = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
     article_id = Column(BigInteger, ForeignKey('articles.id', ondelete="CASCADE"), nullable=False) 
