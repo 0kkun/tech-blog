@@ -18,6 +18,3 @@ class TokenOrm(Base):
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
     )
-
-    # Token.userで関連付けを使用してデータが取得できるようになる
-    user = relationship("User", back_populates="tokens")

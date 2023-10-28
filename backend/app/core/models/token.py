@@ -14,3 +14,8 @@ class Token(BaseModel):
 
     class Config:
         orm_mode = True
+
+class PutTokenRequest(BaseModel):
+    token: str
+    user_id: int
+    expired_at: datetime.datetime

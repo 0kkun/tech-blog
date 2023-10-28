@@ -1,0 +1,67 @@
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from typing import Optional, List
+from app.core.models.user import UserCreateRequest, User
+from app.infrastructure.database.schema_model.user import UserOrm
+from util.datetime_generator import DateTimeGenerator
+
+
+class UserRepository:
+    def getByEmail(
+        self,
+        db: Session,
+        email: str,
+    ) -> Optional[User]:
+        """
+            emailを指定してuserを1件取得する
+        """
+        user = db.query(UserOrm).filter(
+            UserOrm.email == email,
+        ).one_or_none()
+
+        if user is None:
+            return None
+        return User.from_orm(user)
+
+
+    def getById(
+        self,
+        db: Session,
+        user_id: int,
+    ) -> Optional[User]:
+        """
+            idを指定してuserを1件取得する
+        """
+        user = db.query(UserOrm).filter(
+            UserOrm.id == user_id,
+        ).one_or_none()
+
+        if user is None:
+            return None
+        return User.from_orm(user)
+
+
+    def create(
+        self,
+        db: Session,
+        name: str,
+        email: str,
+        role: int,
+        hashed_password: str,
+    ) -> None:
+        """
+            userを生成する
+        """
+        datetime = DateTimeGenerator()
+        now = datetime.now_datetime()
+
+        new_user = UserOrm(
+            name = name,
+            email = email,
+            password = hashed_password,
+            role = role,
+            created_at = now,
+            updated_at = now,
+        )
+        db.add(new_user)
+        db.flush()

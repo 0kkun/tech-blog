@@ -6,7 +6,7 @@ class DateTimeGenerator():
     def now(self):
         return datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%dT%H:%M:%S")
 
-    def datetime(self):
+    def now_datetime(self):
         return datetime.now(ZoneInfo("Asia/Tokyo"))
 
     def datetime_string(self):

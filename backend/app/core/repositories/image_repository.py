@@ -16,7 +16,7 @@ class ImageRepository:
             画像urlを保存する
         """
         datetime = DateTimeGenerator()
-        now = datetime.datetime()
+        now = datetime.now_datetime()
 
         image = ImageOrm(
             url = image_url,
