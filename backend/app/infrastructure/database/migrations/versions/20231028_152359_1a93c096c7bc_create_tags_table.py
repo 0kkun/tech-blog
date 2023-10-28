@@ -1,19 +1,21 @@
 """create tags table
 
-Revision ID: bd361124a35c
-Revises: 4cc783829a6f
-Create Date: 2023-10-22 02:35:25.993770
+Revision ID: 1a93c096c7bc
+Revises: dfc777810a72
+Create Date: 2023-10-28 15:23:59.526322+09:00
 
 """
+from typing import Sequence, Union
+
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bd361124a35c'
-down_revision = '4cc783829a6f'
-branch_labels = None
-depends_on = None
+revision: str = '1a93c096c7bc'
+down_revision: Union[str, None] = 'dfc777810a72'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:

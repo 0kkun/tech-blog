@@ -1,19 +1,21 @@
-"""create article table
+"""create articles table
 
-Revision ID: 4cc783829a6f
-Revises: c26a86cf7031
-Create Date: 2023-10-20 04:16:08.029485
+Revision ID: dfc777810a72
+Revises: da1f73ca3229
+Create Date: 2023-10-28 15:23:43.101436+09:00
 
 """
+from typing import Sequence, Union
+
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4cc783829a6f'
-down_revision = 'c26a86cf7031'
-branch_labels = None
-depends_on = None
+revision: str = 'dfc777810a72'
+down_revision: Union[str, None] = 'da1f73ca3229'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
