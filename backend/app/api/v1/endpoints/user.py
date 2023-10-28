@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Annotated, Optional, List
-from app.core.models.user import User, UserCreateRequest, UserLoginRequest
+from app.core.models.user import User, UserCreateRequest, UserLoginRequest, GetUserResponse
 from app.core.models.success_response import SuccessResponse
 from app.core.services.tag_service import TagService
 from app.infrastructure.database.database import SessionLocal
@@ -56,15 +56,15 @@ def login(
         raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
 
 
-@router.get("/users/{user_id}", dependencies=[Depends(verify_token)])
+@router.get("/v1/users/{user_id}", dependencies=[Depends(verify_token)])
 def show_user(
     user_id: int,
     user_service: Annotated[UserService, Depends(UserService)],
-):
+) -> GetUserResponse:
     try:
         with SessionLocal.begin() as db:
             user = user_service.get(db, user_id)
-        return user
+        return GetUserResponse(id=user.id, name=user.name, email=user.email)
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(message)

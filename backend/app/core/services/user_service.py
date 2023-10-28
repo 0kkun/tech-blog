@@ -55,3 +55,4 @@ class UserService:
         user = self.user_repository.getById(db, user_id)
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
+        return user
