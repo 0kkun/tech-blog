@@ -83,7 +83,7 @@ format:
 
 .PHONY: migrate-init
 migrate-init:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic revision -m 'Initial migration'"
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic init migrations"
 
 # schema配下を読み取って自動でmigrationファイルを生成する
 .PHONY: auto-generate

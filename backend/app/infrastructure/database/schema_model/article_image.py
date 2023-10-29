@@ -6,7 +6,7 @@ from app.infrastructure.database.database import Base
 
 
 class ArticleImageOrm(Base):
-    __tablename__ = "articles_images"
+    __tablename__ = "article_images"
 
     id = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
     article_id = Column(BigInteger, ForeignKey('articles.id', ondelete="CASCADE"), nullable=False, comment="記事ID") 

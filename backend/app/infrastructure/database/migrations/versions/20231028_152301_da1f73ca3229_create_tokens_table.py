@@ -1,19 +1,21 @@
 """create tokens table
 
-Revision ID: c26a86cf7031
-Revises: 404becc2b6d9
-Create Date: 2023-10-20 04:04:44.417918
+Revision ID: da1f73ca3229
+Revises: c9da252697cc
+Create Date: 2023-10-28 15:23:01.325379+09:00
 
 """
+from typing import Sequence, Union
+
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c26a86cf7031'
-down_revision = '404becc2b6d9'
-branch_labels = None
-depends_on = None
+revision: str = 'da1f73ca3229'
+down_revision: Union[str, None] = 'c9da252697cc'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:

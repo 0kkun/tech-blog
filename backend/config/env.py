@@ -35,4 +35,8 @@ class Env:
     AWS_ENDPOINT = _getenv("AWS_ENDPOINT")
     AWS_URL = _getenv("AWS_URL")
 
-
+    # auth
+    SECRET_KEY = _getenv("SECRET_KEY")
+    ALGORITHM = _getenv("ALGORITHM")
+    ACCESS_TOKEN_EXPIRE_MINUTES = int(_getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+    AUTH_PATH = _getenv("AUTH_PATH")

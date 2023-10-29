@@ -17,7 +17,7 @@ class ArticleImageRepository:
             記事と画像を関連づけるレコードを生成・更新する
         """
         datetime = DateTimeGenerator()
-        now = datetime.datetime()
+        now = datetime.now_datetime()
         # 既存の記事に紐づく画像を削除
         db.query(ArticleImageOrm).filter(ArticleImageOrm.article_id == article_id).delete()
 

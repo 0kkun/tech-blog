@@ -1,19 +1,21 @@
 """create images table
 
-Revision ID: b99f9959845d
-Revises: 560be22b3d6e
-Create Date: 2023-10-25 00:53:59.757959
+Revision ID: e6b311d94c4b
+Revises: 32b975d88e5d
+Create Date: 2023-10-28 15:24:51.598014+09:00
 
 """
+from typing import Sequence, Union
+
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b99f9959845d'
-down_revision = '560be22b3d6e'
-branch_labels = None
-depends_on = None
+revision: str = 'e6b311d94c4b'
+down_revision: Union[str, None] = '32b975d88e5d'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:

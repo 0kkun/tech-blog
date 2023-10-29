@@ -17,6 +17,3 @@ class UserOrm(Base):
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
     )
-
-    tokens = relationship("Token", backref="user")
-

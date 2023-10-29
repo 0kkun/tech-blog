@@ -17,7 +17,7 @@ class ArticleTagRepository:
             記事に紐づいたタグを新規作成 or 更新する
         """
         datetime = DateTimeGenerator()
-        now = datetime.datetime()
+        now = datetime.now_datetime()
         # 既存の記事に紐づくタグを削除
         db.query(ArticleTagOrm).filter(ArticleTagOrm.article_id == article_id).delete()
 
