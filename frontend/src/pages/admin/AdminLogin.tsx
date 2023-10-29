@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { LoginTemplate } from '../../components/admin/templates/LoginTemplate'
+import { LoginView } from '../../features/admin/login/components/LoginView'
 
 export const AdminLogin: FC = () => {
   return (
     <>
-      <LoginTemplate />
+      <LoginView />
     </>
   )
 }
