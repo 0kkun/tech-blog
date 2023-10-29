@@ -20,11 +20,12 @@ export const useLogin = () => {
         email: values.email,
         password: values.password,
       }
-      console.log(request)
       response = await sendLoginApi(request)
       if (response.status === 200) {
-        // レスポンスデータを状態として更新
-        setTokenInfo(response.data as LoginResponse)
+        console.log('ログインAPIが成功した')
+        // console.log(response.data)
+        // クッキーにトークンをセットする
+        // setAuthToken(response.data.token)
       }
       return response.data
     } catch (e) {
@@ -37,5 +38,23 @@ export const useLogin = () => {
     errors,
     reset,
     tokenInfo,
+  }
+}
+
+/**
+ * アクセストークンをcookieにセットする
+ * @param token
+ */
+const setAuthToken = (token: string): void => {
+  if (token) {
+    const expires = new Date()
+    expires.setDate(expires.getDate() + 7)
+    // Cookieにトークンを保存する
+    document.cookie = `access_token=${token}; expires=${expires.toUTCString()}; path=/`
+    console.log('Complete set access_token to cookie')
+  } else {
+    console.log('access_token delete')
+    // Cookieからトークンを削除する
+    document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
   }
 }

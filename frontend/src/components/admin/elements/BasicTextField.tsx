@@ -23,7 +23,7 @@ export const BasicTextField: React.FC<Props> = ({ name, control, label, autoComp
             margin="normal"
             required
             fullWidth
-            id={"text-field-" + {name}}
+            id={name}
             label={label}
             name={name}
             autoComplete={autoComplete}

@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
+import { Grid, Paper, Button } from '@mui/material'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { Chart } from '../../features/admin/chart/components/Chart'
 import { AccessCountBox } from '../../features/admin/access_counts/components/AccessCountBox'
 import { ArticleTable } from '../../features/admin/article/components/ArticleTable'
+
 
 // NOTE: アクセス数の他に、記事の投稿数、タグごとの記事の本数のグラフがあってもいいかも
 
@@ -17,6 +17,7 @@ export const AdminHome: FC = () => {
   const createChartData = (date: string, count?: number) => {
     return { date, count }
   }
+
 
   const chartRecords = [
     createChartData('2023/7/1', 0),

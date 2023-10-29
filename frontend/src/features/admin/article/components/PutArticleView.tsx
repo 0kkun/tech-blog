@@ -120,59 +120,57 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
         message="Success!"
       />
       <form>
-        <Grid container>
-          <Grid container spacing={3}>
-            <Grid item xs={8}>
-              <TagSelectBox
-                label="タグ選択"
-                name="selectedTags"
-                tags={fetchTagsHooks.tags}
-                control={putArticleHooks.control}
-              />
-            </Grid>
-            <Grid item xs={4} sx={{ marginTop: 1 }}>
-              <Button
-                sx={{ display: 'block', margin: '0 auto', width: '100%' }}
-                variant="contained"
-                color="success"
-                size="medium"
-                onClick={() => {
-                  onSubmit(true)
-                }}
-              >
-                投稿
-              </Button>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sx={{ marginTop: 1 }}>
-                  <Button
-                    sx={{ width: '100%' }}
-                    variant="contained"
-                    color="error"
-                    size="medium"
-                    onClick={() => {
-                      if (isEdit) {
-                        handleDelete()
-                      } else {
-                        handleClear()
-                      }
-                    }}
-                  >
-                    {deleteOrClearBottunText}
-                  </Button>
-                </Grid>
-                <Grid item xs={6} sx={{ marginTop: 1 }}>
-                  <Button
-                    sx={{ width: '100%' }}
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    onClick={() => {
-                      onSubmit(false)
-                    }}
-                  >
-                    下書保存
-                  </Button>
-                </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={8}>
+            <TagSelectBox
+              label="タグ選択"
+              name="selectedTags"
+              tags={fetchTagsHooks.tags}
+              control={putArticleHooks.control}
+            />
+          </Grid>
+          <Grid item xs={4} sx={{ marginTop: 1 }}>
+            <Button
+              sx={{ display: 'block', margin: '0 auto', width: '100%' }}
+              variant="contained"
+              color="success"
+              size="medium"
+              onClick={() => {
+                onSubmit(true)
+              }}
+            >
+              投稿
+            </Button>
+            <Grid container spacing={2}>
+              <Grid item xs={6} sx={{ marginTop: 1 }}>
+                <Button
+                  sx={{ width: '100%' }}
+                  variant="contained"
+                  color="error"
+                  size="medium"
+                  onClick={() => {
+                    if (isEdit) {
+                      handleDelete()
+                    } else {
+                      handleClear()
+                    }
+                  }}
+                >
+                  {deleteOrClearBottunText}
+                </Button>
+              </Grid>
+              <Grid item xs={6} sx={{ marginTop: 1 }}>
+                <Button
+                  sx={{ width: '100%' }}
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  onClick={() => {
+                    onSubmit(false)
+                  }}
+                >
+                  下書保存
+                </Button>
               </Grid>
             </Grid>
           </Grid>
