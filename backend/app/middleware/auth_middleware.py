@@ -1,9 +1,14 @@
+import jwt
+from jwt import PyJWTError
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials, OAuth2PasswordBearer
+from sqlalchemy.orm import Session
+from config.env import Env
+from util.datetime_generator import DateTimeGenerator
+from app.core.repositories.user_repository import UserRepository
+from app.infrastructure.database.database import SessionLocal
 from app.infrastructure.database.database import get_db
 from app.infrastructure.database.schema_model.token import TokenOrm
-from sqlalchemy.orm import Session
-from util.datetime_generator import DateTimeGenerator
 
 
 async def verify_token(
@@ -52,5 +57,39 @@ def validate_token(token: str, db: Session) -> bool:
     datetime_generator = DateTimeGenerator()
     current_time = datetime_generator.now_datetime()
     token_data = db.query(TokenOrm).filter(TokenOrm.token == token, TokenOrm.expired_at > current_time).first()
-    # db.query(Token).filter(Token.token == token, Token.expired_at > datetime.utcnow()).first()
     return token_data
+
+
+# OAuth2 パスワードベアラートークンの認証スキームを設定
+# このスキームはアクセストークンをリクエストのヘッダーから取得するために使用
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=Env.APP_URL)
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    """現在ログイン中のユーザーを取得します
+
+    Args:
+        token (str, optional): _description_. Defaults to Depends(oauth2_scheme).
+
+    Raises:
+        credentials_exception: 認証情報の検証に失敗した場合に発生する例外
+    Returns:
+        User: 現在のユーザー
+    """
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    user_repository = UserRepository()
+    try:
+        payload = jwt.decode(token, Env.SECRET_KEY, algorithms=[Env.ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+    except PyJWTError:
+        raise credentials_exception
+    with SessionLocal.begin() as db:
+        user = user_repository.getByEmail(db, email)
+    if user is None:
+        raise credentials_exception
+    return user

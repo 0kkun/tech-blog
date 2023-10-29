@@ -3,23 +3,16 @@ import secrets
 from datetime import datetime, timedelta
 import jwt
 from jwt import PyJWTError
-from fastapi.security import OAuth2PasswordBearer
 from typing import Union
 from config.env import Env
 from app.core.models.token import Token
 from util.datetime_generator import DateTimeGenerator
 
-
 class AuthService:
     def __init__(self):
         # パスワードのハッシュ化と検証に使用される CryptContext インスタンス
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-        # OAuth2 パスワードベアラートークンの認証スキームを設定
-        # このスキームはアクセストークンをリクエストのヘッダーから取得するために使用されます
-        self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl=Env.APP_URL)
         self.datetime_generator = DateTimeGenerator()
-
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         """ パスワードを検証します
@@ -88,4 +81,3 @@ class AuthService:
             return token_data
         except PyJWTError:
             raise ValueError("Invalid token")
-
