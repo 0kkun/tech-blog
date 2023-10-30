@@ -177,7 +177,7 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid item xs={6} md={3} lg={6}>
+          <Grid item xs={6}>
             <Paper sx={paperStyle}>
               <Title>{pageTitle}</Title>
               <Box sx={{ marginBottom: 2, display: 'flex' }}>
@@ -198,7 +198,7 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={6} md={3} lg={6}>
+          <Grid item xs={6}>
             <Paper sx={paperStyle}>
               <Title>プレビュー画面</Title>
               <MarkdownPreview inputText={inputText} />
