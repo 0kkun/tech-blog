@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { getTokenInCookie } from '../hooks/useAuth'
 import { sendGetMeApi } from '../hooks/getMeApi'
 import { logger } from '../libs/logger'
+import { Progress } from '../components/admin/elements/Progress'
 
 type Props = {
   component: React.ReactNode
@@ -39,7 +40,9 @@ export const RouteAuthGuard: React.FC<Props> = (props) => {
   }, [])
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>
+    return (
+        <Progress isOpen={true}/>
+    )
   }
 
   if (!isAuthenticated) {
