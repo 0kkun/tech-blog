@@ -39,7 +39,6 @@ export const ArticleView: FC = () => {
           <MarkdownPreview inputText={content} />
         </Box>
       )}
-      <MarkdownPreview inputText={content} />
     </ArticleTemplate>
   )
 }
