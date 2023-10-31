@@ -100,6 +100,7 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
           <TableHead>
             <TableRow>
               <TableCell>作成日時</TableCell>
+              <TableCell>更新日時</TableCell>
               <TableCell>タイトル</TableCell>
               {/* <TableCell align="right">アクセス数</TableCell> */}
               <TableCell></TableCell>
@@ -110,6 +111,7 @@ export const ArticleTable: React.FC<Props> = ({ title, isDraft }) => {
             {fetchArticlesHooks.articles.map((article) => (
               <TableRow key={article.id}>
                 <TableCell>{formatDateTime(article.created_at)}</TableCell>
+                <TableCell>{formatDateTime(article.updated_at)}</TableCell>
                 <TableCell>{article.title}</TableCell>
                 {/* <TableCell align="right">{`${article.count}`}</TableCell> */}
                 <TableCell>

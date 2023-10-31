@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles'
+import { styled, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import MuiDrawer from '@mui/material/Drawer'
 import Box from '@mui/material/Box'
@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Container from '@mui/material/Container'
-import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
@@ -24,29 +23,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import { Link as RouterLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
+import { BasicTheme } from '../../../config/theme'
+import { Copyright } from '../elements/Copyright'
 
 // メイン画面の横幅設定
 const drawerWidth: number = 240
-
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: [
-      'Noto Sans JP',
-      'Lato',
-      '游ゴシック Medium',
-      '游ゴシック体',
-      'Yu Gothic Medium',
-      'YuGothic',
-      'ヒラギノ角ゴ ProN',
-      'Hiragino Kaku Gothic ProN',
-      'メイリオ',
-      'Meiryo',
-      'ＭＳ Ｐゴシック',
-      'MS PGothic',
-      'sans-serif',
-    ].join(','),
-  },
-})
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,19 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-
-const Copyright = (props: any) => {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        管理画面
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean
@@ -131,7 +99,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={BasicTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>

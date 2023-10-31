@@ -165,7 +165,7 @@ show-databases:
 # *****************************
 # *          Others           *
 # *****************************
-.PHONY: open_minio
+.PHONY: open-minio
 open_minio:
 	open http://localhost:9001
 

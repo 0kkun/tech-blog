@@ -78,7 +78,7 @@ class ArticleRepository:
         """
         articles = db.query(ArticleOrm).filter(
             ArticleOrm.is_published == is_published,
-        ).all()
+        ).order_by(ArticleOrm.updated_at.desc()).all()
         article_list = [Article.from_orm(article) for article in articles]
         return article_list
 

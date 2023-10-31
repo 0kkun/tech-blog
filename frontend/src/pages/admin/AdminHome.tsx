@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
+import { Grid, Paper, Button } from '@mui/material'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { Chart } from '../../features/admin/chart/components/Chart'
 import { AccessCountBox } from '../../features/admin/access_counts/components/AccessCountBox'
