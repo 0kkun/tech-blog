@@ -7,9 +7,9 @@ export const formatDateTime = (dateTimeStr: string) => {
   const hour = dateTime.getHours()
   const minute = dateTime.getMinutes()
 
-  const formattedDateTime = `${year}/${month}/${day} ${hour
+  const formattedDateTime = `${year}/${month}/${day} ${hour.toString().padStart(2, '0')}:${minute
     .toString()
-    .padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+    .padStart(2, '0')}`
 
   return formattedDateTime
 }

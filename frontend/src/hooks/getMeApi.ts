@@ -2,7 +2,6 @@ import { AxiosError, isAxiosError, AxiosResponse } from 'axios'
 import ApiClient from '../libs/apiClient'
 import { ME_ENDPOINT } from '../config/apiEndpoints'
 
-
 export const sendGetMeApi = async (): Promise<any> => {
   try {
     const response = await ApiClient.get(ME_ENDPOINT)

@@ -25,24 +25,32 @@ export const AppRoutes = () => {
     <Routes>
       {/* ******** Admin ******** */}
       <Route path={PATH.adminLogin} element={<AdminLogin />} />
-      <Route path={PATH.adminHome} element={
-        <RouteAuthGuard component={<AdminHome />} redirect={PATH.adminLogin}/>} >
-      </Route>
-      <Route path={PATH.adminArticles} element={
-        <RouteAuthGuard component={<AdminIndexArticle />} redirect={PATH.adminLogin}/>} >
-      </Route>
-      <Route path={PATH.adminArticleCreate} element={
-        <RouteAuthGuard component={<AdminCreateArticle />} redirect={PATH.adminLogin}/>} >
-      </Route>
-      <Route path={PATH.adminArticle} element={
-        <RouteAuthGuard component={<AdminEditArticle />} redirect={PATH.adminLogin}/>} >
-      </Route>
-      <Route path={PATH.adminArticleDrafts} element={
-        <RouteAuthGuard component={<AdminDraftIndexArticle />} redirect={PATH.adminLogin}/>} >
-      </Route>
-      <Route path={PATH.adminTag} element={
-        <RouteAuthGuard component={<AdminIndexTag />} redirect={PATH.adminLogin}/>} >
-      </Route>
+      <Route
+        path={PATH.adminHome}
+        element={<RouteAuthGuard component={<AdminHome />} redirect={PATH.adminLogin} />}
+      />
+      <Route
+        path={PATH.adminArticles}
+        element={<RouteAuthGuard component={<AdminIndexArticle />} redirect={PATH.adminLogin} />}
+      />
+      <Route
+        path={PATH.adminArticleCreate}
+        element={<RouteAuthGuard component={<AdminCreateArticle />} redirect={PATH.adminLogin} />}
+      />
+      <Route
+        path={PATH.adminArticle}
+        element={<RouteAuthGuard component={<AdminEditArticle />} redirect={PATH.adminLogin} />}
+      />
+      <Route
+        path={PATH.adminArticleDrafts}
+        element={
+          <RouteAuthGuard component={<AdminDraftIndexArticle />} redirect={PATH.adminLogin} />
+        }
+      />
+      <Route
+        path={PATH.adminTag}
+        element={<RouteAuthGuard component={<AdminIndexTag />} redirect={PATH.adminLogin} />}
+      />
       {/* ******** User ******** */}
       <Route path="/" element={<Home />} />
       <Route path="/article/:articleId" element={<Article />} />

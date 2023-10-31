@@ -37,7 +37,7 @@ class ApiClient implements ApiClientInterface {
           logger('interceptor', 'exist token in cookie. set token into request header.')
           config.headers.Authorization = `Bearer ${token}`
         }
-        logger('interceptor','api REQUEST process end.')
+        logger('interceptor', 'api REQUEST process end.')
         return config
       },
       (error) => {
@@ -49,13 +49,13 @@ class ApiClient implements ApiClientInterface {
     // axiosのresponseインターセプターを設定する
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
-        logger('interceptor','api RESPONSE process start.')
+        logger('interceptor', 'api RESPONSE process start.')
         // APIから返却されたトークンをCookieに保存する
         if (response.data?.token) {
-          logger('interceptor','find token in response. token set into cookie.')
+          logger('interceptor', 'find token in response. token set into cookie.')
           this.setAuthToken(response.data.token)
         }
-        logger('interceptor','api REAPONSE process end.')
+        logger('interceptor', 'api REAPONSE process end.')
         return response
       },
       (error: AxiosError<any>) => {
