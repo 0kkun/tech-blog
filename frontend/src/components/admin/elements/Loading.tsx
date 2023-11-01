@@ -6,11 +6,10 @@ interface Props {
 }
 
 export const Loading: React.FC<Props> = ({ isOpen }) => {
-
   return (
     <>
       <Backdrop open={isOpen}>
-        <CircularProgress sx={{ color: 'white' }}/>
+        <CircularProgress sx={{ color: 'white' }} />
       </Backdrop>
     </>
   )
