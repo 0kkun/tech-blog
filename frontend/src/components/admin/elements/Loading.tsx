@@ -5,11 +5,11 @@ interface Props {
   isOpen: boolean
 }
 
-export const Progress: React.FC<Props> = ({ isOpen }) => {
+export const Loading: React.FC<Props> = ({ isOpen }) => {
   return (
     <>
       <Backdrop open={isOpen}>
-        <CircularProgress />
+        <CircularProgress sx={{ color: 'white' }} />
       </Backdrop>
     </>
   )

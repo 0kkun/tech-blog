@@ -9,6 +9,7 @@ import { AdminEditArticle } from '../pages/admin/AdminEditArticle'
 import { AdminIndexTag } from '../pages/admin/AdminIndexTag'
 import { Article } from '../pages/user/Article'
 import { RouteAuthGuard } from './RouteAuthGuard'
+import { NotFound } from '../pages/NotFound'
 
 export const PATH = {
   adminHome: '/admin',
@@ -54,6 +55,7 @@ export const AppRoutes = () => {
       {/* ******** User ******** */}
       <Route path="/" element={<Home />} />
       <Route path="/article/:articleId" element={<Article />} />
+      <Route path="/notfound" element={<NotFound />} />
     </Routes>
   )
 }
