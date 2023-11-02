@@ -20,7 +20,8 @@ DATABASE_URL = "mysql+mysqldb://%s:%s@%s:%s/%s?charset=utf8" % (
 engine = create_engine(
     DATABASE_URL,
     echo=True,
-    pool_recycle=60,
+    # pool_recycle=60,
+    pool_pre_ping=True,
 )
 
 SessionLocal = sessionmaker(
