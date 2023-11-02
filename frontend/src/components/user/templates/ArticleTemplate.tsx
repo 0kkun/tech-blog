@@ -68,7 +68,7 @@ export const ArticleTemplate: React.FC<Props> = ({ children }) => {
           </Grid>
         </main>
       </Container>
-      <Footer title="Footer" description="Something here to give the footer a purpose!" />
+      <Footer title={AppName} description="" />
     </ThemeProvider>
   )
 }
