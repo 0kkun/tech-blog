@@ -23,6 +23,7 @@ def upgrade() -> None:
     op.create_table('images',
     sa.Column('id', sa.BigInteger(), autoincrement=True, nullable=False),
     sa.Column('url', sa.String(length=255), nullable=False, comment='画像のURL'),
+    sa.Column('is_thumbnail', sa.Boolean(), nullable=False, default=False ,comment='サムネイル画像かどうか'),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False),
     sa.PrimaryKeyConstraint('id'),
