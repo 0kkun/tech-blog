@@ -11,6 +11,7 @@ export type Article = {
   target_year: number
   tags: Tag[]
   images?: ImageData[]
+  thumbnail_image?: ImageData
 }
 
 export type PutArticleRequest = {
@@ -20,6 +21,7 @@ export type PutArticleRequest = {
   is_published: boolean
   tags: Tag[]
   images?: ImageData[]
+  thumbnail_image?: ImageData
 }
 
 export type Tag = {

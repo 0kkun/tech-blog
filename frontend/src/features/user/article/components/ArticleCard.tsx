@@ -36,6 +36,14 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
     color: 'inherit',
   }
 
+  const thumbnailImage = (article: Article) => {
+    if (article.thumbnail_image) {
+      return article.thumbnail_image.url
+    } else {
+      return "./laravel-logo4.png"
+    }
+  }
+
   return (
     <>
       <Link to={'/article/' + article.id} style={linkStyle}>
@@ -44,7 +52,7 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
             <CardMedia
               component="img"
               sx={{ height: 170, width: 'auto', display: { xs: 'none', sm: 'block' } }}
-              image="./laravel-logo4.png"
+              image={thumbnailImage(article)}
               alt={article.title}
             />
             <CardContent sx={{ flex: 1 }}>

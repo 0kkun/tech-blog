@@ -13,6 +13,8 @@ import { CustomizedSnackbar } from '../../../../components/admin/elements/Custom
 import { useParams } from 'react-router-dom'
 import { useGetArticle } from '../hooks/useGetArticle'
 import { useDeleteArticle } from '../hooks/useDeleteArticle'
+import { BasicFileUploadButton } from '../../../../components/admin/elements/BasicFileUploadButton'
+import { usePostUploadThumbnail } from '../hooks/usePostUploadThumbnail'
 
 /**
  * NOTE: Gridについて
@@ -31,6 +33,7 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
   const fetchTagsHooks = useFetchTags()
   const getArticleHooks = useGetArticle()
   const deleteArticleHooks = useDeleteArticle()
+  const postUploadThumbnailHooks = usePostUploadThumbnail()
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
@@ -110,6 +113,16 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
     setIsOpenSnackbar(false)
   }
 
+  const handleThumbnailUpload = async (formData: FormData) => {
+    const image = await postUploadThumbnailHooks.postUploadThumbnail(formData)
+    if (image) {
+      putArticleHooks.setValue('thumbnail_image', image)
+      handleSnackbarOpen()
+    } else {
+      console.error('Upload Thumbnail Failed.')
+    }
+  }
+
   return (
     <>
       <CustomizedSnackbar
@@ -121,13 +134,23 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
       />
       <form>
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item xs={6}>
             <TagSelectBox
               label="タグ選択"
               name="selectedTags"
               tags={fetchTagsHooks.tags}
               control={putArticleHooks.control}
             />
+          </Grid>
+          <Grid item xs={2}>
+            <Box sx={{ marginLeft: 2, marginTop: 3 }}>
+              <BasicFileUploadButton
+                title='サムネイル画像'
+                name='file'
+                color='secondary'
+                handleFileUpload={handleThumbnailUpload}
+              />
+            </Box>
           </Grid>
           <Grid item xs={4} sx={{ marginTop: 1 }}>
             <Button
