@@ -15,8 +15,9 @@ class ImageService:
         self,
         db: Session,
         image_url: str,
+        is_thumbnail: bool,
     ):
-        return self.image_repository.create(db, image_url)
+        return self.image_repository.create(db, image_url, is_thumbnail)
 
     def delete(
         self,

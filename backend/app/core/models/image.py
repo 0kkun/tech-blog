@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class Image(BaseModel):
     id: int
     url: str
+    is_thumbnail: bool
     created_at: datetime.datetime
     updated_at: datetime.datetime
 

@@ -27,6 +27,7 @@ class ArticlePutRequest(BaseModel):
     is_published: bool
     tags: List[TagRequest]
     images: Optional[List[ImageData]]
+    thumbnail_image: Optional[ImageData]
 
 
 class ArticleGetResponse(BaseModel):
@@ -39,6 +40,7 @@ class ArticleGetResponse(BaseModel):
     created_at: datetime.datetime
     updated_at: datetime.datetime
     tags: Optional[List[TagResponse]]
+    thumbnail_image: Optional[ImageData]
 
 
 class ArticleFetchResponse(BaseModel):

@@ -32,7 +32,7 @@ async def file_upload(
         file_url = s3_client.upload_file(file=file, dir=dir)
 
         with SessionLocal.begin() as db:
-            image = image_service.create(db, file_url)
+            image = image_service.create(db, file_url, False)
 
         return ImagePostResponse(id=image.id, url=image.url)
 
@@ -42,7 +42,6 @@ async def file_upload(
     except Exception as e:
         _logger.error(f"Upload failed: {str(e)}")
         raise HTTPException(status_code=500, detail="ファイルのアップロード中にエラーが発生しました。")
-
 
 
 @router.delete("/v1/uploads/all_file", summary="ファイルを全件数削除する", tags=["upload"])
@@ -56,3 +55,27 @@ async def file_delete():
         }
     except Exception as e:
         _logger.error(f"Deletion failed: {str(e)}")
+
+
+@router.post("/v1/uploads/thumbnail", summary="サムネイル画像をアップロードする", tags=["upload"])
+async def file_upload(
+    image_service: Annotated[ImageService, Depends(ImageService)],
+    file: UploadFile = File(None),
+):
+    try:
+        validate_mimetype(file)
+        dir = "thumbnail_images"
+        s3_client = S3Client()
+        file_url = s3_client.upload_file(file=file, dir=dir)
+
+        with SessionLocal.begin() as db:
+            image = image_service.create(db, file_url, True)
+
+        return ImagePostResponse(id=image.id, url=image.url)
+
+    except HTTPException as e:
+        _logger.error(f"Upload failed: {str(e)}")
+        raise e
+    except Exception as e:
+        _logger.error(f"Upload failed: {str(e)}")
+        raise HTTPException(status_code=500, detail="ファイルのアップロード中にエラーが発生しました。")
