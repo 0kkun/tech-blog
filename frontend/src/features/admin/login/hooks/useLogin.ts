@@ -4,7 +4,6 @@ import { User, LoginRequest, LoginResponse } from '../types/user'
 import { useForm, FieldValues } from 'react-hook-form'
 
 export const useLogin = () => {
-  const [tokenInfo, setTokenInfo] = useState<LoginResponse>()
   const {
     getValues,
     control,
@@ -22,10 +21,8 @@ export const useLogin = () => {
       }
       response = await sendLoginApi(request)
       if (response.status === 200) {
-        console.log('ログインAPIが成功した')
-        // console.log(response.data)
-        // クッキーにトークンをセットする
-        // setAuthToken(response.data.token)
+        console.log('login api recieve status code 200.')
+        reset()
       }
       return response.data
     } catch (e) {
@@ -37,24 +34,5 @@ export const useLogin = () => {
     control,
     errors,
     reset,
-    tokenInfo,
-  }
-}
-
-/**
- * アクセストークンをcookieにセットする
- * @param token
- */
-const setAuthToken = (token: string): void => {
-  if (token) {
-    const expires = new Date()
-    expires.setDate(expires.getDate() + 7)
-    // Cookieにトークンを保存する
-    document.cookie = `access_token=${token}; expires=${expires.toUTCString()}; path=/`
-    console.log('Complete set access_token to cookie')
-  } else {
-    console.log('access_token delete')
-    // Cookieからトークンを削除する
-    document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
   }
 }
