@@ -12,6 +12,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import { Link as RouterLink } from 'react-router-dom'
 import { ClassNameMap } from '@mui/material'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 interface Props {
   classes: ClassNameMap<'link'>
@@ -63,6 +64,14 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
               <LocalOfferIcon />
             </ListItemIcon>
             <ListItemText primary="タグ一覧" />
+          </ListItemButton>
+        </RouterLink>
+        <RouterLink to="/admin/setting" className={classes.link}>
+          <ListItemButton>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="設定" />
           </ListItemButton>
         </RouterLink>
       </List>
