@@ -21,6 +21,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import AssignmentIcon from '@mui/icons-material/Assignment'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
+import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import { Link as RouterLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import { BasicTheme } from '../../../config/theme'
@@ -186,7 +187,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
             <RouterLink to="/admin/tag" className={classes.link}>
               <ListItemButton>
                 <ListItemIcon>
-                  <BorderColorIcon />
+                  <LocalOfferIcon />
                 </ListItemIcon>
                 <ListItemText primary="タグ一覧" />
               </ListItemButton>

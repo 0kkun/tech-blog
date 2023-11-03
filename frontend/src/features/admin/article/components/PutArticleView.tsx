@@ -68,6 +68,7 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
     fetchInitialData()
   }, [])
 
+  // 記事投稿時の処理
   const onSubmit = async (isPublished: boolean) => {
     if (articleId && isEdit) {
       // 更新
@@ -80,10 +81,12 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
     handleSnackbarOpen()
   }
 
+  // 入力した内容をクリアするときの処理
   const handleClear = () => {
     putArticleHooks.reset()
   }
 
+  // 記事削除時の処理
   const handleDelete = async () => {
     // TODO: confirmモーダル出して、ダッシュボードに戻る
     if (isEdit && articleId) {
@@ -92,6 +95,7 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
     }
   }
 
+  // 処理成功時のトースト
   const handleSnackbarOpen = () => {
     setIsOpenSnackbar(true)
   }
@@ -100,16 +104,19 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
     setIsOpenSnackbar(false)
   }
 
+  // サムネイル画像のアップロード処理
   const handleThumbnailUpload = async (formData: FormData) => {
     const image = await postUploadThumbnailHooks.postUploadThumbnail(formData)
     if (image) {
       putArticleHooks.setValue('thumbnail_image', image)
+      setHasThumbnail(true)
       handleSnackbarOpen()
     } else {
       console.error('Upload Thumbnail Failed.')
     }
   }
 
+  // 挿入画像のアップロード処理
   const handleImageUpload = async (formData: FormData) => {
     const image = await postUploadHooks.postUpload(formData)
     if (image) {
