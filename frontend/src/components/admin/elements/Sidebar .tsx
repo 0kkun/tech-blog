@@ -13,6 +13,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import { Link as RouterLink } from 'react-router-dom'
 import { ClassNameMap } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
+import { PATH } from '../../../routes/AppRoutes'
 
 interface Props {
   classes: ClassNameMap<'link'>
@@ -22,7 +23,7 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
   return (
     <>
       <List component="nav">
-        <RouterLink to="/admin" className={classes.link}>
+        <RouterLink to={PATH.adminHome} className={classes.link}>
           <ListItemButton>
             <ListItemIcon>
               <DashboardIcon />
@@ -34,7 +35,7 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
         <ListSubheader component="div" inset>
           Action
         </ListSubheader>
-        <RouterLink to="/admin/article/create" className={classes.link}>
+        <RouterLink to={PATH.adminArticleCreate} className={classes.link}>
           <ListItemButton>
             <ListItemIcon>
               <AddCircleIcon />
@@ -42,7 +43,7 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
             <ListItemText primary="記事作成" />
           </ListItemButton>
         </RouterLink>
-        <RouterLink to="/admin/articles" className={classes.link}>
+        <RouterLink to={PATH.adminArticles} className={classes.link}>
           <ListItemButton>
             <ListItemIcon>
               <AssignmentIcon />
@@ -50,7 +51,7 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
             <ListItemText primary="記事一覧" />
           </ListItemButton>
         </RouterLink>
-        <RouterLink to="/admin/article/drafts" className={classes.link}>
+        <RouterLink to={PATH.adminArticleDrafts} className={classes.link}>
           <ListItemButton>
             <ListItemIcon>
               <BorderColorIcon />
@@ -58,7 +59,7 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
             <ListItemText primary="下書一覧" />
           </ListItemButton>
         </RouterLink>
-        <RouterLink to="/admin/tag" className={classes.link}>
+        <RouterLink to={PATH.adminTag} className={classes.link}>
           <ListItemButton>
             <ListItemIcon>
               <LocalOfferIcon />
@@ -66,7 +67,7 @@ export const Sidebar: React.FC<Props> = ({ classes }) => {
             <ListItemText primary="タグ一覧" />
           </ListItemButton>
         </RouterLink>
-        <RouterLink to="/admin/setting" className={classes.link}>
+        <RouterLink to={PATH.adminSetting} className={classes.link}>
           <ListItemButton>
             <ListItemIcon>
               <SettingsIcon />
