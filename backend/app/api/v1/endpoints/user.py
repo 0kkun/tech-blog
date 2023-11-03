@@ -1,6 +1,6 @@
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status
-from typing import Annotated
+from typing import Annotated, List
 from util.error_log import get_error_log_info
 from app.infrastructure.database.database import SessionLocal
 from app.middleware.auth_middleware import verify_token, get_current_user
@@ -96,6 +96,26 @@ def show_user(
         with SessionLocal.begin() as db:
             user = user_service.get(db, user_id)
         return GetUserResponse(id=user.id, name=user.name, email=user.email)
+    except HTTPException as e:
+        message = get_error_log_info(e)
+        _logger.exception(message)
+        raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
+
+
+@router.get(
+    "/v1/users",
+    summary='user一覧取得',
+    dependencies=[Depends(verify_token)],
+    tags=['user']
+)
+async def fetch_users(
+    user_service: Annotated[UserService, Depends(UserService)],
+) -> List[GetUserResponse]:
+    _logger.info('users fetch api start')
+    try:
+        with SessionLocal.begin() as db:
+            users = user_service.fetch(db)
+        return users
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(message)

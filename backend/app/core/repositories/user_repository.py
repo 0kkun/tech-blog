@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from typing import Optional, List
-from app.core.models.user import UserCreateRequest, User
+from app.core.models.user import UserCreateRequest, User, GetUserResponse
 from app.infrastructure.database.schema_model.user import UserOrm
 from util.datetime_generator import DateTimeGenerator
 
@@ -65,3 +65,15 @@ class UserRepository:
         )
         db.add(new_user)
         db.flush()
+
+
+    def fetch(
+        self,
+        db: Session,
+    ) -> Optional[List[GetUserResponse]]:
+        """
+            ユーザー一覧取得
+        """
+        users = db.query(UserOrm.id, UserOrm.name, UserOrm.email).all()
+        user_list = [GetUserResponse.from_orm(user) for user in users]
+        return user_list

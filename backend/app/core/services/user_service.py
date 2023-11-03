@@ -56,3 +56,13 @@ class UserService:
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
         return user
+
+
+    def fetch(
+        self,
+        db: Session,
+    ):
+        users = self.user_repository.fetch(db)
+        if users is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        return users
