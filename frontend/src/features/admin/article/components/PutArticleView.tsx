@@ -160,17 +160,14 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
           <Grid item xs={2}>
             <Box sx={{ marginLeft: 2, marginTop: 3 }}>
               <BasicFileUploadButton
-                title='サムネイル画像'
-                name='file'
-                color='secondary'
+                title="サムネイル画像"
+                name="file"
+                color="secondary"
                 handleFileUpload={handleThumbnailUpload}
               />
             </Box>
-            <Box sx={{ textAlign: 'center'}}>
-              {hasThumbnailImage
-                ? "サムネイル登録済み"
-                : "サムネイル未設定"
-              }
+            <Box sx={{ textAlign: 'center' }}>
+              {hasThumbnailImage ? 'サムネイル登録済み' : 'サムネイル未設定'}
             </Box>
           </Grid>
           <Grid item xs={4} sx={{ marginTop: 1 }}>
@@ -232,9 +229,9 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
                 />
                 <Box sx={{ width: '160px', textAlign: 'center' }}>
                   <BasicFileUploadButton
-                    title='画像挿入'
-                    name='file'
-                    color='info'
+                    title="画像挿入"
+                    name="file"
+                    color="info"
                     handleFileUpload={handleImageUpload}
                   />
                 </Box>

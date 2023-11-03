@@ -4,11 +4,16 @@ import { Button, Box } from '@mui/material'
 interface Props {
   name: string
   title: string
-  color: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning"
+  color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
   handleFileUpload: (file: FormData) => void
 }
 
-export const BasicFileUploadButton: React.FC<Props> = ({ name, title, color, handleFileUpload }) => {
+export const BasicFileUploadButton: React.FC<Props> = ({
+  name,
+  title,
+  color,
+  handleFileUpload,
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleUploadClick = () => {

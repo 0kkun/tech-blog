@@ -5,42 +5,27 @@ import MuiDrawer from '@mui/material/Drawer'
 import Box from '@mui/material/Box'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import List from '@mui/material/List'
-import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Container from '@mui/material/Container'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import ListSubheader from '@mui/material/ListSubheader'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import BorderColorIcon from '@mui/icons-material/BorderColor'
-import LocalOfferIcon from '@mui/icons-material/LocalOffer'
-import { Link as RouterLink } from 'react-router-dom'
-import Button from '@mui/material/Button'
 import { BasicTheme } from '../../../config/theme'
 import { Copyright } from '../elements/Copyright'
+import { Sidebar } from '../elements/Sidebar '
+import { Header } from '../elements/Header'
 
 // メイン画面の横幅設定
 const drawerWidth: number = 240
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    link: {
-      textDecoration: 'none',
-      color: theme.palette.text.primary,
-    },
-  }),
-)
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean
+}
+
+interface DashboardProps {
+  children: React.ReactNode
+  title: string
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -87,12 +72,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 )
 
-export interface DashboardProps {
-  children: React.ReactNode
-  title: string
-}
-
 export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => {
+  const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      link: {
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
+      },
+    }),
+  )
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const toggleDrawer = () => {
@@ -122,14 +110,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
               <MenuIcon />
             </IconButton>
             {/* ヘッダー */}
-            <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              {title}
-            </Typography>
-            <RouterLink to="/admin/login" className={classes.link}>
-              <Button variant="outlined" style={{ color: 'white' }} sx={{ my: 1, mx: 1.5 }}>
-                Logout
-              </Button>
-            </RouterLink>
+            <Header classes={classes} title={title} />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -146,53 +127,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
             </IconButton>
           </Toolbar>
           <Divider />
-          {/* サイドバー */}
-          <List component="nav">
-            <RouterLink to="/admin" className={classes.link}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="ダッシュボード" />
-              </ListItemButton>
-            </RouterLink>
-            <Divider sx={{ my: 1 }} />
-            <ListSubheader component="div" inset>
-              Action
-            </ListSubheader>
-            <RouterLink to="/admin/article/create" className={classes.link}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <AddCircleIcon />
-                </ListItemIcon>
-                <ListItemText primary="記事作成" />
-              </ListItemButton>
-            </RouterLink>
-            <RouterLink to="/admin/articles" className={classes.link}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="記事一覧" />
-              </ListItemButton>
-            </RouterLink>
-            <RouterLink to="/admin/article/drafts" className={classes.link}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <BorderColorIcon />
-                </ListItemIcon>
-                <ListItemText primary="下書一覧" />
-              </ListItemButton>
-            </RouterLink>
-            <RouterLink to="/admin/tag" className={classes.link}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LocalOfferIcon />
-                </ListItemIcon>
-                <ListItemText primary="タグ一覧" />
-              </ListItemButton>
-            </RouterLink>
-          </List>
+          <Sidebar classes={classes} />
         </Drawer>
         <Box
           component="main"

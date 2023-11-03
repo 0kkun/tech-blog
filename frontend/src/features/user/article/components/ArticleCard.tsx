@@ -40,7 +40,7 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
     if (article.thumbnail_image) {
       return article.thumbnail_image.url
     } else {
-      return "./laravel-logo4.png"
+      return './laravel-logo4.png'
     }
   }
 
