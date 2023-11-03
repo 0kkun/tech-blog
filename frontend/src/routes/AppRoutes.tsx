@@ -19,6 +19,10 @@ export const PATH = {
   adminArticleCreate: '/admin/article/create',
   adminArticleDrafts: '/admin/article/drafts',
   adminTag: '/admin/tag',
+  adminSetting: 'admin/setting',
+  userHome: '/',
+  userArticle: '/article/:articleId',
+  notFound: '/notfound',
 }
 
 export const AppRoutes = () => {
@@ -52,10 +56,14 @@ export const AppRoutes = () => {
         path={PATH.adminTag}
         element={<RouteAuthGuard component={<AdminIndexTag />} redirect={PATH.adminLogin} />}
       />
+      <Route
+        path={PATH.adminSetting}
+        element={<RouteAuthGuard component={<AdminIndexTag />} redirect={PATH.adminLogin} />}
+      />
       {/* ******** User ******** */}
-      <Route path="/" element={<Home />} />
-      <Route path="/article/:articleId" element={<Article />} />
-      <Route path="/notfound" element={<NotFound />} />
+      <Route path={PATH.userHome} element={<Home />} />
+      <Route path={PATH.userArticle} element={<Article />} />
+      <Route path={PATH.notFound} element={<NotFound />} />
     </Routes>
   )
 }
