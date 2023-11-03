@@ -7,12 +7,13 @@ import { TagSelectBox } from './TagSelectBox'
 import { BasicInputField } from '../../../../components/admin/elements/BasicInputField'
 import { TextArea } from './TextArea'
 import { useFetchTags } from '../../tag/hooks/useFetchTags'
-import { FileUploadUI } from './FileUploadUI'
-import { ImageData } from '../types/image'
 import { CustomizedSnackbar } from '../../../../components/admin/elements/CustomizedSnackbar'
 import { useParams } from 'react-router-dom'
 import { useGetArticle } from '../hooks/useGetArticle'
 import { useDeleteArticle } from '../hooks/useDeleteArticle'
+import { BasicFileUploadButton } from '../../../../components/admin/elements/BasicFileUploadButton'
+import { usePostUploadThumbnail } from '../hooks/usePostUploadThumbnail'
+import { usePostUpload } from '../hooks/usePostUpload'
 
 /**
  * NOTE: Gridについて
@@ -31,7 +32,10 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
   const fetchTagsHooks = useFetchTags()
   const getArticleHooks = useGetArticle()
   const deleteArticleHooks = useDeleteArticle()
+  const postUploadThumbnailHooks = usePostUploadThumbnail()
+  const postUploadHooks = usePostUpload()
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
+  const [hasThumbnailImage, setHasThumbnail] = useState(false)
   // 入力したものをリアルタイムでプレビュー表示するためにwatch
   const inputText = putArticleHooks.watch('inputText')
   const pageTitle = isEdit ? '記事編集入力' : '新規記事入力'
@@ -55,12 +59,16 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
           putArticleHooks.setValue('inputText', article.content)
           putArticleHooks.setValue('selectedTags', article.tags)
           putArticleHooks.setValue('title', article.title)
+          if (article.thumbnail_image) {
+            setHasThumbnail(true)
+          }
         }
       }
     }
     fetchInitialData()
   }, [])
 
+  // 記事投稿時の処理
   const onSubmit = async (isPublished: boolean) => {
     if (articleId && isEdit) {
       // 更新
@@ -69,13 +77,16 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
       // 新規作成
       await putArticleHooks.putArticles(isPublished)
     }
+    handleClear()
     handleSnackbarOpen()
   }
 
+  // 入力した内容をクリアするときの処理
   const handleClear = () => {
     putArticleHooks.reset()
   }
 
+  // 記事削除時の処理
   const handleDelete = async () => {
     // TODO: confirmモーダル出して、ダッシュボードに戻る
     if (isEdit && articleId) {
@@ -84,30 +95,47 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
     }
   }
 
-  const handleUpSuccess = (image: ImageData) => {
-    // マークダウン形式で画像を追加
-    const updatedInputText = inputText + `\n![Image](${image.url})`
-    // テキストエリアに更新されたテキストをセット
-    putArticleHooks.setValue('inputText', updatedInputText)
-
-    const updatedImages = putArticleHooks.getValues('images')
-    if (updatedImages === undefined) {
-      // 1個目のファイルの処理
-      putArticleHooks.setValue('images', [image])
-    } else {
-      // 2個目以降のファイルの処理
-      updatedImages.push(image)
-      putArticleHooks.setValue('images', updatedImages)
-    }
-    handleSnackbarOpen()
-  }
-
+  // 処理成功時のトースト
   const handleSnackbarOpen = () => {
     setIsOpenSnackbar(true)
   }
 
   const handleSnackbarClose = () => {
     setIsOpenSnackbar(false)
+  }
+
+  // サムネイル画像のアップロード処理
+  const handleThumbnailUpload = async (formData: FormData) => {
+    const image = await postUploadThumbnailHooks.postUploadThumbnail(formData)
+    if (image) {
+      putArticleHooks.setValue('thumbnail_image', image)
+      setHasThumbnail(true)
+      handleSnackbarOpen()
+    } else {
+      console.error('Upload Thumbnail Failed.')
+    }
+  }
+
+  // 挿入画像のアップロード処理
+  const handleImageUpload = async (formData: FormData) => {
+    const image = await postUploadHooks.postUpload(formData)
+    if (image) {
+      // マークダウン形式で画像を追加
+      const updatedInputText = inputText + `\n![Image](${image.url})`
+      // テキストエリアに更新されたテキストをセット
+      putArticleHooks.setValue('inputText', updatedInputText)
+
+      const updatedImages = putArticleHooks.getValues('images')
+      if (updatedImages === undefined) {
+        // 1個目のファイルの処理
+        putArticleHooks.setValue('images', [image])
+      } else {
+        // 2個目以降のファイルの処理
+        updatedImages.push(image)
+        putArticleHooks.setValue('images', updatedImages)
+      }
+      handleSnackbarOpen()
+    }
   }
 
   return (
@@ -121,13 +149,26 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
       />
       <form>
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item xs={6}>
             <TagSelectBox
               label="タグ選択"
               name="selectedTags"
               tags={fetchTagsHooks.tags}
               control={putArticleHooks.control}
             />
+          </Grid>
+          <Grid item xs={2}>
+            <Box sx={{ marginLeft: 2, marginTop: 3 }}>
+              <BasicFileUploadButton
+                title="サムネイル画像"
+                name="file"
+                color="secondary"
+                handleFileUpload={handleThumbnailUpload}
+              />
+            </Box>
+            <Box sx={{ textAlign: 'center' }}>
+              {hasThumbnailImage ? 'サムネイル登録済み' : 'サムネイル未設定'}
+            </Box>
           </Grid>
           <Grid item xs={4} sx={{ marginTop: 1 }}>
             <Button
@@ -186,8 +227,13 @@ export const PutArticleView: React.FC<Props> = ({ isEdit }) => {
                   placeholder="タイトルを入力"
                   control={putArticleHooks.control}
                 />
-                <Box sx={{ textAlign: 'right' }}>
-                  <FileUploadUI handleUpSuccess={handleUpSuccess} />
+                <Box sx={{ width: '160px', textAlign: 'center' }}>
+                  <BasicFileUploadButton
+                    title="画像挿入"
+                    name="file"
+                    color="info"
+                    handleFileUpload={handleImageUpload}
+                  />
                 </Box>
               </Box>
               <TextArea

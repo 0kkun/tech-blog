@@ -114,6 +114,9 @@ migrate-file:
 	@read -p "Enter the migrate title: " TITLE; \
 	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/infrastructure/database && alembic revision --autogenerate -m '$$TITLE'"
 
+.PHONY:open-docs
+open-docs:
+	open http://localhost:8080/docs
 
 # *****************************
 # *     Frontend Controll    *

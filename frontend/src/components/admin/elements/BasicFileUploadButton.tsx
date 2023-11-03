@@ -1,15 +1,20 @@
 import React, { useRef } from 'react'
 import { Button, Box } from '@mui/material'
-import { usePostUpload } from '../hooks/usePostUpload'
-import { ImageData } from '../types/image'
 
 interface Props {
-  handleUpSuccess: (image: ImageData) => void
+  name: string
+  title: string
+  color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+  handleFileUpload: (file: FormData) => void
 }
 
-export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
+export const BasicFileUploadButton: React.FC<Props> = ({
+  name,
+  title,
+  color,
+  handleFileUpload,
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const postUploadHooks = usePostUpload()
 
   const handleUploadClick = () => {
     if (fileInputRef.current) {
@@ -17,27 +22,18 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
     }
   }
 
-  const resetFileInput = () => {
-    if (fileInputRef.current) {
-      // fileのinput要素が存在していたらリセットする
-      fileInputRef.current.value = ''
-    }
-  }
-
   const onFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-
     if (files && files.length > 0) {
       // ファイルが選択されたらここでファイルを処理する
       const selectedFile = files[0]
       const formData = new FormData()
-      formData.append('file', selectedFile)
-      const image = await postUploadHooks.postUpload(formData)
-      if (image) {
-        resetFileInput()
-        handleUpSuccess(image)
-      } else {
-        console.error('Upload Failed. null returned.')
+      formData.append(name, selectedFile)
+      handleFileUpload(formData)
+
+      // fileのinput要素が存在していたらリセットする
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
       }
     }
   }
@@ -47,13 +43,12 @@ export const FileUploadUI: React.FC<Props> = ({ handleUpSuccess }) => {
       <Box>
         <Button
           variant="contained"
-          color="info"
-          sx={{ marginLeft: 2, width: '100px' }}
+          color={color}
           onClick={() => {
             handleUploadClick()
           }}
         >
-          画像添付
+          {title}
         </Button>
         <input
           hidden

@@ -23,7 +23,12 @@ def generate_secret_key(
     return {'secret_key': secret_key}
 
 
-@router.post('/v1/users/register', summary='ユーザー登録', status_code=status.HTTP_201_CREATED, tags=['user'])
+@router.post(
+    '/v1/users/register',
+    summary='ユーザー登録',
+    status_code=status.HTTP_201_CREATED,
+    tags=['user']
+)
 def create_user(
     request: UserCreateRequest,
     user_service: Annotated[UserService, Depends(UserService)],
@@ -39,7 +44,12 @@ def create_user(
         raise HTTPException(status_code=500, detail=f'{message}')
 
 
-@router.post('/v1/users/login', summary='ログイン', status_code=status.HTTP_200_OK, tags=['user'])
+@router.post(
+    '/v1/users/login',
+    summary='ログイン',
+    status_code=status.HTTP_200_OK,
+    tags=['user']
+)
 def login(
     request: UserLoginRequest,
     user_service: Annotated[UserService, Depends(UserService)],
@@ -49,14 +59,18 @@ def login(
         with SessionLocal.begin() as db:
             token = user_service.login(db, request)
         return {"token": token, "token_type": "Bearer"}
-
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(f"{message}")
         raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
 
 
-@router.get("/v1/users/me", summary='ログイン中のuserを一件取得', dependencies=[Depends(verify_token)], tags=['user'])
+@router.get(
+    "/v1/users/me",
+    summary='ログイン中のuserを一件取得',
+    dependencies=[Depends(verify_token)],
+    tags=['user']
+)
 async def me(
     current_user: User = Depends(get_current_user)
 ) -> GetUserResponse:
@@ -68,7 +82,12 @@ async def me(
         raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
 
 
-@router.get("/v1/users/{user_id}", summary='idを指定してuserを一件取得', dependencies=[Depends(verify_token)], tags=['user'])
+@router.get(
+    "/v1/users/{user_id}",
+    summary='idを指定してuserを一件取得',
+    tags=['user'],
+    dependencies=[Depends(verify_token)],
+)
 def show_user(
     user_id: int,
     user_service: Annotated[UserService, Depends(UserService)],

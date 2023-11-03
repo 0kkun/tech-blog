@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, BigInteger, DateTime
+from sqlalchemy import Column, String, BigInteger, DateTime, Boolean
 import datetime
 
 
@@ -11,6 +11,7 @@ class ImageOrm(Base):
 
     id = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
     url = Column(String(255), nullable=False, comment="画像のURL")
+    is_thumbnail = Column(Boolean, nullable=False, default=False, comment="サムネイル画像かどうか")
     created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.datetime.now)
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
