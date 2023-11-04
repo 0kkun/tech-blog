@@ -11,7 +11,7 @@ import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
 import { BasicPutModal } from '../../components/admin/elements/BasicPutModal'
 
 // タグ一覧画面
-export const AdminIndexTag: React.FC = () => {
+export const AdminTag: React.FC = () => {
   const fetchTagsHooks = useFetchTags()
   const putTagHooks = usePutTag()
   const deleteTagHooks = useDeleteTag()

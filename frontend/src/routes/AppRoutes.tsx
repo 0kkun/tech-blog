@@ -6,7 +6,7 @@ import { AdminCreateArticle } from '../pages/admin/AdminCreateArticle'
 import { AdminIndexArticle } from '../pages/admin/AdminIndexArticle'
 import { AdminDraftIndexArticle } from '../pages/admin/AdminDraftIndexArticle'
 import { AdminEditArticle } from '../pages/admin/AdminEditArticle'
-import { AdminIndexTag } from '../pages/admin/AdminIndexTag'
+import { AdminTag } from '../pages/admin/AdminTag'
 import { AdminSetting } from '../pages/admin/AdminSetting'
 import { Article } from '../pages/user/Article'
 import { RouteAuthGuard } from './RouteAuthGuard'
@@ -55,7 +55,7 @@ export const AppRoutes = () => {
       />
       <Route
         path={PATH.adminTag}
-        element={<RouteAuthGuard component={<AdminIndexTag />} redirect={PATH.adminLogin} />}
+        element={<RouteAuthGuard component={<AdminTag />} redirect={PATH.adminLogin} />}
       />
       <Route
         path={PATH.adminSetting}
