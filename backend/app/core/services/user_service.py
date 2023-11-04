@@ -6,7 +6,7 @@ from typing import List
 from app.core.models.user import UserCreateRequest
 from app.core.models.token import PutTokenRequest
 from app.core.services.auth_service import AuthService
-from app.core.models.user import UserLoginRequest
+from app.core.models.user import UserLoginRequest, UpdateUserRequest
 
 class UserService:
     def __init__(
@@ -66,3 +66,17 @@ class UserService:
         if users is None:
             raise HTTPException(status_code=404, detail="User not found")
         return users
+
+
+    def update(
+        self,
+        db: Session,
+        request: UpdateUserRequest,
+    ) -> None:
+        user = self.user_repository.getById(db, request.id)
+        if user is None:
+            raise HTTPException(status_code=400, detail="User is not exists")
+        # パスワードをハッシュ化
+        hashed_password = self.auth_service.convert_hash(request.password)
+        request.password = hashed_password
+        self.user_repository.update(db, request)

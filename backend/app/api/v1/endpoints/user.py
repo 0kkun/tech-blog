@@ -4,7 +4,7 @@ from typing import Annotated, List
 from util.error_log import get_error_log_info
 from app.infrastructure.database.database import SessionLocal
 from app.middleware.auth_middleware import verify_token, get_current_user
-from app.core.models.user import User, UserCreateRequest, UserLoginRequest, GetUserResponse
+from app.core.models.user import User, UserCreateRequest, UserLoginRequest, GetUserResponse, UpdateUserRequest
 from app.core.models.success_response import SuccessResponse
 from app.core.services.auth_service import AuthService
 from app.core.services.user_service import UserService
@@ -75,7 +75,12 @@ async def me(
     current_user: User = Depends(get_current_user)
 ) -> GetUserResponse:
     try:
-        return GetUserResponse(id=current_user.id, name=current_user.name, email=current_user.email)
+        return GetUserResponse(
+            id=current_user.id,
+            name=current_user.name,
+            email=current_user.email,
+            role=current_user.role,
+        )
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(message)
@@ -95,7 +100,7 @@ def show_user(
     try:
         with SessionLocal.begin() as db:
             user = user_service.get(db, user_id)
-        return GetUserResponse(id=user.id, name=user.name, email=user.email)
+        return GetUserResponse(id=user.id, name=user.name, email=user.email, role=user.role)
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(message)
@@ -116,6 +121,27 @@ async def fetch_users(
         with SessionLocal.begin() as db:
             users = user_service.fetch(db)
         return users
+    except HTTPException as e:
+        message = get_error_log_info(e)
+        _logger.exception(message)
+        raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
+
+
+@router.put(
+    '/v1/users',
+    summary='user更新',
+    dependencies=[Depends(verify_token)],
+    tags=['user']
+)
+async def update_user(
+    request: UpdateUserRequest,
+    user_service: Annotated[UserService, Depends(UserService)],
+):
+    _logger.info('users put api start')
+    try:
+        with SessionLocal.begin() as db:
+            user_service.update(db, request)
+        return SuccessResponse(message='updated')
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(message)

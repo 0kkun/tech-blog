@@ -56,6 +56,7 @@ def validate_token(token: str, db: Session) -> bool:
     """
     datetime_generator = DateTimeGenerator()
     current_time = datetime_generator.now_datetime()
+    # TODO: リポジトリにロジック移設する
     token_data = db.query(TokenOrm).filter(TokenOrm.token == token, TokenOrm.expired_at > current_time).first()
     return token_data
 
@@ -66,10 +67,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl=Env.APP_URL)
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     """現在ログイン中のユーザーを取得します
-
     Args:
         token (str, optional): _description_. Defaults to Depends(oauth2_scheme).
-
     Raises:
         credentials_exception: 認証情報の検証に失敗した場合に発生する例外
     Returns:

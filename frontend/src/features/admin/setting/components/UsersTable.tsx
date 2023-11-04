@@ -27,6 +27,16 @@ export const UsersTable: React.FC<Props> = ({
   handleEditButton,
   handleDeleteButton,
 }) => {
+
+  const convertRoleText = (role: number) => {
+    if (role === 0) {
+      return 'Admin'
+    }
+    if (role === 1) {
+      return 'Member'
+    }
+  }
+
   return (
     <>
       <Grid item xs={12}>
@@ -39,6 +49,7 @@ export const UsersTable: React.FC<Props> = ({
                   <TableCell>id</TableCell>
                   <TableCell>name</TableCell>
                   <TableCell>email</TableCell>
+                  <TableCell>role</TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -49,6 +60,7 @@ export const UsersTable: React.FC<Props> = ({
                     <TableCell>{user.id}</TableCell>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
+                    <TableCell>{convertRoleText(user.role)}</TableCell>
                     <TableCell>
                       <Button
                         variant="contained"

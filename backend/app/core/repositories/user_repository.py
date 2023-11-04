@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from typing import Optional, List
-from app.core.models.user import UserCreateRequest, User, GetUserResponse
+from app.core.models.user import UserCreateRequest, User, GetUserResponse, UpdateUserRequest
 from app.infrastructure.database.schema_model.user import UserOrm
 from util.datetime_generator import DateTimeGenerator
 
@@ -74,6 +74,26 @@ class UserRepository:
         """
             ユーザー一覧取得
         """
-        users = db.query(UserOrm.id, UserOrm.name, UserOrm.email).all()
+        users = db.query(UserOrm.id, UserOrm.name, UserOrm.email, UserOrm.role).all()
         user_list = [GetUserResponse.from_orm(user) for user in users]
         return user_list
+
+
+    def update(
+        self,
+        db: Session,
+        request: UpdateUserRequest,
+    ):
+        """
+            ユーザー更新
+        """
+        datetime = DateTimeGenerator()
+        now = datetime.now_datetime()
+        update_user = db.query(UserOrm).filter(UserOrm.id == request.id).first()
+        update_user.name = request.name
+        update_user.email = request.email
+        update_user.password = request.password
+        update_user.role = request.role
+        update_user.updated_at = now
+        db.add(update_user)
+        db.flush()

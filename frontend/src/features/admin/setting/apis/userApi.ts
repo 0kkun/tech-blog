@@ -29,7 +29,7 @@ export const sendFetchUsersApi = async (): Promise<AxiosResponse> => {
 export const sendEditUserApi = async (request: EditUserRequest): Promise<AxiosResponse> => {
   try {
     const response = await ApiClient.put(USERS_ENDPOINT, request)
-    console.log('put users api success!')
+    console.log('edit users api success!')
     return response
   } catch (error) {
     console.log('put users api failed!')

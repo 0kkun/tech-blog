@@ -11,7 +11,7 @@ export const useEditUser = () => {
     formState: { errors },
   } = useForm<FieldValues>()
 
-  const inputNames = ['name', 'email']
+  const inputNames = ['name', 'email', 'password', 'role']
 
   const editUser = async (userId: number): Promise<void> => {
     try {
@@ -21,10 +21,11 @@ export const useEditUser = () => {
         id: userId,
         name: values.name,
         email: values.email,
+        password: values.password,
+        role: values.role,
       }
       response = await sendEditUserApi(request)
       if (response.status === 200) {
-        console.log(response.data)
         return
       }
     } catch (e) {

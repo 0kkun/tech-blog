@@ -29,6 +29,14 @@ class GetUserResponse(BaseModel):
     id: int
     name: str
     email: str
+    role: int
 
     class Config:
         orm_mode = True
+
+class UpdateUserRequest(BaseModel):
+    id: int
+    name: str
+    email: str
+    password: str
+    role: int

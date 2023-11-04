@@ -40,6 +40,7 @@ export const AdminSetting: React.FC = () => {
       // hooksに値をセットする
       editUserHooks.setValue('name', selectedUser.name)
       editUserHooks.setValue('email', selectedUser.email)
+      editUserHooks.setValue('role', selectedUser.role)
       setSelectedUser(selectedUser)
       // モーダルを開く
       setIsOpenUserEditModal(true)
