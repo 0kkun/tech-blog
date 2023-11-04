@@ -80,3 +80,11 @@ class UserService:
         hashed_password = self.auth_service.convert_hash(request.password)
         request.password = hashed_password
         self.user_repository.update(db, request)
+
+
+    def delete(
+        self,
+        db,
+        user_id,
+    ):
+        self.user_repository.delete(db, user_id)

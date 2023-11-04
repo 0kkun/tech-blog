@@ -97,3 +97,19 @@ class UserRepository:
         update_user.updated_at = now
         db.add(update_user)
         db.flush()
+
+
+    def delete(
+        self,
+        db: Session,
+        user_id: int,
+    ) -> None:
+        """
+            記事1件削除
+        """
+        user = db.query(UserOrm).filter(
+            UserOrm.id == user_id,
+        ).one_or_none()
+        if user is None:
+            raise ValueError('User does not exist')
+        db.delete(user)

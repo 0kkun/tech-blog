@@ -19,7 +19,7 @@ DATABASE_URL = "mysql+mysqldb://%s:%s@%s:%s/%s?charset=utf8" % (
 # https://blog.amedama.jp/entry/2015/08/15/133322
 engine = create_engine(
     DATABASE_URL,
-    echo=True,
+    echo=False,
     # pool_recycle=60,
     pool_pre_ping=True,
 )

@@ -4,10 +4,11 @@ from typing import Annotated, List
 from util.error_log import get_error_log_info
 from app.infrastructure.database.database import SessionLocal
 from app.middleware.auth_middleware import verify_token, get_current_user
-from app.core.models.user import User, UserCreateRequest, UserLoginRequest, GetUserResponse, UpdateUserRequest
+from app.core.models.user import User, UserCreateRequest, UserLoginRequest, GetUserResponse, UpdateUserRequest, LoginSuccessReposnse
 from app.core.models.success_response import SuccessResponse
 from app.core.services.auth_service import AuthService
 from app.core.services.user_service import UserService
+from config.env import Env
 
 
 router = APIRouter()
@@ -35,9 +36,26 @@ def create_user(
 ) -> SuccessResponse:
     _logger.info('user register api start')
     try:
-        with SessionLocal.begin() as db:
-            user_service.create(db, request)
-        return SuccessResponse(message='created')
+        is_authenticated = False
+        if request.secret_key:
+            if Env.SECRET_KEY != request.secret_key:
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            else:
+                is_authenticated = True
+
+        if is_authenticated is False:
+            current_user = get_current_user()
+            if current_user.is_admin() == False:
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            else:
+                is_authenticated = True
+
+        if is_authenticated:
+            with SessionLocal.begin() as db:
+                user_service.create(db, request)
+            return SuccessResponse(message='created')
+        else:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(message)
@@ -53,12 +71,12 @@ def create_user(
 def login(
     request: UserLoginRequest,
     user_service: Annotated[UserService, Depends(UserService)],
-):
+) -> LoginSuccessReposnse:
     _logger.info('user login api start')
     try:
         with SessionLocal.begin() as db:
             token = user_service.login(db, request)
-        return {"token": token, "token_type": "Bearer"}
+        return LoginSuccessReposnse(token=token, token_type='Bearer')
     except HTTPException as e:
         message = get_error_log_info(e)
         _logger.exception(f"{message}")
@@ -96,8 +114,11 @@ async def me(
 def show_user(
     user_id: int,
     user_service: Annotated[UserService, Depends(UserService)],
+    current_user: User = Depends(get_current_user)
 ) -> GetUserResponse:
     try:
+        if current_user.is_admin() == False:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             user = user_service.get(db, user_id)
         return GetUserResponse(id=user.id, name=user.name, email=user.email, role=user.role)
@@ -136,9 +157,12 @@ async def fetch_users(
 async def update_user(
     request: UpdateUserRequest,
     user_service: Annotated[UserService, Depends(UserService)],
-):
+    current_user: User = Depends(get_current_user),
+) -> SuccessResponse:
     _logger.info('users put api start')
     try:
+        if current_user.is_admin() == False:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             user_service.update(db, request)
         return SuccessResponse(message='updated')
@@ -146,3 +170,27 @@ async def update_user(
         message = get_error_log_info(e)
         _logger.exception(message)
         raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
+
+
+@router.delete(
+    "/v1/users/{user_id}",
+    summary="ユーザーを1件削除",
+    dependencies=[Depends(verify_token)],
+    tags=['user']
+)
+async def delete_user(
+    user_id: int,
+    user_service: Annotated[UserService, Depends(UserService)],
+    current_user: User = Depends(get_current_user),
+) -> SuccessResponse:
+    _logger.info("user delete api start")
+    try:
+        if current_user.is_admin() == False:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        with SessionLocal.begin() as db:
+            user_service.delete(db, user_id)
+        return SuccessResponse(message='deleted')
+    except HTTPException as e:
+        _logger.exception(str(e))
+        message = get_error_log_info(e)
+        raise HTTPException(status_code=500, detail=f"{message}")
