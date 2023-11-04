@@ -83,6 +83,26 @@ def login(
         raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
 
 
+@router.post(
+    '/v1/users/logout',
+    summary='ログアウト',
+    status_code=status.HTTP_200_OK,
+    tags=['user']
+)
+def logout(
+    user_service: Annotated[UserService, Depends(UserService)],
+    current_user: User = Depends(get_current_user),
+) -> SuccessResponse:
+    try:
+        with SessionLocal.begin() as db:
+            user_service.logout(db, current_user.id)
+        return SuccessResponse(message='logout')
+    except HTTPException as e:
+        message = get_error_log_info(e)
+        _logger.exception(f"{message}")
+        raise HTTPException(status_code=e.status_code, detail=f'{e.detail}')
+
+
 @router.get(
     "/v1/users/me",
     summary='ログイン中のuserを一件取得',
@@ -114,7 +134,7 @@ async def me(
 def show_user(
     user_id: int,
     user_service: Annotated[UserService, Depends(UserService)],
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ) -> GetUserResponse:
     try:
         if current_user.is_admin() == False:

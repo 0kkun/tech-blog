@@ -47,6 +47,13 @@ class UserService:
         self.token_repository.put(db, PutTokenRequest(token=token, user_id=db_user.id, expired_at=expired_at))
         return token
 
+    def logout(
+        self,
+        db: Session,
+        user_id,
+    ):
+        self.token_repository.delete(db, user_id)
+
     def get(
         self,
         db: Session,
@@ -57,7 +64,6 @@ class UserService:
             raise HTTPException(status_code=404, detail="User not found")
         return user
 
-
     def fetch(
         self,
         db: Session,
@@ -66,7 +72,6 @@ class UserService:
         if users is None:
             raise HTTPException(status_code=404, detail="User not found")
         return users
-
 
     def update(
         self,
@@ -80,7 +85,6 @@ class UserService:
         hashed_password = self.auth_service.convert_hash(request.password)
         request.password = hashed_password
         self.user_repository.update(db, request)
-
 
     def delete(
         self,
