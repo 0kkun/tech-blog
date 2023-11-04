@@ -3,6 +3,8 @@ uvicorn==0.22.0
 python-multipart==0.0.6
 pydantic==1.10
 typing_extensions==4.6.1
+# レートリミット用。機能追加する時に入れる
+# fastapi-limiter==0.1.5
 
 # format
 yapf==0.33.0

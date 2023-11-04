@@ -39,7 +39,6 @@ export const LoginView: React.FC = () => {
             control={loginHooks.control}
             label="Password"
             autoComplete="current-password"
-            type="password"
           />
           <Button
             fullWidth

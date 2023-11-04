@@ -7,26 +7,36 @@ import {
   TableRow,
   Button,
   TableContainer,
-  Grid,
   Paper,
+  Grid,
 } from '@mui/material'
 import Title from '../../../../components/admin/elements/Title'
-import { Tag } from '../types/tag'
 import { TABLE_MAX_HEIGHT } from '../../../../config/viewConstant'
+import { User } from '../types/user'
 
 interface Props {
   title: string
-  tags: Tag[]
-  handleEditButton: (tag: Tag) => void
-  handleDeleteButton: (tag: Tag) => void
+  users: User[]
+  handleEditButton: (user: User) => void
+  handleDeleteButton: (user: User) => void
 }
 
-export const TagTable: React.FC<Props> = ({
+export const UsersTable: React.FC<Props> = ({
   title,
-  tags,
+  users,
   handleEditButton,
   handleDeleteButton,
 }) => {
+
+  const convertRoleText = (role: number) => {
+    if (role === 0) {
+      return 'Admin'
+    }
+    if (role === 1) {
+      return 'Member'
+    }
+  }
+
   return (
     <>
       <Grid item xs={12}>
@@ -35,23 +45,29 @@ export const TagTable: React.FC<Props> = ({
           <TableContainer style={{ maxHeight: TABLE_MAX_HEIGHT }}>
             <Table size="small" stickyHeader>
               <TableHead>
-                <TableRow style={{ backgroundColor: '#0000', height: '35px' }}>
-                  <TableCell>名前</TableCell>
+                <TableRow>
+                  <TableCell>id</TableCell>
+                  <TableCell>name</TableCell>
+                  <TableCell>email</TableCell>
+                  <TableCell>role</TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tags.map((tag) => (
-                  <TableRow key={tag.id}>
-                    <TableCell>{tag.name}</TableCell>
+                {users.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.id}</TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{convertRoleText(user.role)}</TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
                         color="success"
                         size="small"
                         onClick={() => {
-                          handleEditButton(tag)
+                          handleEditButton(user)
                         }}
                       >
                         編集
@@ -63,7 +79,7 @@ export const TagTable: React.FC<Props> = ({
                         color="error"
                         size="small"
                         onClick={() => {
-                          handleDeleteButton(tag)
+                          handleDeleteButton(user)
                         }}
                       >
                         削除

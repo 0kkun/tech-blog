@@ -1,10 +1,10 @@
 import { sendDeleteTagApi } from '../apis/tagApi'
 
 export const useDeleteTag = () => {
-  const deleteTag = async (tag_id: number) => {
+  const deleteTag = async (tagId: number) => {
     let response
     try {
-      response = await sendDeleteTagApi(tag_id)
+      response = await sendDeleteTagApi(tagId)
       return response.data
     } catch (e) {
       console.log(e)

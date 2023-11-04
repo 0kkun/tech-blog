@@ -15,6 +15,7 @@ import { BasicTheme } from '../../../config/theme'
 import { Copyright } from '../elements/Copyright'
 import { Sidebar } from '../elements/Sidebar '
 import { Header } from '../elements/Header'
+import { useAuth } from '../../../hooks/useAuth'
 
 // メイン画面の横幅設定
 const drawerWidth: number = 240
@@ -73,6 +74,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 )
 
 export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => {
+  const authHooks = useAuth()
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       link: {
@@ -110,7 +112,7 @@ export const AdminTemplate: React.FC<DashboardProps> = ({ children, title }) => 
               <MenuIcon />
             </IconButton>
             {/* ヘッダー */}
-            <Header classes={classes} title={title} />
+            <Header classes={classes} title={title} logoutButton={authHooks.logout} />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

@@ -50,3 +50,11 @@ class TokenRepository:
             db.add(db_token)
             db.flush()
             return Token.from_orm(db_token)
+
+    def delete(
+        self,
+        db: Session,
+        user_id: int,
+    ):
+        token = db.query(TokenOrm).filter(TokenOrm.user_id == user_id).first()
+        db.delete(token)

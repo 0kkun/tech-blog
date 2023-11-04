@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { sendGetMeApi } from './getMeApi'
+import { sendGetMeApi, sendLogoutApi } from './authApi'
 import { User } from './user'
+
+// NOTE: current_userをグローバル管理してどのコンポーネントでも使えるようにしたい
 
 export const getTokenInCookie = () => {
   return document.cookie.replace(/(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/, '$1')
@@ -25,8 +27,19 @@ export const useAuth = () => {
       // }
     } catch (e) {
       console.log(e)
+      return 'SERVER_ERRROR'
     }
-    return 'SERVER_ERRROR'
+
+  }
+
+  const logout = async () => {
+    try {
+      await sendLogoutApi()
+      return
+    } catch (e) {
+      console.log(e)
+      return 'SERVER_ERRROR'
+    }
   }
 
   return {
@@ -34,5 +47,6 @@ export const useAuth = () => {
     // setIsAuthenticated,
     // currentUser,
     getMe,
+    logout,
   }
 }

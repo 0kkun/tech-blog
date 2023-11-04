@@ -22,7 +22,7 @@ def select_log_level(log_level: Optional[str]):
         return logging.INFO
 
 
-def init_logging():
+def setup_logging():
     _logger = logging.getLogger(__name__)
     logging.basicConfig(
         level=select_log_level(Env.LOG_LEVEL),

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { sendLoginApi } from '../apis/userApi'
-import { User, LoginRequest, LoginResponse } from '../types/user'
+import { LoginRequest, LoginResponse } from '../types/user'
 import { useForm, FieldValues } from 'react-hook-form'
 
 export const useLogin = () => {
