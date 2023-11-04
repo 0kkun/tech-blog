@@ -1,7 +1,7 @@
 import { AxiosError, isAxiosError, AxiosResponse } from 'axios'
 import ApiClient from '../../../../libs/apiClient'
 import { USERS_ENDPOINT } from '../../../../config/apiEndpoints'
-import { User } from '../types/user'
+import { User, PutUserRequest } from '../types/user'
 
 export const sendFetchUsersApi = async (): Promise<AxiosResponse> => {
   try {
@@ -10,6 +10,52 @@ export const sendFetchUsersApi = async (): Promise<AxiosResponse> => {
     return response
   } catch (error) {
     console.log('fetch users api failed!')
+    if (isAxiosError(error)) {
+      const axiosError = error as AxiosError<any>
+      if (axiosError.response) {
+        console.log(axiosError.response.data)
+        return axiosError.response.data
+      } else {
+        console.log(axiosError.message)
+        throw new Error(axiosError.message)
+      }
+    } else {
+      console.log(error)
+      throw error
+    }
+  }
+}
+
+export const sendPutUserApi = async (request: PutUserRequest): Promise<AxiosResponse> => {
+  try {
+    const response = await ApiClient.put(USERS_ENDPOINT, request)
+    console.log('put users api success!')
+    return response
+  } catch (error) {
+    console.log('put users api failed!')
+    if (isAxiosError(error)) {
+      const axiosError = error as AxiosError<any>
+      if (axiosError.response) {
+        console.log(axiosError.response.data)
+        return axiosError.response.data
+      } else {
+        console.log(axiosError.message)
+        throw new Error(axiosError.message)
+      }
+    } else {
+      console.log(error)
+      throw error
+    }
+  }
+}
+
+export const sendDeleteUserApi = async (userId: number): Promise<AxiosResponse> => {
+  try {
+    const response = await ApiClient.delete(USERS_ENDPOINT + '/' + userId)
+    console.log('delete user api success!')
+    return response
+  } catch (error) {
+    console.log('delete user api failed!')
     if (isAxiosError(error)) {
       const axiosError = error as AxiosError<any>
       if (axiosError.response) {
