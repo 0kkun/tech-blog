@@ -64,7 +64,6 @@ export const Chart: React.FC<ChartProps> = ({ chartRecords }) => {
           </ResponsiveContainer>
         </Paper>
       </Grid>
-
     </>
   )
 }

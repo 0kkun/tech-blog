@@ -10,7 +10,6 @@ import { Article } from '../../features/admin/article/types/article'
 import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSnackbar'
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
 
-
 // NOTE: アクセス数の他に、記事の投稿数、タグごとの記事の本数のグラフがあってもいいかも
 export const AdminHome: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()

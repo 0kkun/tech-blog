@@ -29,7 +29,6 @@ export const useAuth = () => {
       console.log(e)
       return 'SERVER_ERRROR'
     }
-
   }
 
   const logout = async () => {
