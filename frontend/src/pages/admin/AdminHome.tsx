@@ -59,12 +59,7 @@ export const AdminHome: FC = () => {
               <AccessCountBox accessCount={accessCount} />
             </Paper>
           </Grid>
-          {/* Recent Articles */}
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <ArticleTable title="投稿済記事一覧" isDraft={false} />
-            </Paper>
-          </Grid>
+          <ArticleTable title="投稿済記事一覧" isDraft={false} />
         </Grid>
       </AdminTemplate>
     </>
