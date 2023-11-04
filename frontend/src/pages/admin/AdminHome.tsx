@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Paper, Button } from '@mui/material'
+import { Grid } from '@mui/material'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { Chart } from '../../features/admin/chart/components/Chart'
 import { AccessCountBox } from '../../features/admin/access_counts/components/AccessCountBox'
@@ -12,7 +12,6 @@ import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
 
 
 // NOTE: アクセス数の他に、記事の投稿数、タグごとの記事の本数のグラフがあってもいいかも
-
 export const AdminHome: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()
   const deleteArticleHooks = useDeleteArticle()
@@ -23,7 +22,7 @@ export const AdminHome: React.FC = () => {
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
-      await fetchArticlesHooks.fetchArticles(false)
+      await fetchArticlesHooks.fetchArticles(true)
     }
     fetchInitialData()
   }, [])
@@ -49,8 +48,21 @@ export const AdminHome: React.FC = () => {
     createChartData('2023/7/9', undefined),
   ]
 
+  // 記事一覧の削除ボタンが押下された時の処理
+  const handleArticleDeleteButton = (article: Article) => {
+    setSelectedArticle(article)
+    setIsOpenConfirmModal(true)
+  }
+
+  // 記事削除モーダルの実行が押下された時の処理
   const executeDeleteArticle = async () => {
-    console.log('delete')
+    if (selectedArticle) {
+      await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      await fetchArticlesHooks.fetchArticles(true)
+      setIsOpenSnackbar(true)
+    } else {
+      console.error('selectedArticle is undefined.')
+    }
     setIsOpenConfirmModal(false)
   }
 
@@ -76,35 +88,12 @@ export const AdminHome: React.FC = () => {
       />
       <AdminTemplate title="管理画面">
         <Grid container spacing={3}>
-          {/* Chart */}
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                height: 240,
-              }}
-            >
-              <Chart chartRecords={chartRecords} />
-            </Paper>
-          </Grid>
-          {/* Recent Access Count */}
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                height: 240,
-              }}
-            >
-              <AccessCountBox accessCount={accessCount} />
-            </Paper>
-          </Grid>
+          <Chart chartRecords={chartRecords} />
+          <AccessCountBox accessCount={accessCount} />
           <ArticleTable
             title="投稿済記事一覧"
-            isDraft={false}
+            articles={fetchArticlesHooks.articles}
+            handleDeleteButton={handleArticleDeleteButton}
           />
         </Grid>
       </AdminTemplate>

@@ -58,12 +58,13 @@ export const AdminTag: React.FC = () => {
     setIsOpenTagEditModal(false)
   }
 
-  // タグ一覧の削除ボタンが押下された時のそり
+  // タグ一覧の削除ボタンが押下された時の処理
   const handleTagDeleteButton = (tag: Tag) => {
     setSelectedTag(tag)
     setIsOpenConfirmModal(true)
   }
 
+  // タグ削除モーダルの実行ボタンが押下された時の処理
   const executeDeleteTag = async () => {
     if (selectedTag) {
       await deleteTagHooks.deleteTag(selectedTag.id)

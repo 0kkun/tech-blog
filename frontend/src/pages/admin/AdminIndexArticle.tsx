@@ -19,13 +19,25 @@ export const AdminIndexArticle: React.FC = () => {
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
-      await fetchArticlesHooks.fetchArticles(false)
+      await fetchArticlesHooks.fetchArticles(true)
     }
     fetchInitialData()
   }, [])
 
+  // 記事一覧の削除ボタンが押下された時の処理
+  const handleArticleDeleteButton = (article: Article) => {
+    setSelectedArticle(article)
+    setIsOpenConfirmModal(true)
+  }
+
   const executeDeleteArticle = async () => {
-    console.log('delete')
+    if (selectedArticle) {
+      await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      await fetchArticlesHooks.fetchArticles(true)
+      setIsOpenSnackbar(true)
+    } else {
+      console.error('selectedArticle is undefined.')
+    }
     setIsOpenConfirmModal(false)
   }
 
@@ -53,7 +65,8 @@ export const AdminIndexArticle: React.FC = () => {
         <Grid container spacing={3}>
           <ArticleTable
             title="投稿記事一覧"
-            isDraft={false}
+            articles={fetchArticlesHooks.articles}
+            handleDeleteButton={handleArticleDeleteButton}
           />
         </Grid>
       </AdminTemplate>

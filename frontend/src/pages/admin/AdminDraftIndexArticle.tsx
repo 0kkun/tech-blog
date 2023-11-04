@@ -19,16 +19,27 @@ export const AdminDraftIndexArticle: React.FC = () => {
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
-      await fetchArticlesHooks.fetchArticles(true)
+      await fetchArticlesHooks.fetchArticles(false)
     }
     fetchInitialData()
   }, [])
 
-  const executeDeleteArticle = async () => {
-    console.log('delete')
-    setIsOpenConfirmModal(false)
+  // 記事一覧の削除ボタンが押下された時の処理
+  const handleArticleDeleteButton = (article: Article) => {
+    setSelectedArticle(article)
+    setIsOpenConfirmModal(true)
   }
 
+  const executeDeleteArticle = async () => {
+    if (selectedArticle) {
+      await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      await fetchArticlesHooks.fetchArticles(true)
+      setIsOpenSnackbar(true)
+    } else {
+      console.error('selectedArticle is undefined.')
+    }
+    setIsOpenConfirmModal(false)
+  }
   return (
     <>
       <CustomizedSnackbar
@@ -41,7 +52,7 @@ export const AdminDraftIndexArticle: React.FC = () => {
       <ConfirmModal
         isOpen={isOpenConfirmModal}
         title="削除確認"
-        description="記事を1件削除します。よろしいですか？"
+        description="下書記事を1件削除します。よろしいですか？"
         handleClose={() => {
           setIsOpenConfirmModal(false)
         }}
@@ -53,7 +64,8 @@ export const AdminDraftIndexArticle: React.FC = () => {
         <Grid container spacing={3}>
           <ArticleTable
             title="下書一覧"
-            isDraft={true}
+            articles={fetchArticlesHooks.articles}
+            handleDeleteButton={handleArticleDeleteButton}
           />
         </Grid>
       </AdminTemplate>
