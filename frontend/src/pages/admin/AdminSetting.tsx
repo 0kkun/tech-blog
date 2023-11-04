@@ -49,7 +49,7 @@ export const AdminSetting: React.FC = () => {
   // ユーザー編集モーダルの完了が押下された時の処理
   const handleUserEditSubmit = async () => {
     if (selectedUser) {
-      editUserHooks.editUser(selectedUser.id)
+      await editUserHooks.editUser(selectedUser.id)
       editUserHooks.reset()
       setIsOpenSnackbar(true)
       // ユーザー一覧情報更新
@@ -60,8 +60,8 @@ export const AdminSetting: React.FC = () => {
     setIsOpenUserEditModal(false)
   }
 
-  const handleUserDeleteButton = (selectedUser: User) => {
-    setSelectedUser(selectedUser)
+  const handleUserDeleteButton = (user: User) => {
+    setSelectedUser(user)
     setIsOpenConfirmModal(true)
   }
 
@@ -123,11 +123,11 @@ export const AdminSetting: React.FC = () => {
           setIsOpenUserCreateModal(false)
         }}
         handleSubmit={handleUserCreateSubmit}
-        submitText='追加'
+        submitText="追加"
       />
       <AdminTemplate title="管理画面">
         <Grid container spacing={3}>
-          <Grid item sx={{ width: '100%' ,textAlign: 'right' }}>
+          <Grid item sx={{ width: '100%', textAlign: 'right' }}>
             <Button
               variant="contained"
               color="info"

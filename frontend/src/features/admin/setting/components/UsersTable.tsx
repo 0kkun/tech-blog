@@ -21,7 +21,12 @@ interface Props {
   handleDeleteButton: (user: User) => void
 }
 
-export const UsersTable: React.FC<Props> = ({ title, users, handleEditButton, handleDeleteButton }) => {
+export const UsersTable: React.FC<Props> = ({
+  title,
+  users,
+  handleEditButton,
+  handleDeleteButton,
+}) => {
   return (
     <>
       <Grid item xs={12}>

@@ -50,12 +50,7 @@ export const BasicPutModal: React.FC<Props> = ({
             <form>
               {inputNames.map((name) => (
                 <Box key={name}>
-                  <BasicTextField
-                    name={name}
-                    control={control}
-                    label={name}
-                    autoComplete=''
-                  />
+                  <BasicTextField name={name} control={control} label={name} autoComplete="" />
                 </Box>
               ))}
               <Box sx={{ marginTop: '40px', textAlign: 'center' }}>

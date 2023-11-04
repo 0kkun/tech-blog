@@ -11,6 +11,8 @@ export const usePutTag = () => {
     formState: { errors },
   } = useForm<FieldValues>()
 
+  const inputNames = ['name']
+
   const putTag = async (tagId?: number) => {
     try {
       let response
@@ -33,5 +35,6 @@ export const usePutTag = () => {
     control,
     setValue,
     reset,
+    inputNames,
   }
 }
