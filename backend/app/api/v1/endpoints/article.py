@@ -1,12 +1,13 @@
 import logging
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from typing import Annotated, Optional, List
 from app.core.models.article import Article, ArticlePutRequest, ArticleGetResponse
 from app.core.models.success_response import SuccessResponse
 from app.core.services.article_service import ArticleService
 from app.infrastructure.database.database import SessionLocal
 from util.error_log import get_error_log_info
-from app.middleware.auth_middleware import verify_token
+from app.middleware.auth_middleware import verify_token, get_current_user
+from app.core.models.user import User
 
 router = APIRouter()
 _logger = logging.getLogger(__name__)
@@ -60,10 +61,13 @@ async def get_article(
 )
 async def put_article(
     request: ArticlePutRequest,
-    article_service: Annotated[ArticleService, Depends(ArticleService)]
+    article_service: Annotated[ArticleService, Depends(ArticleService)],
+    current_user: User = Depends(get_current_user),
 ) -> SuccessResponse:
     _logger.info("article put api start")
     try:
+        if current_user.is_admin() == False:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             article_service.put(db, request)
         return SuccessResponse(message='created or updated')
@@ -82,9 +86,12 @@ async def put_article(
 async def delete_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
+    current_user: User = Depends(get_current_user),
 ) -> SuccessResponse:
     _logger.info("article delete api start")
     try:
+        if current_user.is_admin() == False:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             article_service.delete(db, article_id)
         return SuccessResponse(message='deleted')
