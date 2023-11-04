@@ -11,6 +11,9 @@ export interface Props {
 }
 
 export const BasicTextField: React.FC<Props> = ({ name, control, label, autoComplete, type }) => {
+  if (name === 'password') {
+    type = 'password'
+  }
   return (
     <>
       <Controller

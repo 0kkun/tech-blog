@@ -4,8 +4,15 @@ export type User = {
   email: string
 }
 
-export type PutUserRequest = {
-  id?: number
+export type EditUserRequest = {
+  id: number
   name: string
   email: string
+}
+
+export type CreateUserRequest = {
+  name: string
+  email: string
+  password: string
+  role: number
 }

@@ -1,8 +1,8 @@
-import { sendPutUserApi } from '../apis/userApi'
+import { sendEditUserApi } from '../apis/userApi'
 import { useForm, FieldValues } from 'react-hook-form'
-import { PutUserRequest } from '../types/user'
+import { EditUserRequest } from '../types/user'
 
-export const usePutUser = () => {
+export const useEditUser = () => {
   const {
     getValues,
     control,
@@ -11,16 +11,18 @@ export const usePutUser = () => {
     formState: { errors },
   } = useForm<FieldValues>()
 
-  const putUser = async (userId?: number): Promise<void> => {
+  const inputNames = ['name', 'email']
+
+  const editUser = async (userId: number): Promise<void> => {
     try {
       let response
       const values = getValues()
-      const request: PutUserRequest = {
-        id: userId ?? undefined,
+      const request: EditUserRequest = {
+        id: userId,
         name: values.name,
         email: values.email,
       }
-      response = await sendPutUserApi(request)
+      response = await sendEditUserApi(request)
       if (response.status === 200) {
         console.log(response.data)
         return
@@ -30,9 +32,10 @@ export const usePutUser = () => {
     }
   }
   return {
-    putUser,
+    editUser,
     control,
     setValue,
     reset,
+    inputNames,
   }
 }

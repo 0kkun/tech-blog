@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
-import { Grid } from '@mui/material/'
-import { UsersTable } from '../../features/admin/setting/components/UsersTable'
+import { Grid, Button } from '@mui/material/'
 import { useFetchUsers } from '../../features/admin/setting/hooks/useFetchUsers'
-import { usePutUser } from '../../features/admin/setting/hooks/usePutUser'
+import { useDeleteUser } from '../../features/admin/setting/hooks/useDeleteUser'
+import { useEditUser } from '../../features/admin/setting/hooks/useEditUser'
+import { useCreateUser } from '../../features/admin/setting/hooks/useCreateUser'
 import { User } from '../../features/admin/setting/types/user'
-import { BasicEditModal } from '../../components/admin/elements/BasicEditModal'
+import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
+import { UsersTable } from '../../features/admin/setting/components/UsersTable'
+import { BasicPutModal } from '../../components/admin/elements/BasicPutModal'
 import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSnackbar'
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
-import { useDeleteUser } from '../../features/admin/setting/hooks/useDeleteUser'
 
 export const AdminSetting: React.FC = () => {
   const fetchUsersHooks = useFetchUsers()
-  const putUserHooks = usePutUser()
+  const editUserHooks = useEditUser()
   const deleteUserHooks = useDeleteUser()
+  const createUserHooks = useCreateUser()
   const [selectedUser, setSelectedUser] = useState<User>()
   const [isOpenUserEditModal, setIsOpenUserEditModal] = useState(false)
+  const [isOpenUserCreateModal, setIsOpenUserCreateModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
-  const userEditInputNames = ['name', 'email']
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -36,8 +38,8 @@ export const AdminSetting: React.FC = () => {
   const handleUserEditButton = (selectedUser: User) => {
     if (selectedUser) {
       // hooksに値をセットする
-      putUserHooks.setValue('name', selectedUser.name)
-      putUserHooks.setValue('email', selectedUser.email)
+      editUserHooks.setValue('name', selectedUser.name)
+      editUserHooks.setValue('email', selectedUser.email)
       setSelectedUser(selectedUser)
       // モーダルを開く
       setIsOpenUserEditModal(true)
@@ -47,8 +49,8 @@ export const AdminSetting: React.FC = () => {
   // ユーザー編集モーダルの完了が押下された時の処理
   const handleUserEditSubmit = async () => {
     if (selectedUser) {
-      putUserHooks.putUser(selectedUser.id)
-      putUserHooks.reset()
+      editUserHooks.editUser(selectedUser.id)
+      editUserHooks.reset()
       setIsOpenSnackbar(true)
       // ユーザー一覧情報更新
       await fetchUsersHooks.fetchUsers()
@@ -75,6 +77,13 @@ export const AdminSetting: React.FC = () => {
     setIsOpenConfirmModal(false)
   }
 
+  // ユーザー追加モーダルの実行が押下された時の処理
+  const handleUserCreateSubmit = async () => {
+    await createUserHooks.createUser()
+    await fetchUsersHooks.fetchUsers()
+    setIsOpenUserCreateModal(false)
+  }
+
   return (
     <>
       <CustomizedSnackbar
@@ -95,18 +104,43 @@ export const AdminSetting: React.FC = () => {
           executeDeleteUser()
         }}
       />
-      <BasicEditModal
+      <BasicPutModal
         title="ユーザー編集"
         isOpen={isOpenUserEditModal}
-        inputNames={userEditInputNames}
-        control={putUserHooks.control}
+        inputNames={editUserHooks.inputNames}
+        control={editUserHooks.control}
         handleClose={() => {
           setIsOpenUserEditModal(false)
         }}
         handleSubmit={handleUserEditSubmit}
       />
+      <BasicPutModal
+        title="ユーザー追加"
+        isOpen={isOpenUserCreateModal}
+        inputNames={createUserHooks.inputNames}
+        control={createUserHooks.control}
+        handleClose={() => {
+          setIsOpenUserCreateModal(false)
+        }}
+        handleSubmit={handleUserCreateSubmit}
+        submitText='追加'
+      />
       <AdminTemplate title="管理画面">
         <Grid container spacing={3}>
+          <Grid item sx={{ width: '100%' ,textAlign: 'right' }}>
+            <Button
+              variant="contained"
+              color="info"
+              size="medium"
+              sx={{ width: 100 }}
+              onClick={() => {
+                createUserHooks.reset()
+                setIsOpenUserCreateModal(true)
+              }}
+            >
+              新規追加
+            </Button>
+          </Grid>
           <UsersTable
             title="ユーザ一覧"
             users={fetchUsersHooks.users}
