@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { getTokenInCookie } from '../hooks/useAuth'
-import { sendGetMeApi } from '../hooks/getMeApi'
+import { sendGetMeApi } from '../hooks/authApi'
 import { logger } from '../libs/logger'
 import { Loading } from '../components/admin/elements/Loading'
 
