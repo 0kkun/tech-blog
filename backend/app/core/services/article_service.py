@@ -55,57 +55,17 @@ class ArticleService:
         article_id: int,
     ):
         article = self.article_repository.get(db, article_id)
-        article_tags = self.article_tag_repository.fetch_by_article_id(db, article_id)
-        tags = self.tag_repository.fetch(db)
-        article_thumbnail_image = self.article_thumbnail_image_repository.get_by_article_id(db, article_id)
-        thumbnail_image = self.image_repository.get(db, article_thumbnail_image.image_id)
-
-        # 記事に関連するタグの抽出ロジックを追加
-        related_tags = self.__make_related_tags(article_tags, tags, article_id)
-
-        # ArticleGetResponseオブジェクトを作成し、tagsフィールドに関連するタグを設定
-        return ArticleGetResponse(
-            id=article.id,
-            title=article.title,
-            content=article.content,
-            target_year=article.target_year,
-            target_month=article.target_month,
-            is_published=article.is_published,
-            created_at=article.created_at,
-            updated_at=article.updated_at,
-            tags=related_tags,
-            thumbnail_image=ImageData(id=thumbnail_image.id, url=thumbnail_image.url),
-        )
+        return article
 
     def fetch(
         self,
         db,
         is_published: bool,
+        tag_name: Optional[str],
+        target_ym: Optional[str],
     ) -> List[ArticleGetResponse]:
-        articles = self.article_repository.fetch_article(db, is_published)
-        article_ids = [article.id for article in articles]
-        article_tags = self.article_tag_repository.fetch_by_article_ids(db, article_ids)
-        tags = self.tag_repository.fetch(db)
-        article_thumbnail_images = self.article_thumbnail_image_repository.fetch(db)
-        thumbnail_images = self.image_repository.fetchThumbnail(db)
-
-        article_list = []
-        for article in articles:
-            related_tags = self.__make_related_tags(article_tags, tags, article.id)
-            related_thumbnail_image = self.__make_related_thumbnail(article_thumbnail_images, thumbnail_images, article.id)
-            article_list.append(ArticleGetResponse(
-                id=article.id,
-                title=article.title,
-                content=article.content,
-                target_year=article.target_year,
-                target_month=article.target_month,
-                is_published=article.is_published,
-                created_at=article.created_at,
-                updated_at=article.updated_at,
-                tags=related_tags,
-                thumbnail_image=related_thumbnail_image,
-            ))
-        return article_list
+        articles = self.article_repository.fetch_article(db, is_published, target_ym)
+        return articles
 
     def delete(
         self,
@@ -113,36 +73,3 @@ class ArticleService:
         article_id,
     ):
         self.article_repository.delete(db, article_id)
-
-
-    def __make_related_tags(self, article_tags: List[ArticleTag], tags: List[Tag], article_id: int) -> list[Tag]:
-        """
-            記事に関連するタグの抽出ロジック
-        """
-        article_tags = [article_tag for article_tag in article_tags if article_tag.article_id == article_id]
-        tag_ids = [article_tag.tag_id for article_tag in article_tags]
-        return [tag for tag in tags if tag.id in tag_ids]
-
-
-    def __make_related_thumbnail(
-        self,
-        article_thumbnail_images: List[ArticleThumbnailImage],
-        thumbnail_images: List[Image],
-        article_id: int
-    ) -> Optional[ImageData]:
-        """
-            記事に紐づくサムネイル画像抽出ロジック
-        """
-        image_id_for_thumbnail = None
-        # 中間テーブルから記事のサムネイル画像IDを探す
-        for article_thumbnail in article_thumbnail_images:
-            if article_thumbnail.article_id == article_id:
-                image_id_for_thumbnail = article_thumbnail.image_id
-
-        if image_id_for_thumbnail is None:
-            return None
-
-        # 画像IDから画像レコードを探す
-        for thumbnail_image in thumbnail_images:
-            if thumbnail_image.id == image_id_for_thumbnail:
-                return ImageData(id=thumbnail_image.id, url=thumbnail_image.url)
