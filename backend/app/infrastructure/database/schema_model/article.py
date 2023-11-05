@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, BigInteger, DateTime, Boolean, Text, Integer
+from sqlalchemy.orm import relationship
 import datetime
 
 from app.infrastructure.database.database import Base
@@ -18,3 +19,9 @@ class ArticleOrm(Base):
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now
     )
+
+    # Articleが持つタグを取得。リレーション (1:多)
+    tags = relationship("TagOrm", secondary="article_tags")
+
+    # Articleが持つサムネイル画像を取得。リレーション (1:1)
+    thumnail_image = relationship("ImageOrm", secondary="article_thumbnail_images", uselist=False)
