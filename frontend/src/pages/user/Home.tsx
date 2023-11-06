@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HomeTemplate } from '../../components/user/templates/HomeTemplate'
+import { UserTemplate } from '../../components/user/templates/UserTemplate'
 import { ArticleCardIndex } from '../../features/user/article/components/ArticleCardIndex'
 import { useFetchArticles } from '../../features/admin/article/hooks/useFetchArticles'
 import { useSearchParams, Navigate, useLocation } from 'react-router-dom'
@@ -36,9 +36,9 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      <HomeTemplate>
+      <UserTemplate isShowBanner={true}>
         <ArticleCardIndex articles={fetchArticlesHooks.articles} />
-      </HomeTemplate>
+      </UserTemplate>
     </>
   )
 }

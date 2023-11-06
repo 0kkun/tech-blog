@@ -6,17 +6,25 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import { ThemeProvider } from '@mui/material/styles'
 import { Header } from '../elements/Header'
+import { Banner } from '../elements/Banner'
 import { Sidebar } from '../elements/Sidebar'
 import { Footer } from '../elements/Footer'
-import { Box } from '@mui/material'
+import {
+  AppName,
+  AboutDescription,
+  BannerTitle,
+  BannnerDescription,
+} from '../../../config/constantText'
 import { BasicTheme } from '../../../config/theme'
-import { AboutDescription, AppName } from '../../../config/constantText'
+import { BannerBackgroundImage } from '../../../config/constantImage'
+import { Box } from '@mui/material'
 
 interface Props {
+  isShowBanner: boolean
   children: React.ReactNode
 }
 
-export const ArticleTemplate: React.FC<Props> = ({ children }) => {
+export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
   const sections = [
     { title: 'Backend', url: '#' },
     { title: 'Frontend', url: '#' },
@@ -25,11 +33,19 @@ export const ArticleTemplate: React.FC<Props> = ({ children }) => {
     { title: 'Other', url: '#' },
   ]
 
+  const contentsDescription = {
+    title: BannerTitle,
+    description: BannnerDescription,
+    image: BannerBackgroundImage,
+    imageText: 'テックブログ',
+    linkText: '',
+  }
+
   const sidebar = {
     title: 'About',
     description: AboutDescription,
     archives: [
-      { title: 'March 2020', url: '#' },
+      { title: '2023-11', url: '#' },
       { title: 'February 2020', url: '#' },
       { title: 'January 2020', url: '#' },
       { title: 'November 1999', url: '#' },
@@ -52,7 +68,10 @@ export const ArticleTemplate: React.FC<Props> = ({ children }) => {
       <Container maxWidth="lg">
         <Header title={AppName} sections={sections} />
         <main>
-          <Box sx={{ height: '30px' }}></Box>
+          {isShowBanner
+            ? <Banner post={contentsDescription} />
+            : <Box sx={{ height: '30px' }}></Box>
+          }
           <Grid container spacing={4}>
             <Grid item xs={12} md={9}>
               {children}

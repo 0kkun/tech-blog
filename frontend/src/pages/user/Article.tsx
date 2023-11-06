@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { ArticleTemplate } from '../../components/user/templates/ArticleTemplate'
 import { useGetArticle } from '../../features/admin/article/hooks/useGetArticle'
 import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { MarkdownPreview } from '../../features/admin/article/components/MarkdownPreview'
+import { UserTemplate } from '../../components/user/templates/UserTemplate'
 
 export const Article: React.FC = () => {
   const getArticleHooks = useGetArticle()
@@ -29,7 +29,7 @@ export const Article: React.FC = () => {
 
   return (
     <>
-      <ArticleTemplate>
+      <UserTemplate isShowBanner={false}>
         {isLoading ? (
           // ローディング中の表示
           <p>Loading...</p>
@@ -39,7 +39,7 @@ export const Article: React.FC = () => {
             <MarkdownPreview inputText={content} />
           </Box>
         )}
-      </ArticleTemplate>
+      </UserTemplate>
     </>
   )
 }
