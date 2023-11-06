@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
   return (
     <>
       <HomeTemplate>
-        <ArticleCardIndex articles={fetchArticlesHooks.articles}/>
+        <ArticleCardIndex articles={fetchArticlesHooks.articles} />
       </HomeTemplate>
     </>
   )
