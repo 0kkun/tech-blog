@@ -11,11 +11,12 @@ export const sendFetchArticlesApi = async (
   try {
     let endpoint = ARTICLE_ENDPOINT + '?is_published=' + isPublished
     if (tag_name) {
-      endpoint = endpoint + '&' + tag_name
+      endpoint = endpoint + '&tag_name=' + tag_name
     }
     if (target_ym) {
-      endpoint = endpoint + '&' + target_ym
+      endpoint = endpoint + '&target_ym=' + target_ym
     }
+    console.log(endpoint)
     const response = await ApiClient.get(endpoint)
     console.log('fetch articles api success!')
     return response
