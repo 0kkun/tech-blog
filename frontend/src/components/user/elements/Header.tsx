@@ -21,7 +21,7 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Typography
           component="h2"
@@ -35,9 +35,10 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
             {title}
           </RouterLink>
         </Typography>
-        <IconButton>
+        {/* TODO: 検索機能をいつか追加する */}
+        {/* <IconButton>
           <SearchIcon />
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
       <Toolbar
         component="nav"
@@ -61,6 +62,6 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
           </Link>
         ))}
       </Toolbar>
-    </React.Fragment>
+    </>
   )
 }

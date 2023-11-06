@@ -26,11 +26,10 @@ interface Props {
 
 export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
   const sections = [
-    { title: 'Backend', url: '#' },
-    { title: 'Frontend', url: '#' },
-    { title: 'Infrastructure', url: '#' },
-    { title: 'Architecture', url: '#' },
-    { title: 'Other', url: '#' },
+    { title: 'Laravel', url: '?tag_name=Laravel' },
+    { title: 'React', url: '?tag_name=React' },
+    { title: 'AWS', url: '?tag_name=AWS' },
+    { title: 'Architecture', url: '?tag_name=Architecture' },
   ]
 
   const contentsDescription = {
@@ -45,17 +44,8 @@ export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
     title: 'About',
     description: AboutDescription,
     archives: [
-      { title: '2023-11', url: '#' },
-      { title: 'February 2020', url: '#' },
-      { title: 'January 2020', url: '#' },
-      { title: 'November 1999', url: '#' },
-      { title: 'October 1999', url: '#' },
-      { title: 'September 1999', url: '#' },
-      { title: 'August 1999', url: '#' },
-      { title: 'July 1999', url: '#' },
-      { title: 'June 1999', url: '#' },
-      { title: 'May 1999', url: '#' },
-      { title: 'April 1999', url: '#' },
+      { title: 'November 2023', url: '?target_ym=2023-11' },
+      { title: 'October 2023', url: '?target_ym=2023-11' },
     ],
     social: [
       { name: 'GitHub', icon: GitHubIcon, url: 'https://github.com/0kkun' },
