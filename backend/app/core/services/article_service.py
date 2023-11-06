@@ -65,7 +65,11 @@ class ArticleService:
         target_ym: Optional[str],
     ) -> List[ArticleGetResponse]:
         articles = self.article_repository.fetch_article(db, is_published, target_ym)
-        return articles
+        if tag_name is None:
+            return articles
+        else:
+            articles = [article for article in articles if any(tag.name == tag_name for tag in article.tags)]
+            return articles
 
     def delete(
         self,
