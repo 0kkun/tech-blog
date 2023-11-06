@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from typing import Annotated, Optional, List
-from app.core.models.article import Article, ArticlePutRequest, ArticleGetResponse
+from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article
 from app.core.models.success_response import SuccessResponse
 from app.core.services.article_service import ArticleService
 from app.infrastructure.database.database import SessionLocal
@@ -19,18 +19,19 @@ _logger = logging.getLogger(__name__)
 )
 async def fetch_article(
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-    is_published: bool = Query(..., description="is_published parameter to filter articles"),
+    is_published: bool = Query(..., description="投稿済みかどうか"),
+    tag_name: str = Query(None, description="タグ名にて検索. 例: Laravel"),
+    target_ym: str = Query(None, description="指定年月にて検索. 形式: YYYY-MM"),
 ) ->  List[ArticleGetResponse]:
     _logger.info("article fetch api start")
     try:
         with SessionLocal.begin() as db:
-            articles = article_service.fetch(db, is_published)
+            articles = article_service.fetch(db, is_published, tag_name, target_ym)
         return articles
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
         raise HTTPException(status_code=500, detail=f"{message}")
-
 
 
 @router.get(
@@ -41,7 +42,7 @@ async def fetch_article(
 async def get_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
-) -> ArticleGetResponse:
+) -> Article:
     _logger.info("article get api start")
     try:
         with SessionLocal.begin() as db:

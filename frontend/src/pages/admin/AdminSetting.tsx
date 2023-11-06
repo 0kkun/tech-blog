@@ -139,7 +139,7 @@ export const AdminSetting: React.FC = () => {
                 setIsOpenUserCreateModal(true)
               }}
             >
-              新規追加
+              新規ユーザー追加
             </Button>
           </Grid>
           <UsersTable

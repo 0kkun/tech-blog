@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import select
 from typing import Optional, List
 from app.core.models.article import ArticlePutRequest, Article
+from app.core.models.tag import Tag
 from app.infrastructure.database.schema_model.article import ArticleOrm
 from util.datetime_generator import DateTimeGenerator
 
@@ -56,7 +57,8 @@ class ArticleRepository:
         id: int,
     ) -> Optional[Article]:
         """
-            idを指定して記事を1件取得する
+            idを指定して記事を1件取得する.
+            記事に紐づくタグ、サムネイル画像もリレーションで取得する
         """
         article = db.scalars(
             select(ArticleOrm)
@@ -72,13 +74,23 @@ class ArticleRepository:
         self,
         db: Session,
         is_published: bool,
+        target_ym: Optional[str],
     ) -> Optional[List[Article]]:
         """
             記事一覧取得
         """
-        articles = db.query(ArticleOrm).filter(
-            ArticleOrm.is_published == is_published,
-        ).order_by(ArticleOrm.updated_at.desc()).all()
+        if target_ym is not None:
+            year, month = map(int, target_ym.split('-'))
+
+            articles = db.query(ArticleOrm).filter(
+                ArticleOrm.is_published == is_published,
+                ArticleOrm.target_year == year,
+                ArticleOrm.target_month == month,
+            ).order_by(ArticleOrm.updated_at.desc()).all()
+        else:
+            articles = db.query(ArticleOrm).filter(
+                ArticleOrm.is_published == is_published,
+            ).order_by(ArticleOrm.updated_at.desc()).all()
         article_list = [Article.from_orm(article) for article in articles]
         return article_list
 

@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Grid } from '@mui/material'
 import { ArticleCard } from './ArticleCard'
-import { useFetchArticles } from '../../../admin/article/hooks/useFetchArticles'
+import { Article } from '../../../admin/article/types/article'
 
-export const ArticleCardIndex: React.FC = () => {
-  const fetchArticlesHooks = useFetchArticles()
+interface Props {
+  articles: Article[]
+}
 
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      await fetchArticlesHooks.fetchArticles(true)
-    }
-    fetchInitialData()
-  }, [])
-
+export const ArticleCardIndex: React.FC<Props> = ({ articles }) => {
   return (
     <>
       <Grid container spacing={4}>
-        {fetchArticlesHooks.articles.map((article) => (
+        {articles.map((article) => (
           <Grid item xs={12} sm={6} key={article.id}>
             <ArticleCard article={article} />
           </Grid>

@@ -17,7 +17,12 @@ export const Header: React.FC<Props> = ({ classes, title, logoutButton }) => {
         {title}
       </Typography>
       <RouterLink to="/admin/login" className={classes.link}>
-        <Button variant="outlined" style={{ color: 'white' }} sx={{ my: 1, mx: 1.5 }} onClick={logoutButton}>
+        <Button
+          variant="outlined"
+          style={{ color: 'white' }}
+          sx={{ my: 1, mx: 1.5 }}
+          onClick={logoutButton}
+        >
           Logout
         </Button>
       </RouterLink>

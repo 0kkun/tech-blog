@@ -27,7 +27,6 @@ export const UsersTable: React.FC<Props> = ({
   handleEditButton,
   handleDeleteButton,
 }) => {
-
   const convertRoleText = (role: number) => {
     if (role === 0) {
       return 'Admin'
