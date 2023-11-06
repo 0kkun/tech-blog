@@ -3,7 +3,11 @@ import ApiClient from '../../../../libs/apiClient'
 import { ARTICLE_ENDPOINT } from '../../../../config/apiEndpoints'
 import { PutArticleRequest } from '../types/article'
 
-export const sendFetchArticlesApi = async (isPublished: boolean, tag_name?: string, target_ym?: string): Promise<AxiosResponse> => {
+export const sendFetchArticlesApi = async (
+  isPublished: boolean,
+  tag_name?: string,
+  target_ym?: string,
+): Promise<AxiosResponse> => {
   try {
     let endpoint = ARTICLE_ENDPOINT + '?is_published=' + isPublished
     if (tag_name) {
