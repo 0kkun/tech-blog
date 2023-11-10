@@ -35,7 +35,9 @@ export const AdminDraftIndexArticle: React.FC = () => {
 
   const executeDeleteArticle = async () => {
     if (selectedArticle) {
-      await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      if (currentUser?.role == ADMIN) {
+        await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      }
       await fetchArticlesHooks.fetchArticles(true)
       setIsOpenSnackbar(true)
     } else {
