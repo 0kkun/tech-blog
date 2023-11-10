@@ -74,7 +74,9 @@ export const AdminSetting: React.FC = () => {
   // ユーザー削除確認モーダルの実行が押下された時の処理
   const executeDeleteUser = async () => {
     if (selectedUser) {
-      await deleteUserHooks.deleteUser(selectedUser.id)
+      if (currentUser?.role == ADMIN) {
+        await deleteUserHooks.deleteUser(selectedUser.id)
+      }
       await fetchUsersHooks.fetchUsers()
       setIsOpenSnackbar(true)
     } else {
@@ -85,7 +87,9 @@ export const AdminSetting: React.FC = () => {
 
   // ユーザー追加モーダルの実行が押下された時の処理
   const handleUserCreateSubmit = async () => {
-    await createUserHooks.createUser()
+    if (currentUser?.role == ADMIN) {
+      await createUserHooks.createUser()
+    }
     await fetchUsersHooks.fetchUsers()
     setIsOpenUserCreateModal(false)
   }
