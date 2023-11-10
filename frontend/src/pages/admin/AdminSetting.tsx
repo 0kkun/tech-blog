@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Grid, Button } from '@mui/material/'
 import { useFetchUsers } from '../../features/admin/setting/hooks/useFetchUsers'
 import { useDeleteUser } from '../../features/admin/setting/hooks/useDeleteUser'
@@ -10,8 +10,11 @@ import { UsersTable } from '../../features/admin/setting/components/UsersTable'
 import { BasicPutModal } from '../../components/admin/elements/BasicPutModal'
 import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSnackbar'
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
+import { authContext } from '../../providers/AuthProvider'
+import { ADMIN } from '../../config/userRole'
 
 export const AdminSetting: React.FC = () => {
+  const currentUser = useContext(authContext)
   const fetchUsersHooks = useFetchUsers()
   const editUserHooks = useEditUser()
   const deleteUserHooks = useDeleteUser()
@@ -50,7 +53,9 @@ export const AdminSetting: React.FC = () => {
   // ユーザー編集モーダルの完了が押下された時の処理
   const handleUserEditSubmit = async () => {
     if (selectedUser) {
-      await editUserHooks.editUser(selectedUser.id)
+      if (currentUser?.role == ADMIN) {
+        await editUserHooks.editUser(selectedUser.id)
+      }
       editUserHooks.reset()
       setIsOpenSnackbar(true)
       // ユーザー一覧情報更新
