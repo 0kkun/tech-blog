@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.seeder.base import Seeder
-from backend.app.seeder.tags import TagsSeeder
+from app.seeder.tags import TagsSeeder
 
 
 class SeederRunner:
