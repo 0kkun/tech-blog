@@ -7,7 +7,6 @@ export const sendGetMeApi = async (): Promise<any> => {
     const response = await ApiClient.get(USERS_ME_ENDPOINT)
     if (response.status == 200) {
       console.log('me api success!')
-      // console.log(response.data)
       return response
     }
   } catch (error) {
