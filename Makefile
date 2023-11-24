@@ -118,6 +118,10 @@ migrate-file:
 open-docs:
 	open http://localhost:8080/docs
 
+.PHONY: seed
+seed:
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "cd app/seeder && python run_seeder.py"
+
 # *****************************
 # *     Frontend Controll    *
 # *****************************
