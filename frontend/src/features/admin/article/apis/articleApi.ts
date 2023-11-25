@@ -16,7 +16,6 @@ export const sendFetchArticlesApi = async (
     if (target_ym) {
       endpoint = endpoint + '&target_ym=' + target_ym
     }
-    console.log(endpoint)
     const response = await ApiClient.get(endpoint)
     console.log('fetch articles api success!')
     return response

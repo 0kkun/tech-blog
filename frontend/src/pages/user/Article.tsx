@@ -15,6 +15,8 @@ export const Article: React.FC = () => {
 
   useEffect(() => {
     const fetchInitialData = async () => {
+      const userAgent = window.navigator.userAgent
+      console.log('User Agent:', userAgent)
       if (articleId) {
         const article = await getArticleHooks.getArticle(Number(articleId))
         if (article) {

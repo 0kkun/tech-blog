@@ -6,9 +6,16 @@ from sqlalchemy import pool
 from app.infrastructure.database.database import Base, DATABASE_URL
 
 # NOTE: migrationしたいモデルを追加する
-from app.infrastructure.database.schema_model import user, token, article, tag, article_tag, image, article_image, article_thumbnail_image # noqa: F401
-
-# , token, article, tag, article_tag, image, article_image 
+from app.infrastructure.database.schema_model import (
+    user,
+    token,
+    article,
+    tag,
+    article_tag,
+    image,
+    article_image,
+    article_thumbnail_image,
+)
 
 from alembic import context
 

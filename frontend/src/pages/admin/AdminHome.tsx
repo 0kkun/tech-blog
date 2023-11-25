@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Grid } from '@mui/material'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { Chart } from '../../features/admin/chart/components/Chart'
@@ -9,6 +9,8 @@ import { useDeleteArticle } from '../../features/admin/article/hooks/useDeleteAr
 import { Article } from '../../features/admin/article/types/article'
 import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSnackbar'
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
+import { authContext } from '../../providers/AuthProvider'
+import { ADMIN } from '../../config/userRole'
 
 // NOTE: アクセス数の他に、記事の投稿数、タグごとの記事の本数のグラフがあってもいいかも
 export const AdminHome: React.FC = () => {
@@ -17,6 +19,7 @@ export const AdminHome: React.FC = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Article>()
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
+  const currentUser = useContext(authContext)
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
@@ -56,8 +59,10 @@ export const AdminHome: React.FC = () => {
   // 記事削除モーダルの実行が押下された時の処理
   const executeDeleteArticle = async () => {
     if (selectedArticle) {
-      await deleteArticleHooks.deleteArticle(selectedArticle.id)
-      await fetchArticlesHooks.fetchArticles(true)
+      if (currentUser?.role == ADMIN) {
+        await deleteArticleHooks.deleteArticle(selectedArticle.id)
+        await fetchArticlesHooks.fetchArticles(true)
+      }
       setIsOpenSnackbar(true)
     } else {
       console.error('selectedArticle is undefined.')

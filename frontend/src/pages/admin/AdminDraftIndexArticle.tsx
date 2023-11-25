@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Grid from '@mui/material/Grid'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { ArticleTable } from '../../features/admin/article/components/ArticleTable'
@@ -7,9 +7,12 @@ import { useDeleteArticle } from '../../features/admin/article/hooks/useDeleteAr
 import { Article } from '../../features/admin/article/types/article'
 import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSnackbar'
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
+import { authContext } from '../../providers/AuthProvider'
+import { ADMIN } from '../../config/userRole'
 
 // 下書一覧画面
 export const AdminDraftIndexArticle: React.FC = () => {
+  const currentUser = useContext(authContext)
   const fetchArticlesHooks = useFetchArticles()
   const deleteArticleHooks = useDeleteArticle()
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -32,7 +35,9 @@ export const AdminDraftIndexArticle: React.FC = () => {
 
   const executeDeleteArticle = async () => {
     if (selectedArticle) {
-      await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      if (currentUser?.role == ADMIN) {
+        await deleteArticleHooks.deleteArticle(selectedArticle.id)
+      }
       await fetchArticlesHooks.fetchArticles(true)
       setIsOpenSnackbar(true)
     } else {

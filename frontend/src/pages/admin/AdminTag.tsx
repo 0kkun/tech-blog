@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Button, Grid } from '@mui/material'
 import { AdminTemplate } from '../../components/admin/templates/AdminTemplate'
 import { TagTable } from '../../features/admin/tag/components/TagTable'
@@ -9,9 +9,12 @@ import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSn
 import { Tag } from '../../features/admin/tag/types/tag'
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
 import { BasicPutModal } from '../../components/admin/elements/BasicPutModal'
+import { authContext } from '../../providers/AuthProvider'
+import { ADMIN } from '../../config/userRole'
 
 // タグ一覧画面
 export const AdminTag: React.FC = () => {
+  const currentUser = useContext(authContext)
   const fetchTagsHooks = useFetchTags()
   const putTagHooks = usePutTag()
   const deleteTagHooks = useDeleteTag()
@@ -47,7 +50,9 @@ export const AdminTag: React.FC = () => {
   // タグ編集モーダルの完了が押下された時の処理
   const handleTagEditSubmit = async () => {
     if (selectedTag) {
-      await putTagHooks.putTag(selectedTag.id)
+      if (currentUser?.role == ADMIN) {
+        await putTagHooks.putTag(selectedTag.id)
+      }
       putTagHooks.reset()
       setIsOpenSnackbar(true)
       // タグ一覧情報更新
@@ -67,7 +72,9 @@ export const AdminTag: React.FC = () => {
   // タグ削除モーダルの実行ボタンが押下された時の処理
   const executeDeleteTag = async () => {
     if (selectedTag) {
-      await deleteTagHooks.deleteTag(selectedTag.id)
+      if (currentUser?.role == ADMIN) {
+        await deleteTagHooks.deleteTag(selectedTag.id)
+      }
       await fetchTagsHooks.fetchTags()
       setIsOpenSnackbar(true)
     } else {
@@ -77,7 +84,9 @@ export const AdminTag: React.FC = () => {
   }
 
   const handleTagCreateSubmit = async () => {
-    await putTagHooks.putTag()
+    if (currentUser?.role == ADMIN) {
+      await putTagHooks.putTag()
+    }
     putTagHooks.reset()
     setIsOpenSnackbar(true)
     // タグ一覧情報更新
