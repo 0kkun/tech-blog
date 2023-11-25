@@ -28,6 +28,8 @@ export const Home: React.FC = () => {
   }
 
   useEffect(() => {
+    const userAgent = window.navigator.userAgent
+    console.log('User Agent:', userAgent)
     const fetchInitialData = async () => {
       await fetchArticlesHooks.fetchArticles(true, tagName, targetYm)
     }
