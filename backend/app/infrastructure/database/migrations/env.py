@@ -15,6 +15,7 @@ from app.infrastructure.database.schema_model import (
     image,
     article_image,
     article_thumbnail_image,
+    access_log,
 )
 
 from alembic import context

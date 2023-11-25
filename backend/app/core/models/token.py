@@ -1,5 +1,4 @@
 from datetime import datetime
-import datetime
 from pydantic import BaseModel
 
 
@@ -7,10 +6,10 @@ class Token(BaseModel):
     id: int
     token: str
     user_id: int
-    expired_at: datetime.datetime
-    last_login_at: datetime.datetime
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    expired_at: datetime
+    last_login_at: datetime
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
@@ -18,4 +17,4 @@ class Token(BaseModel):
 class PutTokenRequest(BaseModel):
     token: str
     user_id: int
-    expired_at: datetime.datetime
+    expired_at: datetime

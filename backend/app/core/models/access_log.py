@@ -1,13 +1,13 @@
 from datetime import datetime
-
 from pydantic import BaseModel
-from typing import List
+from typing import Optional
 
 
-class ArticleThumbnailImage(BaseModel):
+class AccessLog(BaseModel):
     id: int
-    article_id: int
-    image_id: int
+    visit_url: str
+    user_agent: str
+    article_id: Optional[int]
     created_at: datetime
     updated_at: datetime
 
