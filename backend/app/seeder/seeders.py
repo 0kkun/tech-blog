@@ -3,6 +3,7 @@ from app.seeder.base import Seeder
 from app.seeder.tags import TagsSeeder
 from app.seeder.users import UsersSeeder
 from app.seeder.articles_seeder import ArticlesSeeder
+from app.seeder.article_tags_seeder import ArticleTagsSeeder
 
 
 class SeederRunner:
@@ -11,6 +12,7 @@ class SeederRunner:
             TagsSeeder(),
             UsersSeeder(),
             ArticlesSeeder(),
+            ArticleTagsSeeder(),
         ]
         
     # リレーションを一時的に無効化
