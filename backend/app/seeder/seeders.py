@@ -4,6 +4,8 @@ from app.seeder.tags import TagsSeeder
 from app.seeder.users import UsersSeeder
 from app.seeder.articles_seeder import ArticlesSeeder
 from app.seeder.article_tags_seeder import ArticleTagsSeeder
+from app.seeder.access_log_seeder import AccessLogsSeeder
+from app.seeder.aggregate_access_logs_seeder import AggreagateAccessLogsSeeder
 
 
 class SeederRunner:
@@ -13,13 +15,9 @@ class SeederRunner:
             UsersSeeder(),
             ArticlesSeeder(),
             ArticleTagsSeeder(),
+            AccessLogsSeeder(),
+            AggreagateAccessLogsSeeder(),
         ]
-        
-    # リレーションを一時的に無効化
-    def __disable_relationships(self, target, connection, **kw):
-        for relationship in target.relationships:
-            setattr(target, relationship.key, None)
-
 
     def run(self, db: Session):
         print("Seeder start")
