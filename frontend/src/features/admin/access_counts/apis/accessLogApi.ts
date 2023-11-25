@@ -38,7 +38,7 @@ export const sendPostAccessLogApi = async (request: PostAccessLogRequest): Promi
     console.log('post access log api success!')
     return response
   } catch (error) {
-    console.log('put access log api failed!')
+    console.log('post access log api failed!')
     if (isAxiosError(error)) {
       const axiosError = error as AxiosError<any>
       if (axiosError.response) {

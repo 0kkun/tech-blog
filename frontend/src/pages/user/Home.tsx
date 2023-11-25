@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import { UserTemplate } from '../../components/user/templates/UserTemplate'
 import { ArticleCardIndex } from '../../features/user/article/components/ArticleCardIndex'
 import { useFetchArticles } from '../../features/admin/article/hooks/useFetchArticles'
+import { usePostAccessCount } from '../../features/admin/access_counts/hooks/usePostAccessLog'
 import { useSearchParams, Navigate, useLocation } from 'react-router-dom'
 import { PATH } from '../../routes/AppRoutes'
 
 export const Home: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()
+  const postAccessCountHooks = usePostAccessCount()
   const location = useLocation()
   // クエリパラメータから値取得
   const [searchParams] = useSearchParams()
@@ -29,9 +31,9 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent
-    console.log('User Agent:', userAgent)
     const fetchInitialData = async () => {
       await fetchArticlesHooks.fetchArticles(true, tagName, targetYm)
+      await postAccessCountHooks.postAccessLog('/', userAgent)
     }
     fetchInitialData()
   }, [])

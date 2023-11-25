@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useGetArticle } from '../../features/admin/article/hooks/useGetArticle'
+import { usePostAccessCount } from '../../features/admin/access_counts/hooks/usePostAccessLog'
 import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { MarkdownPreview } from '../../features/admin/article/components/MarkdownPreview'
@@ -7,6 +8,7 @@ import { UserTemplate } from '../../components/user/templates/UserTemplate'
 
 export const Article: React.FC = () => {
   const getArticleHooks = useGetArticle()
+  const postAccessCountHooks = usePostAccessCount()
   const [content, setContent] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
@@ -16,9 +18,9 @@ export const Article: React.FC = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       const userAgent = window.navigator.userAgent
-      console.log('User Agent:', userAgent)
       if (articleId) {
         const article = await getArticleHooks.getArticle(Number(articleId))
+        await postAccessCountHooks.postAccessLog('/' + articleId, userAgent, Number(articleId))
         if (article) {
           setContent(article.content)
           setTitle(article.title)
