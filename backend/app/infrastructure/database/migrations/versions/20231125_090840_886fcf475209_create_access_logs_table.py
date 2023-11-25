@@ -25,6 +25,8 @@ def upgrade() -> None:
     sa.Column('visit_url', sa.String(length=128), nullable=False, comment='アクセスしたページのURL'),
     sa.Column('article_id', sa.BigInteger(), nullable=True, comment='記事ID'),
     sa.Column('user_agent', sa.String(length=255), nullable=False, comment='ユーザーエージェント'),
+    sa.Column('target_year', sa.Integer(), nullable=True, comment='対象年'),
+    sa.Column('target_month', sa.Integer(), nullable=True, comment='対象月'),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['article_id'], ['articles.id'], ondelete='CASCADE'),
