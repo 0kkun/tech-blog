@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.seeder.base import Seeder
 from app.seeder.tags import TagsSeeder
 from app.seeder.users import UsersSeeder
+from app.seeder.articles_seeder import ArticlesSeeder
 
 
 class SeederRunner:
@@ -9,7 +10,14 @@ class SeederRunner:
         self._seeders: list[Seeder] = [
             TagsSeeder(),
             UsersSeeder(),
+            ArticlesSeeder(),
         ]
+        
+    # リレーションを一時的に無効化
+    def __disable_relationships(self, target, connection, **kw):
+        for relationship in target.relationships:
+            setattr(target, relationship.key, None)
+
 
     def run(self, db: Session):
         print("Seeder start")
