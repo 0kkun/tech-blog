@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
+from typing import Optional
 from app.core.models.access_log import AccessLogPutRequest, AccessLog
 from app.infrastructure.database.schema_model.access_log import AccessLogOrm
 from util.datetime_generator import DateTimeGenerator
@@ -10,20 +11,22 @@ class AccessLogRepository:
         self,
         db: Session,
         request: AccessLogPutRequest,
-    ):
+    ) -> Optional[AccessLog]:
         """
             アクセスログレコードを生成する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         target_ymd = now.strftime("%Y%m%d")
+        # 同一ユーザーがアクセスしたページの本日のアクセスログを取得する
         access_log = db.scalars(
             select(AccessLogOrm)
             .where(AccessLogOrm.user_agent == request.user_agent)
             .where(AccessLogOrm.visit_url == request.visit_url)
             .where(AccessLogOrm.target_ymd == target_ymd)
         ).one_or_none()
-        
+
+        # 同ユーザー・同日・同ページの場合はカウントしない
         if access_log is not None:
             return None
 
