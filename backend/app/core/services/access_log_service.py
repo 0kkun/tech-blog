@@ -1,3 +1,4 @@
+import calendar
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from typing import List
@@ -34,26 +35,28 @@ class AccessLogService:
     ):
         access_logs = self.access_log_repository.fetch_by_target(db, target_year, target_month)
 
-        return self.__make_response(access_logs)
+        return self.__make_response(access_logs, int(target_year), int(target_month))
 
     def __make_response(
         self,
-        access_logs: List[AccessLog]
+        access_logs: List[AccessLog],
+        target_year: int,
+        target_month: int,
     ) -> List[FetchDailyTolalAccessLogResponse]:
-        processed_data = {}
+        last_day = calendar.monthrange(target_year, target_month)[1]
+
+        # access_countの初期値が0で、キーが1ヶ月分の日付になるオブジェクトを生成
+        processed_data = {f"{target_year}/{target_month}/{day}": 0 for day in range(1, last_day + 1)}
+
         for log in access_logs:
             date_str = self.__convert_ymd(log.target_ymd)
+            if date_str in processed_data:
+                processed_data[date_str] += 1
 
-            if date_str not in processed_data:
-                processed_data[date_str] = 0
-            processed_data[date_str] += 1  # アクセス数をカウント
-
-        # FetchDailyTolalAccessLogResponseクラスに変換してリストに追加
-        result = [
+        return [
             FetchDailyTolalAccessLogResponse(date=date_str, access_count=count)
             for date_str, count in processed_data.items()
         ]
-        return result
 
     def __convert_ymd(self, ymd: int) -> str:
         date_str = str(ymd)

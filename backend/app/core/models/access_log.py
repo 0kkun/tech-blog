@@ -25,4 +25,4 @@ class AccessLogPutRequest(BaseModel):
 
 class FetchDailyTolalAccessLogResponse(BaseModel):
     date: str
-    access_count: int
+    access_count: Optional[int]
