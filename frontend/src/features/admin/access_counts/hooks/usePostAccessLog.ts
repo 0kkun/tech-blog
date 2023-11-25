@@ -10,7 +10,6 @@ export const usePostAccessCount = () => {
         article_id: articleId,
         user_agent: userAgent,
       }
-      console.log(request)
       response = await sendPostAccessLogApi(request)
       return
     } catch (e) {
