@@ -14,6 +14,7 @@ class AccessLogOrm(Base):
     user_agent = Column(String(255), nullable=False, comment="ユーザーエージェント")
     target_year = Column(Integer, nullable=True, comment="対象年")
     target_month = Column(Integer, nullable=True, comment="対象月")
+    target_ymd = Column(Integer, nullable=True, comment="対象年月日")
     created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.datetime.now)
     updated_at = Column(
         DateTime(timezone=True), nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now

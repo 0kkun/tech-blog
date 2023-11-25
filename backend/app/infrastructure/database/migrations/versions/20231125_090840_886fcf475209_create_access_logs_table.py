@@ -27,6 +27,7 @@ def upgrade() -> None:
     sa.Column('user_agent', sa.String(length=255), nullable=False, comment='ユーザーエージェント'),
     sa.Column('target_year', sa.Integer(), nullable=True, comment='対象年'),
     sa.Column('target_month', sa.Integer(), nullable=True, comment='対象月'),
+    sa.Column('target_ymd', sa.Integer(), nullable=True, comment='対象年月日'),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['article_id'], ['articles.id'], ondelete='CASCADE'),
