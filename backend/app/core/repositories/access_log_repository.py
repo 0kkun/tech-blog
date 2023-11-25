@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from typing import Optional
+from typing import Optional, List
 from app.core.models.access_log import AccessLogPutRequest, AccessLog
 from app.infrastructure.database.schema_model.access_log import AccessLogOrm
 from util.datetime_generator import DateTimeGenerator
@@ -44,3 +44,19 @@ class AccessLogRepository:
         db.add(new_access_log)
         db.flush()
         return AccessLog.from_orm(new_access_log)
+
+
+    def fetch_by_target(
+        self,
+        db: Session,
+        target_year: int,
+        target_month: int,
+    ) -> Optional[List[AccessLog]]:
+        access_logs = db.scalars(
+            select(AccessLogOrm)
+            .where(AccessLogOrm.target_year == target_year)
+            .where(AccessLogOrm.target_month == target_month)
+        ).all()
+        if access_logs is None:
+            return None
+        return [AccessLog.from_orm(log) for log in access_logs]

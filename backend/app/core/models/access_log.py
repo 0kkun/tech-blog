@@ -21,3 +21,8 @@ class AccessLogPutRequest(BaseModel):
     visit_url: str
     user_agent: str
     article_id: Optional[int]
+
+
+class FetchDailyTolalAccessLogResponse(BaseModel):
+    date: str
+    access_count: int

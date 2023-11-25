@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
+from typing import Optional, List
 from app.core.models.access_log import AccessLogPutRequest
+from app.core.models.aggregate_access_log import AggregateAccessLog
 from app.infrastructure.database.schema_model.aggregate_access_logs import AggregateAccessLogOrm
 from util.datetime_generator import DateTimeGenerator
 
@@ -42,3 +44,17 @@ class AggregateAccessLogRepository:
             agr_access_log.updated_at = now
             db.add(agr_access_log)
             db.flush()
+
+
+    def fetch(
+        self,
+        db: Session,
+    ) -> Optional[List[AggregateAccessLog]]:
+        agr_access_logs = db.scalars(
+            select(AggregateAccessLogOrm)
+        ).all()
+
+        if agr_access_logs is None:
+            return None
+
+        return [AggregateAccessLog.from_orm(log) for log in agr_access_logs]
