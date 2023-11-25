@@ -1,11 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from app.core.models.article import ArticlePutRequest, ArticleGetResponse
-from app.core.models.tag import Tag
-from app.core.models.article_tag import ArticleTag
-from app.core.models.image import Image, ImageData
-from app.core.models.article_thumbnail_image import ArticleThumbnailImage
+from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article
 from app.core.repositories.article_repository import ArticleRepository
 from app.core.repositories.article_tag_repository import ArticleTagRepository
 from app.core.repositories.tag_repository import TagRepository
@@ -66,10 +62,11 @@ class ArticleService:
     ) -> List[ArticleGetResponse]:
         articles = self.article_repository.fetch_article(db, is_published, target_ym)
         if tag_name is None:
-            return articles
+            return self.__make_fetch_response(articles)
         else:
+            # タグ名が指定された場合は検索して返す
             articles = [article for article in articles if any(tag.name == tag_name for tag in article.tags)]
-            return articles
+            return self.__make_fetch_response(articles)
 
     def delete(
         self,
@@ -77,3 +74,26 @@ class ArticleService:
         article_id,
     ):
         self.article_repository.delete(db, article_id)
+
+    def __make_fetch_response(
+        self,
+        articles: List[Article]
+    ) -> List[ArticleGetResponse]:
+        result = [
+            ArticleGetResponse(
+                id=article.id,
+                title=article.title,
+                content=article.content,
+                target_year=article.target_year,
+                target_month=article.target_month,
+                is_published=article.is_published,
+                created_at=article.created_at,
+                updated_at=article.updated_at,
+                tags=article.tags,
+                thumbnail_image=article.thumnail_image,
+                access_count=sum(1 for log in article.access_logs if log.article_id == article.id)
+            )
+            for article in articles
+        ]
+        return result
+    

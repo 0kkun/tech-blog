@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 from app.core.models.tag import Tag, TagRequest, TagResponse
 from app.core.models.image import ImageData, Image
+from app.core.models.access_log import AccessLog
 
 class Article(BaseModel):
     id: int
@@ -17,6 +18,8 @@ class Article(BaseModel):
     tags: Optional[List[Tag]]
     # リレーション (1:1)
     thumnail_image: Optional[Image]
+    # リレーション (1:多)
+    access_logs: Optional[List[AccessLog]]
 
     class Config:
         orm_mode = True
@@ -41,6 +44,7 @@ class ArticleGetResponse(BaseModel):
     updated_at: datetime
     tags: Optional[List[TagResponse]]
     thumbnail_image: Optional[ImageData]
+    access_count: int
 
 class ArticleFetchResponse(BaseModel):
     articles: List[Optional[ArticleGetResponse]]
