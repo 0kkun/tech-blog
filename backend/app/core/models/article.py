@@ -1,9 +1,7 @@
 from datetime import datetime
-import datetime
 from pydantic import BaseModel
 from typing import Optional, List
 from app.core.models.tag import Tag, TagRequest, TagResponse
-from app.core.models.article_tag import ArticleTagPutRequest
 from app.core.models.image import ImageData, Image
 
 class Article(BaseModel):
@@ -13,8 +11,8 @@ class Article(BaseModel):
     target_year: int
     target_month: int
     is_published: bool
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    created_at: datetime
+    updated_at: datetime
     # リレーション (1:多)
     tags: Optional[List[Tag]]
     # リレーション (1:1)
@@ -39,8 +37,8 @@ class ArticleGetResponse(BaseModel):
     target_year: int
     target_month: int
     is_published: bool
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    created_at: datetime
+    updated_at: datetime
     tags: Optional[List[TagResponse]]
     thumbnail_image: Optional[ImageData]
 

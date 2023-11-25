@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 
@@ -8,8 +8,8 @@ class User(BaseModel):
     email: str
     password: str
     role: int
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
