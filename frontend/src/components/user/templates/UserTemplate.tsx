@@ -26,10 +26,10 @@ interface Props {
 
 export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
   const sections = [
-    { title: 'Laravel', url: '?tag_name=Laravel' },
-    { title: 'React', url: '?tag_name=React' },
-    { title: 'AWS', url: '?tag_name=AWS' },
-    { title: 'Architecture', url: '?tag_name=Architecture' },
+    { title: 'Laravel', url: '/?tag_name=Laravel' },
+    { title: 'React', url: '/?tag_name=React' },
+    { title: 'AWS', url: '/?tag_name=AWS' },
+    { title: 'Architecture', url: '/?tag_name=Architecture' },
   ]
 
   const contentsDescription = {

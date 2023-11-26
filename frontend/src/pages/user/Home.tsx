@@ -36,7 +36,7 @@ export const Home: React.FC = () => {
       await postAccessCountHooks.postAccessLog('/', userAgent)
     }
     fetchInitialData()
-  }, [])
+  }, [targetYm, tagName])
 
   return (
     <>

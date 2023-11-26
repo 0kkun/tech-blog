@@ -3,7 +3,6 @@ import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
-import Link from '@mui/material/Link'
 import { Link as RouterLink } from 'react-router-dom'
 
 interface Props {
@@ -50,16 +49,11 @@ export const Header: React.FC<Props> = ({ sections, title }) => {
         }}
       >
         {sections.map((section) => (
-          <Link
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
-          >
-            {section.title}
-          </Link>
+          <div key={section.title}>
+            <RouterLink to={section.url} style={linkStyle}>
+              {section.title}
+            </RouterLink>
+          </div>
         ))}
       </Toolbar>
     </>
