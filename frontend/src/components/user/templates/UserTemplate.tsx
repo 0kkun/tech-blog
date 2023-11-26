@@ -18,13 +18,15 @@ import {
 import { BasicTheme } from '../../../config/theme'
 import { BannerBackgroundImage } from '../../../config/constantImage'
 import { Box } from '@mui/material'
+import { ArticleArchive } from '../../../features/admin/article/types/article'
 
 interface Props {
+  articleArchives: ArticleArchive[]
   isShowBanner: boolean
   children: React.ReactNode
 }
 
-export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
+export const UserTemplate: React.FC<Props> = ({ articleArchives, isShowBanner, children }) => {
   const sections = [
     { title: 'Laravel', url: '/?tag_name=Laravel' },
     { title: 'React', url: '/?tag_name=React' },
@@ -44,10 +46,7 @@ export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
     title: 'About',
     description: AboutDescription,
     // FIXME: APIでアーカイブ対象データを取得するよう修正する
-    archives: [
-      { title: 'November 2023', url: '/?target_ym=2023-11' },
-      { title: 'October 2023', url: '/?target_ym=2023-10' },
-    ],
+    archives: articleArchives,
     social: [
       { name: 'GitHub', icon: GitHubIcon, url: 'https://github.com/0kkun' },
       { name: 'Twitter', icon: TwitterIcon, url: 'https://twitter.com/Shin_Spcl_Prg' },
