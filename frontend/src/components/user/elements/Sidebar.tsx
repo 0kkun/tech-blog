@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
+import { Link as RouterLink } from 'react-router-dom'
 
 interface Props {
   archives: ReadonlyArray<{
@@ -32,9 +33,11 @@ export const Sidebar: React.FC<Props> = ({ archives, description, social, title 
         Archives
       </Typography>
       {archives.map((archive) => (
-        <Link display="block" variant="body1" href={archive.url} key={archive.title}>
-          {archive.title}
-        </Link>
+        <div key={archive.title}>
+          <RouterLink to={archive.url}>
+            {archive.title}
+          </RouterLink>
+        </div>
       ))}
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
         Social
