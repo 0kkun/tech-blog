@@ -44,11 +44,12 @@ class ArticleImageRepository:
         """
             idを指定して1件取得する
         """
+        # yapf: disable
         article_image = db.scalars(
             select(ArticleImageOrm)
             .where(ArticleImageOrm.id == article_image_id)
         ).one_or_none()
-
+        # yapf: enable
         if article_image is None:
             return None
         return ArticleImage.from_orm(article_image)
@@ -62,8 +63,10 @@ class ArticleImageRepository:
         """
             記事に紐づく画像ID一覧取得
         """
+        # yapf: disable
         article_images = db.scalars(
             select(ArticleImageOrm)
             .where(ArticleImageOrm.article_id == article_id)
         ).all()
+        # yapf: enable
         return [ArticleImage.from_orm(article_image) for article_image in article_images]

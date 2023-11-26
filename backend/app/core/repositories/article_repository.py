@@ -81,16 +81,18 @@ class ArticleRepository:
         """
         if target_ym is not None:
             year, month = map(int, target_ym.split('-'))
-
+            # yapf: disable
             articles = db.query(ArticleOrm).filter(
                 ArticleOrm.is_published == is_published,
                 ArticleOrm.target_year == year,
                 ArticleOrm.target_month == month,
             ).order_by(ArticleOrm.updated_at.desc()).all()
+
         else:
             articles = db.query(ArticleOrm).filter(
                 ArticleOrm.is_published == is_published,
             ).order_by(ArticleOrm.updated_at.desc()).all()
+            # yapf: enable
         article_list = [Article.from_orm(article) for article in articles]
         return article_list
 
@@ -116,9 +118,11 @@ class ArticleRepository:
         self,
         db: Session,
     ) -> Optional[List[ArticleArchive]]:
+        # yapf: disable
         article_archives = db.query(ArticleOrm.created_at).where(
             ArticleOrm.is_published == True,
         ).all()
+        # yapf: enable
         if article_archives is None:
             return None
         return [ArticleArchive.from_orm(article_archive) for article_archive in article_archives]

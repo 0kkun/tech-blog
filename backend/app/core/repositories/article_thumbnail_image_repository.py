@@ -19,7 +19,11 @@ class ArticleThumbnailImageRepository:
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         # 既存の記事に紐づく画像を削除
-        db.query(ArticleThumbnailImageOrm).filter(ArticleThumbnailImageOrm.article_id == article_id).delete()
+        # yapf: disable
+        db.query(ArticleThumbnailImageOrm).filter(
+            ArticleThumbnailImageOrm.article_id == article_id
+        ).delete()
+        # yapf: enable
 
         # 新規作成
         article_thumbnail_image = ArticleThumbnailImageOrm(
@@ -41,10 +45,12 @@ class ArticleThumbnailImageRepository:
         """
             idを指定して1件取得する
         """
+        # yapf: disable
         article_image = db.scalars(
             select(ArticleThumbnailImageOrm)
             .where(ArticleThumbnailImageOrm.id == article_thumbnail_image_id)
         ).one_or_none()
+        # yapf: enable
 
         if article_image is None:
             return None
@@ -59,10 +65,12 @@ class ArticleThumbnailImageRepository:
         """
             記事に紐づくサムネイル画像1件取得
         """
+        # yapf: disable
         article_thumbnail_image = db.scalars(
             select(ArticleThumbnailImageOrm)
             .where(ArticleThumbnailImageOrm.article_id == article_id)
         ).one_or_none()
+        # yapf: enable
 
         if article_thumbnail_image is None:
             return None

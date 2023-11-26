@@ -44,11 +44,12 @@ class ArticleTagRepository:
         """
             idを指定してタグを1件取得する
         """
+        # yapf: disable
         article_tag = db.scalars(
             select(ArticleTagOrm)
             .where(ArticleTagOrm.id == article_tag_id)
         ).one_or_none()
-
+        # yapf: enable
         if article_tag is None:
             return None
         return ArticleTag.from_orm(article_tag)
@@ -62,10 +63,12 @@ class ArticleTagRepository:
         """
             記事のタグ一覧取得
         """
+        # yapf: disable
         article_tags = db.scalars(
             select(ArticleTagOrm)
             .where(ArticleTagOrm.article_id == article_id)
         ).all()
+        # yapf: enable
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
 
@@ -81,10 +84,12 @@ class ArticleTagRepository:
             return []
 
         # whereInで一括取得
+        # yapf: disable
         article_tags = db.scalars(
             select(ArticleTagOrm)
             .where(ArticleTagOrm.article_id.in_(article_ids))
         ).all()
+        # yapf: enable
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
 
@@ -96,9 +101,11 @@ class ArticleTagRepository:
         """
             タグ1件削除
         """
+        # yapf: disable
         article_tags = db.query(ArticleTagOrm).filter(
             ArticleTagOrm.article_id == article_id,
         ).all()
+        # yapf: enable
 
         if article_tags is None:
             raise ValueError('Tag does not exist')
