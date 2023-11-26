@@ -2,7 +2,6 @@ from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.repositories.user_repository import UserRepository
 from app.core.repositories.token_repository import TokenRepository
-from typing import List
 from app.core.models.user import UserCreateRequest
 from app.core.models.token import PutTokenRequest
 from app.core.services.auth_service import AuthService

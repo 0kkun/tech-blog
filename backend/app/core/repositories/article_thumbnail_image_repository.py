@@ -21,11 +21,7 @@ class ArticleThumbnailImageRepository:
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         # 既存の記事に紐づく画像を削除
-        # yapf: disable
-        db.query(ArticleThumbnailImageOrm).filter(
-            ArticleThumbnailImageOrm.article_id == article_id
-        ).delete()
-        # yapf: enable
+        db.query(ArticleThumbnailImageOrm).filter(ArticleThumbnailImageOrm.article_id == article_id).delete()
 
         # 新規作成
         article_thumbnail_image = ArticleThumbnailImageOrm(

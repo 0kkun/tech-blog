@@ -20,14 +20,12 @@ class AggregateAccessLogRepository:
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
-        # yapf: disable
         agr_access_log = db.scalars(
             select(AggregateAccessLogOrm)
             .where(AggregateAccessLogOrm.visit_url == request.visit_url)
             .where(AggregateAccessLogOrm.target_year == now.year)
             .where(AggregateAccessLogOrm.target_month == now.month)
         ).one_or_none()
-        # yapf: enable
 
         if agr_access_log is None:
             # 新規作成

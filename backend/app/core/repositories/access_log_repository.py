@@ -19,14 +19,12 @@ class AccessLogRepository:
         now = datetime.now_datetime()
         target_ymd = now.strftime("%Y%m%d")
         # 同一ユーザーがアクセスしたページの本日のアクセスログを取得する
-        # yapf: disable
         access_log = db.scalars(
             select(AccessLogOrm)
             .where(AccessLogOrm.user_agent == request.user_agent)
             .where(AccessLogOrm.visit_url == request.visit_url)
             .where(AccessLogOrm.target_ymd == target_ymd)
         ).one_or_none()
-        # yapf: enable
 
         # 同ユーザー・同日・同ページの場合はカウントしない
         if access_log is not None:
@@ -53,13 +51,11 @@ class AccessLogRepository:
         target_year: int,
         target_month: int,
     ) -> Optional[List[AccessLog]]:
-        # yapf: disable
         access_logs = db.scalars(
             select(AccessLogOrm)
             .where(AccessLogOrm.target_year == target_year)
             .where(AccessLogOrm.target_month == target_month)
         ).all()
-        # yapf: enable
         if access_logs is None:
             return None
         return [AccessLog.from_orm(log) for log in access_logs]

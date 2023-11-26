@@ -1,6 +1,5 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from datetime import datetime
 
 from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article, ArticleArchiveFetchResponse
 from app.core.repositories.article_repository import ArticleRepository
@@ -87,7 +86,6 @@ class ArticleService:
         return list({archive.target_ym: archive for archive in archives}.values())
 
     def __make_fetch_response(self, articles: List[Article]) -> List[ArticleGetResponse]:
-        # yapf: disable
         result = [
             ArticleGetResponse(
                 id=article.id,
@@ -100,9 +98,8 @@ class ArticleService:
                 updated_at=article.updated_at,
                 tags=article.tags,
                 thumbnail_image=article.thumnail_image,
-                access_count=sum(1 for log in article.access_logs if log.article_id == article.id)
+                access_count=sum(1 for log in article.access_logs if log.article_id == article.id),
             )
             for article in articles
         ]
-        # yapf: enable
         return result
