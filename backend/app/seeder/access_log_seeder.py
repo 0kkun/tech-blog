@@ -9,7 +9,8 @@ class AccessLogsSeeder(Seeder):
         tags = [
             AccessLogOrm(
                 visit_url='/',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=None,
                 target_year=2023,
                 target_month=10,
@@ -17,7 +18,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=None,
                 target_year=2023,
                 target_month=10,
@@ -25,7 +27,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=None,
                 target_year=2023,
                 target_month=10,
@@ -33,7 +36,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=None,
                 target_year=2023,
                 target_month=11,
@@ -41,7 +45,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/article/1',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=1,
                 target_year=2023,
                 target_month=10,
@@ -49,7 +54,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/article/2',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=2,
                 target_year=2023,
                 target_month=10,
@@ -57,7 +63,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/article/2',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=2,
                 target_year=2023,
                 target_month=10,
@@ -65,7 +72,8 @@ class AccessLogsSeeder(Seeder):
             ),
             AccessLogOrm(
                 visit_url='/article/2',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                user_agent=
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 article_id=2,
                 target_year=2023,
                 target_month=11,

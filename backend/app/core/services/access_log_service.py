@@ -12,7 +12,8 @@ class AccessLogService:
     def __init__(
         self,
         access_log_repository: AccessLogRepository = Depends(AccessLogRepository),
-        agr_access_log_repository: AggregateAccessLogRepository = Depends(AggregateAccessLogRepository),
+        agr_access_log_repository: AggregateAccessLogRepository = Depends(
+            AggregateAccessLogRepository),
     ):
         self.access_log_repository = access_log_repository
         self.agr_access_log_repository = agr_access_log_repository
@@ -46,7 +47,10 @@ class AccessLogService:
         last_day = calendar.monthrange(target_year, target_month)[1]
 
         # access_countの初期値が0で、キーが1ヶ月分の日付になるオブジェクトを生成
-        processed_data = {f"{target_year}/{target_month}/{day}": 0 for day in range(1, last_day + 1)}
+        processed_data = {
+            f"{target_year}/{target_month}/{day}": 0
+            for day in range(1, last_day + 1)
+        }
 
         for log in access_logs:
             date_str = self.__convert_ymd(log.target_ymd)

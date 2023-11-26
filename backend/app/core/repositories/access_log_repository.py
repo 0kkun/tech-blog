@@ -34,19 +34,18 @@ class AccessLogRepository:
 
         # 新規作成
         new_access_log = AccessLogOrm(
-            user_agent = request.user_agent,
-            visit_url = request.visit_url,
-            article_id = request.article_id,
-            target_year = now.year,
-            target_month = now.month,
-            target_ymd = target_ymd,
-            created_at = now,
-            updated_at = now,
+            user_agent=request.user_agent,
+            visit_url=request.visit_url,
+            article_id=request.article_id,
+            target_year=now.year,
+            target_month=now.month,
+            target_ymd=target_ymd,
+            created_at=now,
+            updated_at=now,
         )
         db.add(new_access_log)
         db.flush()
         return AccessLog.from_orm(new_access_log)
-
 
     def fetch_by_target(
         self,

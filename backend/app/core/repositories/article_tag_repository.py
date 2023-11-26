@@ -7,12 +7,7 @@ from util.datetime_generator import DateTimeGenerator
 
 
 class ArticleTagRepository:
-    def put(
-        self,
-        db: Session,
-        article_id: int,
-        tag_ids: List[int]
-    ) -> ArticleTag:
+    def put(self, db: Session, article_id: int, tag_ids: List[int]) -> ArticleTag:
         """
             記事に紐づいたタグを新規作成 or 更新する
         """
@@ -35,7 +30,6 @@ class ArticleTagRepository:
         db.flush()
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
-
     def get(
         self,
         db: Session,
@@ -54,7 +48,6 @@ class ArticleTagRepository:
             return None
         return ArticleTag.from_orm(article_tag)
 
-
     def fetch_by_article_id(
         self,
         db: Session,
@@ -70,7 +63,6 @@ class ArticleTagRepository:
         ).all()
         # yapf: enable
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
-
 
     def fetch_by_article_ids(
         self,
@@ -91,7 +83,6 @@ class ArticleTagRepository:
         ).all()
         # yapf: enable
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
-
 
     def delete_by_article_id(
         self,

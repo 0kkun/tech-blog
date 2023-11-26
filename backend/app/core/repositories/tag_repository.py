@@ -33,14 +33,13 @@ class TagRepository:
         else:
             # 新規作成
             tag = TagOrm(
-                name = request.name,
-                created_at = now,
-                updated_at = now,
+                name=request.name,
+                created_at=now,
+                updated_at=now,
             )
             db.add(tag)
             db.flush()
             return Tag.from_orm(tag)
-
 
     def get(
         self,
@@ -50,15 +49,11 @@ class TagRepository:
         """
             idを指定してタグを1件取得する
         """
-        tag = db.scalars(
-            select([TagOrm.id, TagOrm.name])
-            .where(TagOrm.id == tag_id)
-        ).one_or_none()
+        tag = db.scalars(select([TagOrm.id, TagOrm.name]).where(TagOrm.id == tag_id)).one_or_none()
 
         if tag is None:
             return None
         return Tag.from_orm(tag)
-
 
     def fetch(
         self,
@@ -70,7 +65,6 @@ class TagRepository:
         tags = db.query(TagOrm.id, TagOrm.name).all()
         return [TagResponse.from_orm(tag) for tag in tags]
 
-
     def delete(
         self,
         db: Session,
@@ -79,9 +73,7 @@ class TagRepository:
         """
             タグ1件削除
         """
-        tag = db.query(TagOrm).filter(
-            TagOrm.id == tag_id,
-        ).one_or_none()
+        tag = db.query(TagOrm).filter(TagOrm.id == tag_id, ).one_or_none()
 
         if tag is None:
             raise ValueError('Tag does not exist')

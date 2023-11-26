@@ -10,13 +10,13 @@ class UsersSeeder(Seeder):
             UserOrm(
                 name='admin',
                 email='admin@example.com',
-                password='$2b$12$Ks0mo7p3OEDf1idi9pZYOupuaG5/R7ifBZp36ghynSvbB7HxGcfNa', # admin
+                password='$2b$12$Ks0mo7p3OEDf1idi9pZYOupuaG5/R7ifBZp36ghynSvbB7HxGcfNa',  # admin
                 role=0,
             ),
             UserOrm(
                 name='guest',
                 email='guest@example.com',
-                password='$2b$12$SDUDbXVJfAjGVq7g9ffXTef0xlTAGacd2rgvZfNxlgR.d.2dMwYUi', # guest
+                password='$2b$12$SDUDbXVJfAjGVq7g9ffXTef0xlTAGacd2rgvZfNxlgR.d.2dMwYUi',  # guest
                 role=1,
             ),
         ]

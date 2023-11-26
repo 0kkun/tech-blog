@@ -11,14 +11,15 @@ from app.middleware.auth_middleware import verify_token
 router = APIRouter()
 _logger = logging.getLogger(__name__)
 
-
 # 許可するMIMEタイプのセット
 ALLOWED_MIMETYPES = {"image/png", "image/jpeg", "image/jpg"}
+
 
 def validate_mimetype(file: UploadFile):
     mime, _ = mimetypes.guess_type(file.filename)
     if mime not in ALLOWED_MIMETYPES:
-        raise HTTPException(status_code=422, detail="不正なファイル形式です。許可されているのは 'png', 'jpeg', 'jpg' の画像ファイルのみです。")
+        raise HTTPException(status_code=422,
+                            detail="不正なファイル形式です。許可されているのは 'png', 'jpeg', 'jpg' の画像ファイルのみです。")
 
 
 @router.post(
@@ -28,8 +29,8 @@ def validate_mimetype(file: UploadFile):
     dependencies=[Depends(verify_token)],
 )
 async def file_upload(
-    image_service: Annotated[ImageService, Depends(ImageService)],
-    file: UploadFile = File(None),
+        image_service: Annotated[ImageService, Depends(ImageService)],
+        file: UploadFile = File(None),
 ):
     try:
         validate_mimetype(file)
@@ -59,7 +60,7 @@ async def file_delete():
         dir = "article_images"
         s3_client = S3Client()
         s3_client.delete_all_files_in_directory(dir=dir)
-        return { "message": "success" }
+        return {"message": "success"}
     except Exception as e:
         _logger.error(f"Deletion failed: {str(e)}")
 
@@ -71,8 +72,8 @@ async def file_delete():
     dependencies=[Depends(verify_token)],
 )
 async def file_upload(
-    image_service: Annotated[ImageService, Depends(ImageService)],
-    file: UploadFile = File(None),
+        image_service: Annotated[ImageService, Depends(ImageService)],
+        file: UploadFile = File(None),
 ):
     try:
         validate_mimetype(file)

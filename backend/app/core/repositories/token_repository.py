@@ -15,9 +15,7 @@ class TokenRepository:
         """
             emailを指定してuserを1件取得する
         """
-        token = db.query(TokenOrm).filter(
-            TokenOrm.user_id == user_id,
-        ).one_or_none()
+        token = db.query(TokenOrm).filter(TokenOrm.user_id == user_id, ).one_or_none()
 
         if token is None:
             return None
@@ -35,10 +33,10 @@ class TokenRepository:
 
         if db_token is None:
             new_token = TokenOrm(
-                token = request.token,
-                user_id = request.user_id,
-                expired_at = request.expired_at,
-                last_login_at = now,
+                token=request.token,
+                user_id=request.user_id,
+                expired_at=request.expired_at,
+                last_login_at=now,
             )
             db.add(new_token)
             db.flush()

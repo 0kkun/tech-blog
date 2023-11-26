@@ -7,8 +7,8 @@ from app.core.repositories.tag_repository import TagRepository
 
 class TagService:
     def __init__(
-        self,
-        tag_repository: TagRepository = Depends(TagRepository),
+            self,
+            tag_repository: TagRepository = Depends(TagRepository),
     ):
         self.tag_repository = tag_repository
 

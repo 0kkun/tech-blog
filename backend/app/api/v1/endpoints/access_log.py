@@ -8,9 +8,9 @@ from app.infrastructure.database.database import SessionLocal
 from util.error_log import get_error_log_info
 from app.middleware.auth_middleware import verify_token
 
-
 router = APIRouter()
 _logger = logging.getLogger(__name__)
+
 
 @router.post(
     "/v1/access_logs",

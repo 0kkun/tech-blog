@@ -38,18 +38,17 @@ class ArticleRepository:
         else:
             # 新規作成
             article = ArticleOrm(
-                title = request.title,
-                content = request.content,
-                target_year = now.year,
-                target_month = now.month,
-                is_published = request.is_published,
-                created_at = now,
-                updated_at = now,
+                title=request.title,
+                content=request.content,
+                target_year=now.year,
+                target_month=now.month,
+                is_published=request.is_published,
+                created_at=now,
+                updated_at=now,
             )
             db.add(article)
             db.flush()
             return Article.from_orm(article)
-
 
     def get(
         self,
@@ -60,15 +59,11 @@ class ArticleRepository:
             idを指定して記事を1件取得する.
             記事に紐づくタグ、サムネイル画像もリレーションで取得する
         """
-        article = db.scalars(
-            select(ArticleOrm)
-            .where(ArticleOrm.id == id)
-        ).one_or_none()
+        article = db.scalars(select(ArticleOrm).where(ArticleOrm.id == id)).one_or_none()
 
         if article is None:
             return None
         return Article.from_orm(article)
-
 
     def fetch_article(
         self,
@@ -96,7 +91,6 @@ class ArticleRepository:
         article_list = [Article.from_orm(article) for article in articles]
         return article_list
 
-
     def delete(
         self,
         db: Session,
@@ -105,14 +99,11 @@ class ArticleRepository:
         """
             記事1件削除
         """
-        article = db.query(ArticleOrm).filter(
-            ArticleOrm.id == article_id,
-        ).one_or_none()
+        article = db.query(ArticleOrm).filter(ArticleOrm.id == article_id, ).one_or_none()
 
         if article is None:
             raise ValueError('Article does not exist')
         db.delete(article)
-
 
     def fetch_article_archives(
         self,

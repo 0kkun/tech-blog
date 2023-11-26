@@ -8,14 +8,12 @@ from app.infrastructure.database.database import SessionLocal
 from util.error_log import get_error_log_info
 from app.middleware.auth_middleware import verify_token
 
-
 router = APIRouter()
 _logger = logging.getLogger(__name__)
 
+
 @router.get("/v1/tags", summary="タグ一覧取得", tags=["tag"])
-async def fetch_tag(
-    tag_service: Annotated[TagService, Depends(TagService)],
-):
+async def fetch_tag(tag_service: Annotated[TagService, Depends(TagService)], ):
     _logger.info('tag fetch api start')
     try:
         with SessionLocal.begin() as db:
@@ -33,10 +31,8 @@ async def fetch_tag(
     tags=["tag"],
     dependencies=[Depends(verify_token)],
 )
-async def put_tag(
-    request: TagPutRequest,
-    tag_service: Annotated[TagService, Depends(TagService)]
-) -> SuccessResponse:
+async def put_tag(request: TagPutRequest,
+                    tag_service: Annotated[TagService, Depends(TagService)]) -> SuccessResponse:
     _logger.info("tag put api start")
     try:
         with SessionLocal.begin() as db:

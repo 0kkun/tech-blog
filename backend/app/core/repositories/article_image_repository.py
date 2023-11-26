@@ -35,7 +35,6 @@ class ArticleImageRepository:
         db.flush()
         return [ArticleImage.from_orm(article_image) for article_image in article_images]
 
-
     def get(
         self,
         db: Session,
@@ -53,7 +52,6 @@ class ArticleImageRepository:
         if article_image is None:
             return None
         return ArticleImage.from_orm(article_image)
-
 
     def fetch_by_article_id(
         self,

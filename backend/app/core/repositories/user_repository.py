@@ -15,14 +15,11 @@ class UserRepository:
         """
             emailを指定してuserを1件取得する
         """
-        user = db.query(UserOrm).filter(
-            UserOrm.email == email,
-        ).one_or_none()
+        user = db.query(UserOrm).filter(UserOrm.email == email, ).one_or_none()
 
         if user is None:
             return None
         return User.from_orm(user)
-
 
     def getById(
         self,
@@ -32,14 +29,11 @@ class UserRepository:
         """
             idを指定してuserを1件取得する
         """
-        user = db.query(UserOrm).filter(
-            UserOrm.id == user_id,
-        ).one_or_none()
+        user = db.query(UserOrm).filter(UserOrm.id == user_id, ).one_or_none()
 
         if user is None:
             return None
         return User.from_orm(user)
-
 
     def create(
         self,
@@ -56,16 +50,15 @@ class UserRepository:
         now = datetime.now_datetime()
 
         new_user = UserOrm(
-            name = name,
-            email = email,
-            password = hashed_password,
-            role = role,
-            created_at = now,
-            updated_at = now,
+            name=name,
+            email=email,
+            password=hashed_password,
+            role=role,
+            created_at=now,
+            updated_at=now,
         )
         db.add(new_user)
         db.flush()
-
 
     def fetch(
         self,
@@ -77,7 +70,6 @@ class UserRepository:
         users = db.query(UserOrm.id, UserOrm.name, UserOrm.email, UserOrm.role).all()
         user_list = [GetUserResponse.from_orm(user) for user in users]
         return user_list
-
 
     def update(
         self,
@@ -98,7 +90,6 @@ class UserRepository:
         db.add(update_user)
         db.flush()
 
-
     def delete(
         self,
         db: Session,
@@ -107,9 +98,7 @@ class UserRepository:
         """
             記事1件削除
         """
-        user = db.query(UserOrm).filter(
-            UserOrm.id == user_id,
-        ).one_or_none()
+        user = db.query(UserOrm).filter(UserOrm.id == user_id, ).one_or_none()
         if user is None:
             raise ValueError('User does not exist')
         db.delete(user)

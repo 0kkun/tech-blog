@@ -11,15 +11,17 @@ from app.core.repositories.article_thumbnail_image_repository import ArticleThum
 from app.core.repositories.image_repository import ImageRepository
 from typing import List, Optional
 
+
 class ArticleService:
     def __init__(
-        self,
-        article_repository: ArticleRepository = Depends(ArticleRepository),
-        article_tag_repository: ArticleTagRepository = Depends(ArticleTagRepository),
-        tag_repository: TagRepository = Depends(TagRepository),
-        article_image_repository: ArticleImageRepository = Depends(ArticleImageRepository),
-        article_thumbnail_image_repository: ArticleThumbnailImageRepository = Depends(ArticleThumbnailImageRepository),
-        image_repository: ImageRepository = Depends(ImageRepository),
+            self,
+            article_repository: ArticleRepository = Depends(ArticleRepository),
+            article_tag_repository: ArticleTagRepository = Depends(ArticleTagRepository),
+            tag_repository: TagRepository = Depends(TagRepository),
+            article_image_repository: ArticleImageRepository = Depends(ArticleImageRepository),
+            article_thumbnail_image_repository: ArticleThumbnailImageRepository = Depends(
+                ArticleThumbnailImageRepository),
+            image_repository: ImageRepository = Depends(ImageRepository),
     ):
         self.article_repository = article_repository
         self.article_tag_repository = article_tag_repository
@@ -66,7 +68,9 @@ class ArticleService:
             return self.__make_fetch_response(articles)
         else:
             # タグ名が指定された場合は検索して返す
-            articles = [article for article in articles if any(tag.name == tag_name for tag in article.tags)]
+            articles = [
+                article for article in articles if any(tag.name == tag_name for tag in article.tags)
+            ]
             return self.__make_fetch_response(articles)
 
     def delete(
@@ -82,16 +86,13 @@ class ArticleService:
     ) -> list[ArticleArchiveFetchResponse]:
         article_archives = self.article_repository.fetch_article_archives(db)
         archives = [
-            ArticleArchiveFetchResponse.from_archive(archive)
-            for archive in article_archives
+            ArticleArchiveFetchResponse.from_archive(archive) for archive in article_archives
         ]
         # 重複を除去して返す
         return list({archive.target_ym: archive for archive in archives}.values())
 
-    def __make_fetch_response(
-        self,
-        articles: List[Article]
-    ) -> List[ArticleGetResponse]:
+    def __make_fetch_response(self, articles: List[Article]) -> List[ArticleGetResponse]:
+        # yapf: disable
         result = [
             ArticleGetResponse(
                 id=article.id,
@@ -108,5 +109,5 @@ class ArticleService:
             )
             for article in articles
         ]
+        # yapf: enable
         return result
-    
