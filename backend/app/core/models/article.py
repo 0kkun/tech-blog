@@ -5,6 +5,7 @@ from app.core.models.tag import Tag, TagRequest, TagResponse
 from app.core.models.image import ImageData, Image
 from app.core.models.access_log import AccessLog
 
+
 class Article(BaseModel):
     id: int
     title: str
@@ -48,3 +49,21 @@ class ArticleGetResponse(BaseModel):
 
 class ArticleFetchResponse(BaseModel):
     articles: List[Optional[ArticleGetResponse]]
+
+
+class ArticleArchive(BaseModel):
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class ArticleArchiveFetchResponse(BaseModel):
+    target_ym: str
+    title: str
+
+    @classmethod
+    def from_archive(cls, archive: ArticleArchive):
+        created_at = datetime.fromisoformat(str(archive.created_at))
+        target_ym = f"{created_at.year}-{created_at.month:02d}"
+        title = created_at.strftime("%B %Y")
+        return cls(target_ym=target_ym, title=title)

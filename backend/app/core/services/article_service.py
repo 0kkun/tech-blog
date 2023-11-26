@@ -1,7 +1,8 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from datetime import datetime
 
-from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article
+from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article, ArticleArchiveFetchResponse
 from app.core.repositories.article_repository import ArticleRepository
 from app.core.repositories.article_tag_repository import ArticleTagRepository
 from app.core.repositories.tag_repository import TagRepository
@@ -74,6 +75,18 @@ class ArticleService:
         article_id,
     ):
         self.article_repository.delete(db, article_id)
+
+    def fetch_archives(
+        self,
+        db,
+    ) -> list[ArticleArchiveFetchResponse]:
+        article_archives = self.article_repository.fetch_article_archives(db)
+        archives = [
+            ArticleArchiveFetchResponse.from_archive(archive)
+            for archive in article_archives
+        ]
+        # 重複を除去して返す
+        return list({archive.target_ym: archive for archive in archives}.values())
 
     def __make_fetch_response(
         self,

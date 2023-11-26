@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from typing import Annotated, Optional, List
-from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article
+from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article, ArticleArchiveFetchResponse
 from app.core.models.success_response import SuccessResponse
 from app.core.services.article_service import ArticleService
 from app.infrastructure.database.database import SessionLocal
@@ -28,6 +28,25 @@ async def fetch_article(
         with SessionLocal.begin() as db:
             articles = article_service.fetch(db, is_published, tag_name, target_ym)
         return articles
+    except HTTPException as e:
+        _logger.exception(str(e))
+        message = get_error_log_info(e)
+        raise HTTPException(status_code=500, detail=f"{message}")
+
+
+@router.get(
+    "/v1/articles/archives",
+    summary="アーカイブ記事がある年月一覧を取得する",
+    tags=["article"]
+)
+async def fetch_article_archives(
+    article_service: Annotated[ArticleService, Depends(ArticleService)],
+) -> List[ArticleArchiveFetchResponse]:
+    _logger.info("article archives fetch api start")
+    try:
+        with SessionLocal.begin() as db:
+            article_achives = article_service.fetch_archives(db)
+        return article_achives
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
@@ -100,3 +119,5 @@ async def delete_article(
         _logger.exception(str(e))
         message = get_error_log_info(e)
         raise HTTPException(status_code=500, detail=f"{message}")
+
+

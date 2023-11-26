@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import select
 from typing import Optional, List
-from app.core.models.article import ArticlePutRequest, Article
+from app.core.models.article import ArticlePutRequest, Article, ArticleArchive
 from app.core.models.tag import Tag
 from app.infrastructure.database.schema_model.article import ArticleOrm
 from util.datetime_generator import DateTimeGenerator
@@ -110,3 +110,15 @@ class ArticleRepository:
         if article is None:
             raise ValueError('Article does not exist')
         db.delete(article)
+
+
+    def fetch_article_archives(
+        self,
+        db: Session,
+    ) -> Optional[List[ArticleArchive]]:
+        article_archives = db.query(ArticleOrm.created_at).where(
+            ArticleOrm.is_published == True,
+        ).all()
+        if article_archives is None:
+            return None
+        return [ArticleArchive.from_orm(article_archive) for article_archive in article_archives]
