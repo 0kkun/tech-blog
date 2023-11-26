@@ -73,12 +73,8 @@ frontend:
 log:
 	docker compose logs -f $(BACKEND_SERVICE_NAME)
 
-.PHONY: format
-format:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "yapf --exclude '/app/app/infrastructure/database/migrations/*.py,/app/app/infrastructure/database/schema_model/*.py' -i -r ."
-
-.PHONY: black
-black:
+.PHONY: backend-format
+backend-format:
 	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "black ."
 
 # *****************************
