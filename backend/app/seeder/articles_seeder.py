@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.infrastructure.database.schema_model.article_tag import ArticleTagOrm
 from app.infrastructure.database.schema_model.article_thumbnail_image import ArticleThumbnailImageOrm
 from app.infrastructure.database.schema_model.image import ImageOrm
+from app.infrastructure.database.schema_model.access_log import AccessLogOrm
 from app.infrastructure.database.schema_model.article import ArticleOrm
 from app.seeder.base import Seeder
 from util.datetime_generator import DateTimeGenerator
