@@ -25,6 +25,7 @@ class Article(BaseModel):
     class Config:
         orm_mode = True
 
+
 class ArticlePutRequest(BaseModel):
     id: Optional[int] = None
     title: str
@@ -33,6 +34,7 @@ class ArticlePutRequest(BaseModel):
     tags: List[TagRequest]
     images: Optional[List[ImageData]]
     thumbnail_image: Optional[ImageData]
+
 
 class ArticleGetResponse(BaseModel):
     id: int
@@ -47,6 +49,7 @@ class ArticleGetResponse(BaseModel):
     thumbnail_image: Optional[ImageData]
     access_count: int
 
+
 class ArticleFetchResponse(BaseModel):
     articles: List[Optional[ArticleGetResponse]]
 
@@ -56,6 +59,7 @@ class ArticleArchive(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class ArticleArchiveFetchResponse(BaseModel):
     target_ym: str

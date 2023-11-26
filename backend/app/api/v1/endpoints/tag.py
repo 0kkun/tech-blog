@@ -13,8 +13,10 @@ _logger = logging.getLogger(__name__)
 
 
 @router.get("/v1/tags", summary="タグ一覧取得", tags=["tag"])
-async def fetch_tag(tag_service: Annotated[TagService, Depends(TagService)], ):
-    _logger.info('tag fetch api start')
+async def fetch_tag(
+    tag_service: Annotated[TagService, Depends(TagService)],
+):
+    _logger.info("tag fetch api start")
     try:
         with SessionLocal.begin() as db:
             tags = tag_service.fetch(db)
@@ -31,13 +33,12 @@ async def fetch_tag(tag_service: Annotated[TagService, Depends(TagService)], ):
     tags=["tag"],
     dependencies=[Depends(verify_token)],
 )
-async def put_tag(request: TagPutRequest,
-                    tag_service: Annotated[TagService, Depends(TagService)]) -> SuccessResponse:
+async def put_tag(request: TagPutRequest, tag_service: Annotated[TagService, Depends(TagService)]) -> SuccessResponse:
     _logger.info("tag put api start")
     try:
         with SessionLocal.begin() as db:
             tag_service.put(db, request)
-        return SuccessResponse(message='created or updated')
+        return SuccessResponse(message="created or updated")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
@@ -58,7 +59,7 @@ async def delete_tag(
     try:
         with SessionLocal.begin() as db:
             tag_service.delete(db, tag_id)
-        return SuccessResponse(message='deleted')
+        return SuccessResponse(message="deleted")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)

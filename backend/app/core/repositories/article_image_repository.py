@@ -19,9 +19,7 @@ class ArticleImageRepository:
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         # 既存の記事に紐づく画像を削除
-        db.query(ArticleImageOrm).filter(
-            ArticleImageOrm.article_id == article_id
-        ).delete()
+        db.query(ArticleImageOrm).filter(ArticleImageOrm.article_id == article_id).delete()
 
         # 新規作成
         article_images = []
@@ -35,9 +33,7 @@ class ArticleImageRepository:
             db.add(article_image)
             article_images.append(article_image)
         db.flush()
-        return [
-            ArticleImage.from_orm(article_image) for article_image in article_images
-        ]
+        return [ArticleImage.from_orm(article_image) for article_image in article_images]
 
     def get(
         self,
@@ -71,6 +67,4 @@ class ArticleImageRepository:
             .where(ArticleImageOrm.article_id == article_id)
         ).all()
         # yapf: enable
-        return [
-            ArticleImage.from_orm(article_image) for article_image in article_images
-        ]
+        return [ArticleImage.from_orm(article_image) for article_image in article_images]

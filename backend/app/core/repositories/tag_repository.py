@@ -49,9 +49,7 @@ class TagRepository:
         """
         idを指定してタグを1件取得する
         """
-        tag = db.scalars(
-            select([TagOrm.id, TagOrm.name]).where(TagOrm.id == tag_id)
-        ).one_or_none()
+        tag = db.scalars(select([TagOrm.id, TagOrm.name]).where(TagOrm.id == tag_id)).one_or_none()
 
         if tag is None:
             return None

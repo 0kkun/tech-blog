@@ -20,9 +20,7 @@ class ArticleRepository:
         now = datetime.now_datetime()
 
         if request.id:
-            article_data = (
-                db.query(ArticleOrm).filter(ArticleOrm.id == request.id).one_or_none()
-            )
+            article_data = db.query(ArticleOrm).filter(ArticleOrm.id == request.id).one_or_none()
             if article_data is None:
                 raise ValueError("Invalid article id requested.")
 
@@ -61,9 +59,7 @@ class ArticleRepository:
         idを指定して記事を1件取得する.
         記事に紐づくタグ、サムネイル画像もリレーションで取得する
         """
-        article = db.scalars(
-            select(ArticleOrm).where(ArticleOrm.id == id)
-        ).one_or_none()
+        article = db.scalars(select(ArticleOrm).where(ArticleOrm.id == id)).one_or_none()
 
         if article is None:
             return None
@@ -136,7 +132,4 @@ class ArticleRepository:
         )
         if article_archives is None:
             return None
-        return [
-            ArticleArchive.from_orm(article_archive)
-            for article_archive in article_archives
-        ]
+        return [ArticleArchive.from_orm(article_archive) for article_archive in article_archives]

@@ -12,5 +12,3 @@ class ArticleImage(BaseModel):
 
     class Config:
         orm_mode = True
-
-

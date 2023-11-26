@@ -17,6 +17,7 @@ class AccessLog(BaseModel):
     class Config:
         orm_mode = True
 
+
 class AccessLogPutRequest(BaseModel):
     visit_url: str
     user_agent: str

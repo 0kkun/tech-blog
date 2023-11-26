@@ -47,9 +47,7 @@ class ArticleThumbnailImageRepository:
         idを指定して1件取得する
         """
         article_image = db.scalars(
-            select(ArticleThumbnailImageOrm).where(
-                ArticleThumbnailImageOrm.id == article_thumbnail_image_id
-            )
+            select(ArticleThumbnailImageOrm).where(ArticleThumbnailImageOrm.id == article_thumbnail_image_id)
         ).one_or_none()
 
         if article_image is None:
@@ -65,9 +63,7 @@ class ArticleThumbnailImageRepository:
         記事に紐づくサムネイル画像1件取得
         """
         article_thumbnail_image = db.scalars(
-            select(ArticleThumbnailImageOrm).where(
-                ArticleThumbnailImageOrm.article_id == article_id
-            )
+            select(ArticleThumbnailImageOrm).where(ArticleThumbnailImageOrm.article_id == article_id)
         ).one_or_none()
 
         if article_thumbnail_image is None:
@@ -82,7 +78,4 @@ class ArticleThumbnailImageRepository:
         全件取得
         """
         article_images = db.query(ArticleThumbnailImageOrm).all()
-        return [
-            ArticleThumbnailImage.from_orm(article_image)
-            for article_image in article_images
-        ]
+        return [ArticleThumbnailImage.from_orm(article_image) for article_image in article_images]

@@ -16,7 +16,7 @@ class AuthService:
         self.datetime_generator = DateTimeGenerator()
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
-        """ パスワードを検証します
+        """パスワードを検証します
         Args:
             plain_password (str): 検証する平文のパスワード
             hashed_password (str): ハッシュ化されたパスワード
@@ -55,8 +55,7 @@ class AuthService:
             expire = self.datetime_generator.now_datetime() + expires_delta
         else:
             # デフォルト分数を現在時刻に足す
-            expire = self.datetime_generator.now_datetime() + timedelta(
-                minutes=Env.ACCESS_TOKEN_EXPIRE_MINUTES)
+            expire = self.datetime_generator.now_datetime() + timedelta(minutes=Env.ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, Env.SECRET_KEY, algorithm=Env.ALGORITHM)
         return encoded_jwt, expire

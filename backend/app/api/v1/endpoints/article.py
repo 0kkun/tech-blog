@@ -73,9 +73,9 @@ async def get_article(
     dependencies=[Depends(verify_token)],
 )
 async def put_article(
-        request: ArticlePutRequest,
-        article_service: Annotated[ArticleService, Depends(ArticleService)],
-        current_user: User = Depends(get_current_user),
+    request: ArticlePutRequest,
+    article_service: Annotated[ArticleService, Depends(ArticleService)],
+    current_user: User = Depends(get_current_user),
 ) -> SuccessResponse:
     _logger.info("article put api start")
     try:
@@ -83,7 +83,7 @@ async def put_article(
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             article_service.put(db, request)
-        return SuccessResponse(message='created or updated')
+        return SuccessResponse(message="created or updated")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
@@ -97,9 +97,9 @@ async def put_article(
     dependencies=[Depends(verify_token)],
 )
 async def delete_article(
-        article_id: int,
-        article_service: Annotated[ArticleService, Depends(ArticleService)],
-        current_user: User = Depends(get_current_user),
+    article_id: int,
+    article_service: Annotated[ArticleService, Depends(ArticleService)],
+    current_user: User = Depends(get_current_user),
 ) -> SuccessResponse:
     _logger.info("article delete api start")
     try:
@@ -107,7 +107,7 @@ async def delete_article(
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             article_service.delete(db, article_id)
-        return SuccessResponse(message='deleted')
+        return SuccessResponse(message="deleted")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)

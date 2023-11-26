@@ -25,7 +25,7 @@ async def store_access_log(
     try:
         with SessionLocal.begin() as db:
             access_log_service.create(db, request)
-        return SuccessResponse(message='Created')
+        return SuccessResponse(message="Created")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
@@ -33,9 +33,9 @@ async def store_access_log(
 
 
 @router.get(
-    '/v1/access_logs',
-    summary='アクセスログを取得する',
-    tags=['access_log'],
+    "/v1/access_logs",
+    summary="アクセスログを取得する",
+    tags=["access_log"],
     # dependencies=[Depends(verify_token)],
 )
 async def fetch_access_logs(

@@ -8,26 +8,26 @@ from util.datetime_generator import DateTimeGenerator
 
 class S3Client:
     def __init__(self):
-        self.s3_client = boto3.client('s3',
-                                        endpoint_url=Env.AWS_ENDPOINT,
-                                        aws_access_key_id=Env.AWS_ACCESS_KEY_ID,
-                                        aws_secret_access_key=Env.AWS_SECRET_ACCESS_KEY,
-                                        region_name=Env.AWS_DEFAULT_REGION)
+        self.s3_client = boto3.client(
+            "s3",
+            endpoint_url=Env.AWS_ENDPOINT,
+            aws_access_key_id=Env.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=Env.AWS_SECRET_ACCESS_KEY,
+            region_name=Env.AWS_DEFAULT_REGION,
+        )
         self.bucket_name = Env.AWS_BUCKET
         self.datetime_generator = DateTimeGenerator()
 
     def search_file(self, prefix: str):
         try:
-            contents = self.s3_client.list_objects(Bucket=self.bucket_name,
-                                                    Prefix=prefix).get("Contents")
+            contents = self.s3_client.list_objects(Bucket=self.bucket_name, Prefix=prefix).get("Contents")
             return contents
         except Exception as e:
             print(f"Search failed: {str(e)}")
 
     def get_file(self, file_name: str):
         try:
-            file = self.s3_client.get_object(Bucket=self.bucket_name,
-                                                Key=file_name)["Body"].read().decode('utf-8')
+            file = self.s3_client.get_object(Bucket=self.bucket_name, Key=file_name)["Body"].read().decode("utf-8")
             return file
         except Exception as e:
             print(f"Get failed: {str(e)}")

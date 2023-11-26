@@ -35,9 +35,7 @@ class TokenRepository:
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
 
-        db_token = (
-            db.query(TokenOrm).filter(TokenOrm.user_id == request.user_id).first()
-        )
+        db_token = db.query(TokenOrm).filter(TokenOrm.user_id == request.user_id).first()
 
         if db_token is None:
             new_token = TokenOrm(

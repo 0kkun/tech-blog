@@ -38,9 +38,7 @@ class ArticleTagRepository:
         """
         idを指定してタグを1件取得する
         """
-        article_tag = db.scalars(
-            select(ArticleTagOrm).where(ArticleTagOrm.id == article_tag_id)
-        ).one_or_none()
+        article_tag = db.scalars(select(ArticleTagOrm).where(ArticleTagOrm.id == article_tag_id)).one_or_none()
         if article_tag is None:
             return None
         return ArticleTag.from_orm(article_tag)
@@ -53,9 +51,7 @@ class ArticleTagRepository:
         """
         記事のタグ一覧取得
         """
-        article_tags = db.scalars(
-            select(ArticleTagOrm).where(ArticleTagOrm.article_id == article_id)
-        ).all()
+        article_tags = db.scalars(select(ArticleTagOrm).where(ArticleTagOrm.article_id == article_id)).all()
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
     def fetch_by_article_ids(
@@ -70,9 +66,7 @@ class ArticleTagRepository:
             return []
 
         # whereInで一括取得
-        article_tags = db.scalars(
-            select(ArticleTagOrm).where(ArticleTagOrm.article_id.in_(article_ids))
-        ).all()
+        article_tags = db.scalars(select(ArticleTagOrm).where(ArticleTagOrm.article_id.in_(article_ids))).all()
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
     def delete_by_article_id(

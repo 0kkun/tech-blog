@@ -12,8 +12,8 @@ from app.infrastructure.database.schema_model.token import TokenOrm
 
 
 async def verify_token(
-        credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
-        db: Session = Depends(get_db),
+    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+    db: Session = Depends(get_db),
 ):
     """リクエストヘッダーからアクセストークンを検証します。
     Args:
@@ -57,8 +57,7 @@ def validate_token(token: str, db: Session) -> bool:
     datetime_generator = DateTimeGenerator()
     current_time = datetime_generator.now_datetime()
     # TODO: リポジトリにロジック移設する
-    token_data = db.query(TokenOrm).filter(TokenOrm.token == token, TokenOrm.expired_at
-                                            > current_time).first()
+    token_data = db.query(TokenOrm).filter(TokenOrm.token == token, TokenOrm.expired_at > current_time).first()
     return token_data
 
 

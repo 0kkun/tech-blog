@@ -11,10 +11,10 @@ from app.core.models.user import UserLoginRequest, UpdateUserRequest
 
 class UserService:
     def __init__(
-            self,
-            user_repository: UserRepository = Depends(UserRepository),
-            token_repository: TokenRepository = Depends(TokenRepository),
-            auth_service: AuthService = Depends(AuthService),
+        self,
+        user_repository: UserRepository = Depends(UserRepository),
+        token_repository: TokenRepository = Depends(TokenRepository),
+        auth_service: AuthService = Depends(AuthService),
     ):
         self.user_repository = user_repository
         self.token_repository = token_repository
@@ -38,16 +38,14 @@ class UserService:
         request: UserLoginRequest,
     ) -> str:
         db_user = self.user_repository.getByEmail(db, request.email)
-        if db_user is None or not self.auth_service.verify_password(request.password,
-                                                                    db_user.password):
+        if db_user is None or not self.auth_service.verify_password(request.password, db_user.password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect email or password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
         token, expired_at = self.auth_service.create_token(data={"sub": db_user.email})
-        self.token_repository.put(
-            db, PutTokenRequest(token=token, user_id=db_user.id, expired_at=expired_at))
+        self.token_repository.put(db, PutTokenRequest(token=token, user_id=db_user.id, expired_at=expired_at))
         return token
 
     def logout(

@@ -6,8 +6,8 @@ from typing import List
 
 class ImageService:
     def __init__(
-            self,
-            image_repository: ImageRepository = Depends(ImageRepository),
+        self,
+        image_repository: ImageRepository = Depends(ImageRepository),
     ):
         self.image_repository = image_repository
 

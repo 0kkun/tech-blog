@@ -28,40 +28,40 @@ class Test(test):
 
 class ArticlesSeeder(Seeder):
     def run(self, db: Session):
-        print('Seeding articles ...')
+        print("Seeding articles ...")
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         articles = [
             ArticleOrm(
-                title='テスト記事1',
+                title="テスト記事1",
                 content=SAMPLE_CONTENT,
                 target_year=now.year,
                 target_month=now.month,
                 is_published=True,
             ),
             ArticleOrm(
-                title='テスト記事2',
+                title="テスト記事2",
                 content=SAMPLE_CONTENT,
                 target_year=now.year,
                 target_month=now.month,
                 is_published=True,
             ),
             ArticleOrm(
-                title='テスト記事3',
+                title="テスト記事3",
                 content=SAMPLE_CONTENT,
                 target_year=now.year,
                 target_month=now.month,
                 is_published=True,
             ),
             ArticleOrm(
-                title='テスト記事4',
+                title="テスト記事4",
                 content=SAMPLE_CONTENT,
                 target_year=now.year,
                 target_month=now.month,
                 is_published=False,
             ),
             ArticleOrm(
-                title='テスト記事5',
+                title="テスト記事5",
                 content=SAMPLE_CONTENT,
                 target_year=now.year,
                 target_month=now.month,
@@ -70,4 +70,4 @@ class ArticlesSeeder(Seeder):
         ]
         db.add_all(articles)
 
-        print('Seeding articles ... done')
+        print("Seeding articles ... done")
