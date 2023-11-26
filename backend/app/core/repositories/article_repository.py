@@ -14,15 +14,17 @@ class ArticleRepository:
         request: ArticlePutRequest,
     ) -> Article:
         """
-            記事を新規作成 or 更新する
+        記事を新規作成 or 更新する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
 
         if request.id:
-            article_data = db.query(ArticleOrm).filter(ArticleOrm.id == request.id).one_or_none()
+            article_data = (
+                db.query(ArticleOrm).filter(ArticleOrm.id == request.id).one_or_none()
+            )
             if article_data is None:
-                raise ValueError('Invalid article id requested.')
+                raise ValueError("Invalid article id requested.")
 
             # アップデート
             article_data.title = request.title
@@ -56,10 +58,12 @@ class ArticleRepository:
         id: int,
     ) -> Optional[Article]:
         """
-            idを指定して記事を1件取得する.
-            記事に紐づくタグ、サムネイル画像もリレーションで取得する
+        idを指定して記事を1件取得する.
+        記事に紐づくタグ、サムネイル画像もリレーションで取得する
         """
-        article = db.scalars(select(ArticleOrm).where(ArticleOrm.id == id)).one_or_none()
+        article = db.scalars(
+            select(ArticleOrm).where(ArticleOrm.id == id)
+        ).one_or_none()
 
         if article is None:
             return None
@@ -72,22 +76,30 @@ class ArticleRepository:
         target_ym: Optional[str],
     ) -> Optional[List[Article]]:
         """
-            記事一覧取得
+        記事一覧取得
         """
         if target_ym is not None:
-            year, month = map(int, target_ym.split('-'))
-            # yapf: disable
-            articles = db.query(ArticleOrm).filter(
-                ArticleOrm.is_published == is_published,
-                ArticleOrm.target_year == year,
-                ArticleOrm.target_month == month,
-            ).order_by(ArticleOrm.updated_at.desc()).all()
+            year, month = map(int, target_ym.split("-"))
+            articles = (
+                db.query(ArticleOrm)
+                .filter(
+                    ArticleOrm.is_published == is_published,
+                    ArticleOrm.target_year == year,
+                    ArticleOrm.target_month == month,
+                )
+                .order_by(ArticleOrm.updated_at.desc())
+                .all()
+            )
 
         else:
-            articles = db.query(ArticleOrm).filter(
-                ArticleOrm.is_published == is_published,
-            ).order_by(ArticleOrm.updated_at.desc()).all()
-            # yapf: enable
+            articles = (
+                db.query(ArticleOrm)
+                .filter(
+                    ArticleOrm.is_published == is_published,
+                )
+                .order_by(ArticleOrm.updated_at.desc())
+                .all()
+            )
         article_list = [Article.from_orm(article) for article in articles]
         return article_list
 
@@ -97,23 +109,34 @@ class ArticleRepository:
         article_id: int,
     ) -> None:
         """
-            記事1件削除
+        記事1件削除
         """
-        article = db.query(ArticleOrm).filter(ArticleOrm.id == article_id, ).one_or_none()
+        article = (
+            db.query(ArticleOrm)
+            .filter(
+                ArticleOrm.id == article_id,
+            )
+            .one_or_none()
+        )
 
         if article is None:
-            raise ValueError('Article does not exist')
+            raise ValueError("Article does not exist")
         db.delete(article)
 
     def fetch_article_archives(
         self,
         db: Session,
     ) -> Optional[List[ArticleArchive]]:
-        # yapf: disable
-        article_archives = db.query(ArticleOrm.created_at).where(
-            ArticleOrm.is_published == True,
-        ).all()
-        # yapf: enable
+        article_archives = (
+            db.query(ArticleOrm.created_at)
+            .where(
+                ArticleOrm.is_published == True,
+            )
+            .all()
+        )
         if article_archives is None:
             return None
-        return [ArticleArchive.from_orm(article_archive) for article_archive in article_archives]
+        return [
+            ArticleArchive.from_orm(article_archive)
+            for article_archive in article_archives
+        ]

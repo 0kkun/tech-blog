@@ -9,7 +9,7 @@ from util.datetime_generator import DateTimeGenerator
 class ArticleTagRepository:
     def put(self, db: Session, article_id: int, tag_ids: List[int]) -> ArticleTag:
         """
-            記事に紐づいたタグを新規作成 or 更新する
+        記事に紐づいたタグを新規作成 or 更新する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
@@ -36,14 +36,11 @@ class ArticleTagRepository:
         article_tag_id: int,
     ) -> Optional[ArticleTag]:
         """
-            idを指定してタグを1件取得する
+        idを指定してタグを1件取得する
         """
-        # yapf: disable
         article_tag = db.scalars(
-            select(ArticleTagOrm)
-            .where(ArticleTagOrm.id == article_tag_id)
+            select(ArticleTagOrm).where(ArticleTagOrm.id == article_tag_id)
         ).one_or_none()
-        # yapf: enable
         if article_tag is None:
             return None
         return ArticleTag.from_orm(article_tag)
@@ -54,14 +51,11 @@ class ArticleTagRepository:
         article_id: int,
     ) -> Optional[List[ArticleTag]]:
         """
-            記事のタグ一覧取得
+        記事のタグ一覧取得
         """
-        # yapf: disable
         article_tags = db.scalars(
-            select(ArticleTagOrm)
-            .where(ArticleTagOrm.article_id == article_id)
+            select(ArticleTagOrm).where(ArticleTagOrm.article_id == article_id)
         ).all()
-        # yapf: enable
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
     def fetch_by_article_ids(
@@ -76,12 +70,9 @@ class ArticleTagRepository:
             return []
 
         # whereInで一括取得
-        # yapf: disable
         article_tags = db.scalars(
-            select(ArticleTagOrm)
-            .where(ArticleTagOrm.article_id.in_(article_ids))
+            select(ArticleTagOrm).where(ArticleTagOrm.article_id.in_(article_ids))
         ).all()
-        # yapf: enable
         return [ArticleTag.from_orm(article_tag) for article_tag in article_tags]
 
     def delete_by_article_id(
@@ -90,16 +81,18 @@ class ArticleTagRepository:
         article_id: int,
     ) -> None:
         """
-            タグ1件削除
+        タグ1件削除
         """
-        # yapf: disable
-        article_tags = db.query(ArticleTagOrm).filter(
-            ArticleTagOrm.article_id == article_id,
-        ).all()
-        # yapf: enable
+        article_tags = (
+            db.query(ArticleTagOrm)
+            .filter(
+                ArticleTagOrm.article_id == article_id,
+            )
+            .all()
+        )
 
         if article_tags is None:
-            raise ValueError('Tag does not exist')
+            raise ValueError("Tag does not exist")
 
         for article_tag in article_tags:
             db.delete(article_tag)

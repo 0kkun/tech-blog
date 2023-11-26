@@ -8,6 +8,7 @@ typing_extensions==4.6.1
 
 # format
 yapf==0.33.0
+black
 
 # code checker
 flake8

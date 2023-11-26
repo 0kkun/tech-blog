@@ -13,7 +13,7 @@ class AccessLogRepository:
         request: AccessLogPutRequest,
     ) -> Optional[AccessLog]:
         """
-            アクセスログレコードを生成する
+        アクセスログレコードを生成する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()

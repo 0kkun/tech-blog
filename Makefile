@@ -77,6 +77,10 @@ log:
 format:
 	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "yapf --exclude '/app/app/infrastructure/database/migrations/*.py,/app/app/infrastructure/database/schema_model/*.py' -i -r ."
 
+.PHONY: black
+black:
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "black ."
+
 # *****************************
 # *      Python Command      *
 # *****************************

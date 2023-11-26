@@ -13,9 +13,15 @@ class TokenRepository:
         user_id: str,
     ) -> Optional[Token]:
         """
-            emailを指定してuserを1件取得する
+        emailを指定してuserを1件取得する
         """
-        token = db.query(TokenOrm).filter(TokenOrm.user_id == user_id, ).one_or_none()
+        token = (
+            db.query(TokenOrm)
+            .filter(
+                TokenOrm.user_id == user_id,
+            )
+            .one_or_none()
+        )
 
         if token is None:
             return None
@@ -29,7 +35,9 @@ class TokenRepository:
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
 
-        db_token = db.query(TokenOrm).filter(TokenOrm.user_id == request.user_id).first()
+        db_token = (
+            db.query(TokenOrm).filter(TokenOrm.user_id == request.user_id).first()
+        )
 
         if db_token is None:
             new_token = TokenOrm(

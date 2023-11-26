@@ -2,7 +2,9 @@ from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import select
 from typing import Optional, List
 from app.core.models.article_thumbnail_image import ArticleThumbnailImage
-from app.infrastructure.database.schema_model.article_thumbnail_image import ArticleThumbnailImageOrm
+from app.infrastructure.database.schema_model.article_thumbnail_image import (
+    ArticleThumbnailImageOrm,
+)
 from util.datetime_generator import DateTimeGenerator
 
 
@@ -14,7 +16,7 @@ class ArticleThumbnailImageRepository:
         thumbnail_image_id: int,
     ) -> ArticleThumbnailImage:
         """
-            記事と画像を関連づけるレコードを生成・更新する
+        記事と画像を関連づけるレコードを生成・更新する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
@@ -42,14 +44,13 @@ class ArticleThumbnailImageRepository:
         article_thumbnail_image_id: int,
     ) -> Optional[ArticleThumbnailImage]:
         """
-            idを指定して1件取得する
+        idを指定して1件取得する
         """
-        # yapf: disable
         article_image = db.scalars(
-            select(ArticleThumbnailImageOrm)
-            .where(ArticleThumbnailImageOrm.id == article_thumbnail_image_id)
+            select(ArticleThumbnailImageOrm).where(
+                ArticleThumbnailImageOrm.id == article_thumbnail_image_id
+            )
         ).one_or_none()
-        # yapf: enable
 
         if article_image is None:
             return None
@@ -61,14 +62,13 @@ class ArticleThumbnailImageRepository:
         article_id: int,
     ) -> Optional[ArticleThumbnailImage]:
         """
-            記事に紐づくサムネイル画像1件取得
+        記事に紐づくサムネイル画像1件取得
         """
-        # yapf: disable
         article_thumbnail_image = db.scalars(
-            select(ArticleThumbnailImageOrm)
-            .where(ArticleThumbnailImageOrm.article_id == article_id)
+            select(ArticleThumbnailImageOrm).where(
+                ArticleThumbnailImageOrm.article_id == article_id
+            )
         ).one_or_none()
-        # yapf: enable
 
         if article_thumbnail_image is None:
             return None
@@ -79,7 +79,10 @@ class ArticleThumbnailImageRepository:
         db: Session,
     ) -> Optional[List[ArticleThumbnailImage]]:
         """
-            全件取得
+        全件取得
         """
         article_images = db.query(ArticleThumbnailImageOrm).all()
-        return [ArticleThumbnailImage.from_orm(article_image) for article_image in article_images]
+        return [
+            ArticleThumbnailImage.from_orm(article_image)
+            for article_image in article_images
+        ]

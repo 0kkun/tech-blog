@@ -14,12 +14,14 @@ class ArticleImageRepository:
         image_ids: List[int],
     ):
         """
-            記事と画像を関連づけるレコードを生成・更新する
+        記事と画像を関連づけるレコードを生成・更新する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         # 既存の記事に紐づく画像を削除
-        db.query(ArticleImageOrm).filter(ArticleImageOrm.article_id == article_id).delete()
+        db.query(ArticleImageOrm).filter(
+            ArticleImageOrm.article_id == article_id
+        ).delete()
 
         # 新規作成
         article_images = []
@@ -33,7 +35,9 @@ class ArticleImageRepository:
             db.add(article_image)
             article_images.append(article_image)
         db.flush()
-        return [ArticleImage.from_orm(article_image) for article_image in article_images]
+        return [
+            ArticleImage.from_orm(article_image) for article_image in article_images
+        ]
 
     def get(
         self,
@@ -41,7 +45,7 @@ class ArticleImageRepository:
         article_image_id: int,
     ) -> Optional[ArticleImage]:
         """
-            idを指定して1件取得する
+        idを指定して1件取得する
         """
         # yapf: disable
         article_image = db.scalars(
@@ -59,7 +63,7 @@ class ArticleImageRepository:
         article_id: int,
     ) -> Optional[List[ArticleImage]]:
         """
-            記事に紐づく画像ID一覧取得
+        記事に紐づく画像ID一覧取得
         """
         # yapf: disable
         article_images = db.scalars(
@@ -67,4 +71,6 @@ class ArticleImageRepository:
             .where(ArticleImageOrm.article_id == article_id)
         ).all()
         # yapf: enable
-        return [ArticleImage.from_orm(article_image) for article_image in article_images]
+        return [
+            ArticleImage.from_orm(article_image) for article_image in article_images
+        ]

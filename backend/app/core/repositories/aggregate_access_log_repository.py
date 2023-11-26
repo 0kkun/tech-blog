@@ -3,7 +3,9 @@ from sqlalchemy import select
 from typing import Optional, List
 from app.core.models.access_log import AccessLogPutRequest
 from app.core.models.aggregate_access_log import AggregateAccessLog
-from app.infrastructure.database.schema_model.aggregate_access_logs import AggregateAccessLogOrm
+from app.infrastructure.database.schema_model.aggregate_access_logs import (
+    AggregateAccessLogOrm,
+)
 from util.datetime_generator import DateTimeGenerator
 
 
@@ -14,7 +16,7 @@ class AggregateAccessLogRepository:
         request: AccessLogPutRequest,
     ) -> None:
         """
-            アクセスログ合計レコードを生成する
+        アクセスログ合計レコードを生成する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
