@@ -11,44 +11,35 @@ import { CustomizedSnackbar } from '../../components/admin/elements/CustomizedSn
 import { ConfirmModal } from '../../components/admin/elements/ConfirmModal'
 import { authContext } from '../../providers/AuthProvider'
 import { ADMIN } from '../../config/userRole'
+import { useFetchAccessLogs } from '../../features/admin/access_counts/hooks/useFetchAccessLogs'
 
 // NOTE: アクセス数の他に、記事の投稿数、タグごとの記事の本数のグラフがあってもいいかも
 export const AdminHome: React.FC = () => {
   const fetchArticlesHooks = useFetchArticles()
   const deleteArticleHooks = useDeleteArticle()
+  const fetchAccessLogsHooks = useFetchAccessLogs()
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Article>()
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false)
   const currentUser = useContext(authContext)
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = today.getMonth() + 1
+  const day = String(today.getDate()).padStart(2, '0')
 
   // 初回遷移時に表示するデータを取得する
   useEffect(() => {
     const fetchInitialData = async () => {
       await fetchArticlesHooks.fetchArticles(true)
+      await fetchAccessLogsHooks.fetchAccessLogs(year, month)
     }
     fetchInitialData()
   }, [])
 
   const accessCount = {
-    totalAccessCount: 3024,
-    updatedAt: '2023/7/1',
+    totalAccessCount: fetchAccessLogsHooks.totalCount,
+    updatedAt: `${year}/${month}/${day}`,
   }
-
-  const createChartData = (date: string, count?: number) => {
-    return { date, count }
-  }
-
-  const chartRecords = [
-    createChartData('2023/7/1', 0),
-    createChartData('2023/7/2', 300),
-    createChartData('2023/7/3', 600),
-    createChartData('2023/7/4', 800),
-    createChartData('2023/7/5', 1500),
-    createChartData('2023/7/6', 2000),
-    createChartData('2023/7/7', 2400),
-    createChartData('2023/7/8', 2400),
-    createChartData('2023/7/9', undefined),
-  ]
 
   // 記事一覧の削除ボタンが押下された時の処理
   const handleArticleDeleteButton = (article: Article) => {
@@ -92,7 +83,7 @@ export const AdminHome: React.FC = () => {
       />
       <AdminTemplate title="管理画面">
         <Grid container spacing={3}>
-          <Chart chartRecords={chartRecords} />
+          <Chart chartRecords={fetchAccessLogsHooks.accessLogs} />
           <AccessCountBox accessCount={accessCount} />
           <ArticleTable
             title="投稿済記事一覧"

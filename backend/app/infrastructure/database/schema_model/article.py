@@ -25,3 +25,5 @@ class ArticleOrm(Base):
 
     # Articleが持つサムネイル画像を取得。リレーション (1:1)
     thumnail_image = relationship("ImageOrm", secondary="article_thumbnail_images", uselist=False)
+
+    access_logs = relationship("AccessLogOrm", backref='articles')

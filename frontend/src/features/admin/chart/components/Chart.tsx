@@ -56,7 +56,7 @@ export const Chart: React.FC<ChartProps> = ({ chartRecords }) => {
               <Line
                 isAnimationActive={false}
                 type="monotone"
-                dataKey="count"
+                dataKey="access_count"
                 stroke={theme.palette.primary.main}
                 dot={false}
               />

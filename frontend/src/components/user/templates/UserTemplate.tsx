@@ -26,10 +26,10 @@ interface Props {
 
 export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
   const sections = [
-    { title: 'Laravel', url: '?tag_name=Laravel' },
-    { title: 'React', url: '?tag_name=React' },
-    { title: 'AWS', url: '?tag_name=AWS' },
-    { title: 'Architecture', url: '?tag_name=Architecture' },
+    { title: 'Laravel', url: '/?tag_name=Laravel' },
+    { title: 'React', url: '/?tag_name=React' },
+    { title: 'AWS', url: '/?tag_name=AWS' },
+    { title: 'Architecture', url: '/?tag_name=Architecture' },
   ]
 
   const contentsDescription = {
@@ -43,9 +43,10 @@ export const UserTemplate: React.FC<Props> = ({ isShowBanner, children }) => {
   const sidebar = {
     title: 'About',
     description: AboutDescription,
+    // FIXME: APIでアーカイブ対象データを取得するよう修正する
     archives: [
-      { title: 'November 2023', url: '?target_ym=2023-11' },
-      { title: 'October 2023', url: '?target_ym=2023-11' },
+      { title: 'November 2023', url: '/?target_ym=2023-11' },
+      { title: 'October 2023', url: '/?target_ym=2023-10' },
     ],
     social: [
       { name: 'GitHub', icon: GitHubIcon, url: 'https://github.com/0kkun' },

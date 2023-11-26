@@ -35,6 +35,7 @@ export const ArticleTable: React.FC<Props> = ({ title, articles, handleDeleteBut
                   <TableCell>作成日時</TableCell>
                   <TableCell>更新日時</TableCell>
                   <TableCell>タイトル</TableCell>
+                  <TableCell>アクセス数</TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -45,6 +46,7 @@ export const ArticleTable: React.FC<Props> = ({ title, articles, handleDeleteBut
                     <TableCell>{formatDateTime(article.created_at)}</TableCell>
                     <TableCell>{formatDateTime(article.updated_at)}</TableCell>
                     <TableCell>{article.title}</TableCell>
+                    <TableCell>{article.access_count}</TableCell>
                     <TableCell>
                       <RouterLink to={`/admin/article/edit/${article.id}`}>
                         <Button variant="contained" color="success" size="small">
