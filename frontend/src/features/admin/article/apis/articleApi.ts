@@ -1,6 +1,6 @@
 import { AxiosError, isAxiosError, AxiosResponse } from 'axios'
 import ApiClient from '../../../../libs/apiClient'
-import { ARTICLE_ENDPOINT } from '../../../../config/apiEndpoints'
+import { ARTICLE_ENDPOINT, ARTICLE_ARCHIVE_ENDPOINT } from '../../../../config/apiEndpoints'
 import { PutArticleRequest } from '../types/article'
 
 export const sendFetchArticlesApi = async (
@@ -90,6 +90,29 @@ export const sendDeleteArticleApi = async (articleId: number): Promise<AxiosResp
     return response
   } catch (error) {
     console.log('delete article api failed!')
+    if (isAxiosError(error)) {
+      const axiosError = error as AxiosError<any>
+      if (axiosError.response) {
+        console.log(axiosError.response.data)
+        return axiosError.response.data
+      } else {
+        console.log(axiosError.message)
+        throw new Error(axiosError.message)
+      }
+    } else {
+      console.log(error)
+      throw error
+    }
+  }
+}
+
+export const sendFetchArchiveApi = async (): Promise<AxiosResponse> => {
+  try {
+    const response = await ApiClient.get(ARTICLE_ARCHIVE_ENDPOINT)
+    console.log('fetch article archive api success!')
+    return response
+  } catch (error) {
+    console.log('fetch article archive api failed!')
     if (isAxiosError(error)) {
       const axiosError = error as AxiosError<any>
       if (axiosError.response) {

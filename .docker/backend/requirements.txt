@@ -6,8 +6,8 @@ typing_extensions==4.6.1
 # レートリミット用。機能追加する時に入れる
 # fastapi-limiter==0.1.5
 
-# format
-yapf==0.33.0
+# formater
+black==23.11.0
 
 # code checker
 flake8

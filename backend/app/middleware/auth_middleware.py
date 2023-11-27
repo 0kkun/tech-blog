@@ -65,6 +65,7 @@ def validate_token(token: str, db: Session) -> bool:
 # このスキームはアクセストークンをリクエストのヘッダーから取得するために使用
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=Env.APP_URL)
 
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     """現在ログイン中のユーザーを取得します
     Args:

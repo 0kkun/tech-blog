@@ -73,9 +73,9 @@ frontend:
 log:
 	docker compose logs -f $(BACKEND_SERVICE_NAME)
 
-.PHONY: format
-format:
-	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "yapf -i -r ."
+.PHONY: backend-format
+backend-format:
+	$(DCE) $(BACKEND_SERVICE_NAME) bash -c "black ."
 
 # *****************************
 # *      Python Command      *

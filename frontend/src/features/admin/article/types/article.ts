@@ -28,3 +28,8 @@ export type Tag = {
   id: number
   name: string
 }
+
+export type ArticleArchive = {
+  target_ym: string
+  title: string
+}

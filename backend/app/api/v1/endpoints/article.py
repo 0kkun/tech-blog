@@ -12,6 +12,7 @@ from app.core.models.user import User
 router = APIRouter()
 _logger = logging.getLogger(__name__)
 
+
 @router.get(
     "/v1/articles",
     summary="記事一覧取得",
@@ -22,7 +23,7 @@ async def fetch_article(
     is_published: bool = Query(..., description="投稿済みかどうか"),
     tag_name: str = Query(None, description="タグ名にて検索. 例: Laravel"),
     target_ym: str = Query(None, description="指定年月にて検索. 形式: YYYY-MM"),
-) ->  List[ArticleGetResponse]:
+) -> List[ArticleGetResponse]:
     _logger.info("article fetch api start")
     try:
         with SessionLocal.begin() as db:
@@ -34,11 +35,7 @@ async def fetch_article(
         raise HTTPException(status_code=500, detail=f"{message}")
 
 
-@router.get(
-    "/v1/articles/archives",
-    summary="アーカイブ記事がある年月一覧を取得する",
-    tags=["article"]
-)
+@router.get("/v1/articles/archives", summary="アーカイブ記事がある年月一覧を取得する", tags=["article"])
 async def fetch_article_archives(
     article_service: Annotated[ArticleService, Depends(ArticleService)],
 ) -> List[ArticleArchiveFetchResponse]:
@@ -53,11 +50,7 @@ async def fetch_article_archives(
         raise HTTPException(status_code=500, detail=f"{message}")
 
 
-@router.get(
-    "/v1/articles/{article_id}",
-    summary="記事取得",
-    tags=["article"]
-)
+@router.get("/v1/articles/{article_id}", summary="記事取得", tags=["article"])
 async def get_article(
     article_id: int,
     article_service: Annotated[ArticleService, Depends(ArticleService)],
@@ -90,7 +83,7 @@ async def put_article(
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             article_service.put(db, request)
-        return SuccessResponse(message='created or updated')
+        return SuccessResponse(message="created or updated")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
@@ -114,10 +107,8 @@ async def delete_article(
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         with SessionLocal.begin() as db:
             article_service.delete(db, article_id)
-        return SuccessResponse(message='deleted')
+        return SuccessResponse(message="deleted")
     except HTTPException as e:
         _logger.exception(str(e))
         message = get_error_log_info(e)
         raise HTTPException(status_code=500, detail=f"{message}")
-
-

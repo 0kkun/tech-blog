@@ -17,12 +17,15 @@ class TagPutRequest(BaseModel):
     id: Optional[int]
     name: str
 
+
 class TagRequest(BaseModel):
     id: int
     name: str
 
+
 class TagResponse(BaseModel):
     id: int
     name: str
+
     class Config:
         orm_mode = True

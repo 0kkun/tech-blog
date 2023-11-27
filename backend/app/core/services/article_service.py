@@ -1,6 +1,5 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from datetime import datetime
 
 from app.core.models.article import ArticlePutRequest, ArticleGetResponse, Article, ArticleArchiveFetchResponse
 from app.core.repositories.article_repository import ArticleRepository
@@ -10,6 +9,7 @@ from app.core.repositories.article_image_repository import ArticleImageRepositor
 from app.core.repositories.article_thumbnail_image_repository import ArticleThumbnailImageRepository
 from app.core.repositories.image_repository import ImageRepository
 from typing import List, Optional
+
 
 class ArticleService:
     def __init__(
@@ -81,17 +81,11 @@ class ArticleService:
         db,
     ) -> list[ArticleArchiveFetchResponse]:
         article_archives = self.article_repository.fetch_article_archives(db)
-        archives = [
-            ArticleArchiveFetchResponse.from_archive(archive)
-            for archive in article_archives
-        ]
+        archives = [ArticleArchiveFetchResponse.from_archive(archive) for archive in article_archives]
         # 重複を除去して返す
         return list({archive.target_ym: archive for archive in archives}.values())
 
-    def __make_fetch_response(
-        self,
-        articles: List[Article]
-    ) -> List[ArticleGetResponse]:
+    def __make_fetch_response(self, articles: List[Article]) -> List[ArticleGetResponse]:
         result = [
             ArticleGetResponse(
                 id=article.id,
@@ -104,9 +98,8 @@ class ArticleService:
                 updated_at=article.updated_at,
                 tags=article.tags,
                 thumbnail_image=article.thumnail_image,
-                access_count=sum(1 for log in article.access_logs if log.article_id == article.id)
+                access_count=sum(1 for log in article.access_logs if log.article_id == article.id),
             )
             for article in articles
         ]
         return result
-    

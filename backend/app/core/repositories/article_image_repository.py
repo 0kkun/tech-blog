@@ -14,7 +14,7 @@ class ArticleImageRepository:
         image_ids: List[int],
     ):
         """
-            記事と画像を関連づけるレコードを生成・更新する
+        記事と画像を関連づけるレコードを生成・更新する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
@@ -35,24 +35,18 @@ class ArticleImageRepository:
         db.flush()
         return [ArticleImage.from_orm(article_image) for article_image in article_images]
 
-
     def get(
         self,
         db: Session,
         article_image_id: int,
     ) -> Optional[ArticleImage]:
         """
-            idを指定して1件取得する
+        idを指定して1件取得する
         """
-        article_image = db.scalars(
-            select(ArticleImageOrm)
-            .where(ArticleImageOrm.id == article_image_id)
-        ).one_or_none()
-
+        article_image = db.scalars(select(ArticleImageOrm).where(ArticleImageOrm.id == article_image_id)).one_or_none()
         if article_image is None:
             return None
         return ArticleImage.from_orm(article_image)
-
 
     def fetch_by_article_id(
         self,
@@ -60,10 +54,7 @@ class ArticleImageRepository:
         article_id: int,
     ) -> Optional[List[ArticleImage]]:
         """
-            記事に紐づく画像ID一覧取得
+        記事に紐づく画像ID一覧取得
         """
-        article_images = db.scalars(
-            select(ArticleImageOrm)
-            .where(ArticleImageOrm.article_id == article_id)
-        ).all()
+        article_images = db.scalars(select(ArticleImageOrm).where(ArticleImageOrm.article_id == article_id)).all()
         return [ArticleImage.from_orm(article_image) for article_image in article_images]

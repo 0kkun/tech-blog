@@ -12,9 +12,11 @@ class Image(BaseModel):
     class Config:
         orm_mode = True
 
+
 class ImagePostResponse(BaseModel):
     id: int
     url: str
+
 
 class ImageData(BaseModel):
     id: int

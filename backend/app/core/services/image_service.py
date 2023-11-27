@@ -1,7 +1,6 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.core.repositories.image_repository import ImageRepository
-from typing import List
 
 
 class ImageService:

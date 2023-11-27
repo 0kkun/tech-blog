@@ -5,7 +5,7 @@ from app.seeder.base import Seeder
 
 class ArticleTagsSeeder(Seeder):
     def run(self, db: Session):
-        print('Seeding article_tags ...')
+        print("Seeding article_tags ...")
         article_tags = [
             ArticleTagOrm(article_id=1, tag_id=1),
             ArticleTagOrm(article_id=1, tag_id=2),
@@ -17,4 +17,4 @@ class ArticleTagsSeeder(Seeder):
             ArticleTagOrm(article_id=4, tag_id=2),
         ]
         db.add_all(article_tags)
-        print('Seeding article_tags ... done')
+        print("Seeding article_tags ... done")

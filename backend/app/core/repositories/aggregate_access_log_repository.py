@@ -3,7 +3,9 @@ from sqlalchemy import select
 from typing import Optional, List
 from app.core.models.access_log import AccessLogPutRequest
 from app.core.models.aggregate_access_log import AggregateAccessLog
-from app.infrastructure.database.schema_model.aggregate_access_logs import AggregateAccessLogOrm
+from app.infrastructure.database.schema_model.aggregate_access_logs import (
+    AggregateAccessLogOrm,
+)
 from util.datetime_generator import DateTimeGenerator
 
 
@@ -14,7 +16,7 @@ class AggregateAccessLogRepository:
         request: AccessLogPutRequest,
     ) -> None:
         """
-            アクセスログ合計レコードを生成する
+        アクセスログ合計レコードを生成する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
@@ -28,13 +30,13 @@ class AggregateAccessLogRepository:
         if agr_access_log is None:
             # 新規作成
             new_agr_access_log = AggregateAccessLogOrm(
-                visit_url = request.visit_url,
-                article_id = request.article_id,
-                access_count = 1,
-                target_year = now.year,
-                target_month = now.month,
-                created_at = now,
-                updated_at = now,
+                visit_url=request.visit_url,
+                article_id=request.article_id,
+                access_count=1,
+                target_year=now.year,
+                target_month=now.month,
+                created_at=now,
+                updated_at=now,
             )
             db.add(new_agr_access_log)
             db.flush()
@@ -45,14 +47,11 @@ class AggregateAccessLogRepository:
             db.add(agr_access_log)
             db.flush()
 
-
     def fetch(
         self,
         db: Session,
     ) -> Optional[List[AggregateAccessLog]]:
-        agr_access_logs = db.scalars(
-            select(AggregateAccessLogOrm)
-        ).all()
+        agr_access_logs = db.scalars(select(AggregateAccessLogOrm)).all()
 
         if agr_access_logs is None:
             return None

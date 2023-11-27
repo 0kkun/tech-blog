@@ -13,7 +13,7 @@ class TagRepository:
         request: TagPutRequest,
     ) -> Tag:
         """
-            タグを新規作成 or 更新する
+        タグを新規作成 or 更新する
         """
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
@@ -21,7 +21,7 @@ class TagRepository:
         if request.id:
             tag_data = db.query(TagOrm).filter(TagOrm.id == request.id).one_or_none()
             if tag_data is None:
-                raise ValueError('Invalid tag id requested.')
+                raise ValueError("Invalid tag id requested.")
 
             # アップデート
             tag_data.name = request.name
@@ -33,14 +33,13 @@ class TagRepository:
         else:
             # 新規作成
             tag = TagOrm(
-                name = request.name,
-                created_at = now,
-                updated_at = now,
+                name=request.name,
+                created_at=now,
+                updated_at=now,
             )
             db.add(tag)
             db.flush()
             return Tag.from_orm(tag)
-
 
     def get(
         self,
@@ -48,28 +47,23 @@ class TagRepository:
         tag_id: int,
     ) -> Optional[TagResponse]:
         """
-            idを指定してタグを1件取得する
+        idを指定してタグを1件取得する
         """
-        tag = db.scalars(
-            select([TagOrm.id, TagOrm.name])
-            .where(TagOrm.id == tag_id)
-        ).one_or_none()
+        tag = db.scalars(select([TagOrm.id, TagOrm.name]).where(TagOrm.id == tag_id)).one_or_none()
 
         if tag is None:
             return None
         return Tag.from_orm(tag)
-
 
     def fetch(
         self,
         db: Session,
     ) -> Optional[List[TagResponse]]:
         """
-            タグ一覧取得
+        タグ一覧取得
         """
         tags = db.query(TagOrm.id, TagOrm.name).all()
         return [TagResponse.from_orm(tag) for tag in tags]
-
 
     def delete(
         self,
@@ -77,13 +71,17 @@ class TagRepository:
         tag_id: int,
     ) -> None:
         """
-            タグ1件削除
+        タグ1件削除
         """
-        tag = db.query(TagOrm).filter(
-            TagOrm.id == tag_id,
-        ).one_or_none()
+        tag = (
+            db.query(TagOrm)
+            .filter(
+                TagOrm.id == tag_id,
+            )
+            .one_or_none()
+        )
 
         if tag is None:
-            raise ValueError('Tag does not exist')
+            raise ValueError("Tag does not exist")
 
         db.delete(tag)

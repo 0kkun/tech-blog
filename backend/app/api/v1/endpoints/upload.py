@@ -11,9 +11,9 @@ from app.middleware.auth_middleware import verify_token
 router = APIRouter()
 _logger = logging.getLogger(__name__)
 
-
 # 許可するMIMEタイプのセット
 ALLOWED_MIMETYPES = {"image/png", "image/jpeg", "image/jpg"}
+
 
 def validate_mimetype(file: UploadFile):
     mime, _ = mimetypes.guess_type(file.filename)
@@ -59,7 +59,7 @@ async def file_delete():
         dir = "article_images"
         s3_client = S3Client()
         s3_client.delete_all_files_in_directory(dir=dir)
-        return { "message": "success" }
+        return {"message": "success"}
     except Exception as e:
         _logger.error(f"Deletion failed: {str(e)}")
 

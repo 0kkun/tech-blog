@@ -7,7 +7,6 @@ from app.infrastructure.database.schema_model.article import ArticleOrm
 from app.seeder.base import Seeder
 from util.datetime_generator import DateTimeGenerator
 
-
 SAMPLE_CONTENT = """
 # テスト記事
 これはテストです。
@@ -26,48 +25,49 @@ class Test(test):
 ### テストサブサブ
 """
 
+
 class ArticlesSeeder(Seeder):
     def run(self, db: Session):
-        print('Seeding articles ...')
+        print("Seeding articles ...")
         datetime = DateTimeGenerator()
         now = datetime.now_datetime()
         articles = [
             ArticleOrm(
-                title = 'テスト記事1',
-                content = SAMPLE_CONTENT,
-                target_year = now.year,
-                target_month = now.month,
-                is_published = True,
+                title="テスト記事1",
+                content=SAMPLE_CONTENT,
+                target_year=now.year,
+                target_month=now.month,
+                is_published=True,
             ),
             ArticleOrm(
-                title = 'テスト記事2',
-                content = SAMPLE_CONTENT,
-                target_year = now.year,
-                target_month = now.month,
-                is_published = True,
+                title="テスト記事2",
+                content=SAMPLE_CONTENT,
+                target_year=now.year,
+                target_month=now.month,
+                is_published=True,
             ),
             ArticleOrm(
-                title = 'テスト記事3',
-                content = SAMPLE_CONTENT,
-                target_year = now.year,
-                target_month = now.month,
-                is_published = True,
+                title="テスト記事3",
+                content=SAMPLE_CONTENT,
+                target_year=now.year,
+                target_month=now.month,
+                is_published=True,
             ),
             ArticleOrm(
-                title = 'テスト記事4',
-                content = SAMPLE_CONTENT,
-                target_year = now.year,
-                target_month = now.month,
-                is_published = False,
+                title="テスト記事4",
+                content=SAMPLE_CONTENT,
+                target_year=now.year,
+                target_month=now.month,
+                is_published=False,
             ),
             ArticleOrm(
-                title = 'テスト記事5',
-                content = SAMPLE_CONTENT,
-                target_year = now.year,
-                target_month = now.month,
-                is_published = False,
+                title="テスト記事5",
+                content=SAMPLE_CONTENT,
+                target_year=now.year,
+                target_month=now.month,
+                is_published=False,
             ),
         ]
         db.add_all(articles)
 
-        print('Seeding articles ... done')
+        print("Seeding articles ... done")

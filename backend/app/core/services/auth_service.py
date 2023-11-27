@@ -8,6 +8,7 @@ from config.env import Env
 from app.core.models.token import Token
 from util.datetime_generator import DateTimeGenerator
 
+
 class AuthService:
     def __init__(self):
         # パスワードのハッシュ化と検証に使用される CryptContext インスタンス
@@ -15,7 +16,7 @@ class AuthService:
         self.datetime_generator = DateTimeGenerator()
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
-        """ パスワードを検証します
+        """パスワードを検証します
         Args:
             plain_password (str): 検証する平文のパスワード
             hashed_password (str): ハッシュ化されたパスワード
@@ -23,7 +24,6 @@ class AuthService:
             bool: パスワードが一致する場合はTrue、それ以外はFalse
         """
         return self.pwd_context.verify(plain_password, hashed_password)
-
 
     def convert_hash(self, password: str) -> str:
         """パスワードをハッシュに変換します
@@ -34,7 +34,6 @@ class AuthService:
         """
         return self.pwd_context.hash(password)
 
-
     def create_jwt_secret_key(self) -> str:
         """新しいJWT用のシークレットキーを生成します。
         Returns:
@@ -42,7 +41,6 @@ class AuthService:
         """
         secret_key = secrets.token_urlsafe(32)
         return secret_key
-
 
     def create_token(self, data: dict, expires_delta: timedelta = None) -> tuple[str, datetime]:
         """新しいアクセストークンを作成します
@@ -61,7 +59,6 @@ class AuthService:
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, Env.SECRET_KEY, algorithm=Env.ALGORITHM)
         return encoded_jwt, expire
-
 
     def decode_access_token(self, token: str) -> Union[str, Token]:
         """アクセストークンをデコードし、その正当性を検証します。

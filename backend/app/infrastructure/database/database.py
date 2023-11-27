@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 from urllib.parse import quote
 from config.env import Env
 
-
 db_password = quote(Env.MYSQL_PASSWORD)
 
 DATABASE_URL = "mysql+mysqldb://%s:%s@%s:%s/%s?charset=utf8" % (
@@ -30,6 +29,7 @@ SessionLocal = sessionmaker(
     bind=engine,
 )
 Base = declarative_base()
+
 
 def get_db():
     db = SessionLocal()
