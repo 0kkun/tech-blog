@@ -65,7 +65,7 @@ export const AppRoutes = () => {
       <Route path={PATH.userHome} element={<Home />} />
       <Route path={PATH.userArticle} element={<Article />} />
       <Route path={PATH.notFound} element={<NotFound />} />
-      <Route path='*' element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

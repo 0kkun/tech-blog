@@ -43,10 +43,7 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      <UserTemplate
-        isShowBanner={true}
-        articleArchives={fetchArticleArchivesHooks.articleArchives}
-      >
+      <UserTemplate isShowBanner={true} articleArchives={fetchArticleArchivesHooks.articleArchives}>
         <ArticleCardIndex articles={fetchArticlesHooks.articles} />
       </UserTemplate>
     </>

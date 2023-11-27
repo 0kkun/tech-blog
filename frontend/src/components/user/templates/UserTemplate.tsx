@@ -58,10 +58,11 @@ export const UserTemplate: React.FC<Props> = ({ articleArchives, isShowBanner, c
       <Container maxWidth="lg">
         <Header title={AppName} sections={sections} />
         <main>
-          {isShowBanner
-            ? <Banner post={contentsDescription} />
-            : <Box sx={{ height: '30px' }}></Box>
-          }
+          {isShowBanner ? (
+            <Banner post={contentsDescription} />
+          ) : (
+            <Box sx={{ height: '30px' }}></Box>
+          )}
           <Grid container spacing={4}>
             <Grid item xs={12} md={9}>
               {children}
