@@ -3,13 +3,13 @@ import ApiClient from '../../../../libs/apiClient'
 import { ACCESS_LOG_ENDPOINT } from '../../../../config/apiEndpoints'
 import { PostAccessLogRequest } from '../types/accessCount'
 
-
 export const sendFetchAccessLogsApi = async (
   target_year: number,
   target_month: number,
 ): Promise<AxiosResponse> => {
   try {
-    let endpoint = ACCESS_LOG_ENDPOINT + '?target_year=' + target_year + '&target_month=' + target_month
+    let endpoint =
+      ACCESS_LOG_ENDPOINT + '?target_year=' + target_year + '&target_month=' + target_month
     const response = await ApiClient.get(endpoint)
     console.log('fetch access logs api success!')
     return response
@@ -31,8 +31,9 @@ export const sendFetchAccessLogsApi = async (
   }
 }
 
-
-export const sendPostAccessLogApi = async (request: PostAccessLogRequest): Promise<AxiosResponse> => {
+export const sendPostAccessLogApi = async (
+  request: PostAccessLogRequest,
+): Promise<AxiosResponse> => {
   try {
     const response = await ApiClient.post(ACCESS_LOG_ENDPOINT, request)
     console.log('post access log api success!')

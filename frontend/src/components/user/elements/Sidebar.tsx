@@ -32,9 +32,7 @@ export const Sidebar: React.FC<Props> = ({ archives, description, social, title 
       </Typography>
       {archives.map((archive) => (
         <div key={archive.title}>
-          <RouterLink to={'/?target_ym=' + archive.target_ym}>
-            {archive.title}
-          </RouterLink>
+          <RouterLink to={'/?target_ym=' + archive.target_ym}>{archive.title}</RouterLink>
         </div>
       ))}
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>

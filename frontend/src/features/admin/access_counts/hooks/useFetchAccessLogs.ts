@@ -22,11 +22,11 @@ export const useFetchAccessLogs = () => {
   }
 
   const sumAccessCounts = (data: AccessLogDaily[]) => {
-    let totalAccessCount = 0;
+    let totalAccessCount = 0
     for (let i = 0; i < data.length; i++) {
       totalAccessCount += data[i].access_count || 0 // null や undefined の場合に備えて0を足す
     }
-    return totalAccessCount;
+    return totalAccessCount
   }
 
   return {
